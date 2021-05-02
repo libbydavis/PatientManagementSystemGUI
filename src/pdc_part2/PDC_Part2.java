@@ -24,9 +24,10 @@ public class PDC_Part2 {
         // TODO code application logic here
         try {
                 Connection conn = null;
-                conn = DriverManager.getConnection("jdbc:derby://localhost:1527/PatientDB", "admin1", "admin123");
+                conn = DriverManager.getConnection("jdbc:derby://localhost:1527/PatientDB; create=true", "admin1", "admin123");
                 System.out.println("Connected Successfully");
-            } catch (SQLException e) {
+            } catch (SQLException e) 
+            {
                 System.out.println(e.getMessage());
             }
     }
