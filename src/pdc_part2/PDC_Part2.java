@@ -26,6 +26,10 @@ public class PDC_Part2 {
                 Connection conn = null;
                 conn = DriverManager.getConnection("jdbc:derby://localhost:1527/PatientDB; create=true", "admin1", "admin123");
                 System.out.println("Connected Successfully");
+                Statement statement1 = conn.createStatement();
+                statement1.executeUpdate("INSERT INTO PATIENTS VALUES (Jill, Hill, 20, 4548594, Lane)");
+                conn.close();
+                
             } catch (SQLException e) 
             {
                 System.out.println(e.getMessage());
