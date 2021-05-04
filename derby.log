@@ -12,3 +12,16 @@ os.arch=amd64
 os.version=10.0
 derby.system.home=D:\git\PatientManagementSystemGUI
 Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Tue May 04 23:34:02 NZST 2021:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance 9296c3f3-0179-35bf-071d-00002fcc4ed4 
+on database directory D:\git\PatientManagementSystemGUI\MedicationDB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@c387f44 
+Loaded from file:/C:/Users/Raj/Desktop/db-derby-10.14.2.0-lib(2)/db-derby-10.14.2.0-lib/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=13.0.2+8
+user.dir=C:\Users\Raj\Desktop\db-derby-10.14.2.0-lib(2)\db-derby-10.14.2.0-lib
+os.name=Windows 10
+os.arch=amd64
+os.version=10.0
+derby.system.home=D:\git\PatientManagementSystemGUI
+Database Class Loader started - derby.database.classpath=''
