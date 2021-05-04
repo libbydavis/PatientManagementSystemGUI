@@ -3519,3 +3519,9 @@ java.io.EOFException: Reached end of file while attempting to read a whole page.
 Cleanup action completed
 Tue May 04 23:54:24 NZST 2021 Thread[DRDAConnThread_3,5,main] (DATABASE = PatientDB), (DRDAID = {8}), Failed to start database 'PatientDB' with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@c387f44, see the next exception for details.
 Tue May 04 23:54:24 NZST 2021 Thread[DRDAConnThread_3,5,main] (DATABASE = PatientDB), (DRDAID = {8}), Page Page(2,Container(0, 1216)) could not be read from disk.
+----------------------------------------------------------------
+Wed May 05 00:10:29 NZST 2021: Shutting down Derby engine
+----------------------------------------------------------------
+Wed May 05 00:10:29 NZST 2021:
+Shutting down instance 80220011-0179-3736-9b8e-00002fcc4ed4 on database directory D:\git\PatientManagementSystemGUI\MedicationDB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@c387f44 
+----------------------------------------------------------------
