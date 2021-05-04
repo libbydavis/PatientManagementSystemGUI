@@ -1,25 +1,8 @@
-Mon May 03 20:02:47 NZST 2021 : Apache Derby Network Server - 10.14.2.0 - (1828579) started and ready to accept connections on port 1527
+Tue May 04 16:59:42 NZST 2021 : Apache Derby Network Server - 10.14.2.0 - (1828579) started and ready to accept connections on port 1527
 ----------------------------------------------------------------
-Mon May 03 20:02:48 NZST 2021:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-0179-3140-4b53-00002fcc4ed4 
-on database directory D:\git\PatientManagementSystemGUI\MedicationDB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@c387f44 
-Loaded from file:/C:/Users/Raj/Desktop/db-derby-10.14.2.0-lib(2)/db-derby-10.14.2.0-lib/lib/derby.jar
-java.vendor=Oracle Corporation
-java.runtime.version=13.0.2+8
-user.dir=C:\Users\Raj\Desktop\db-derby-10.14.2.0-lib(2)\db-derby-10.14.2.0-lib
-os.name=Windows 10
-os.arch=amd64
-os.version=10.0
-derby.system.home=D:\git\PatientManagementSystemGUI
-Database Class Loader started - derby.database.classpath=''
-----------------------------------------------------------------
-Mon May 03 20:02:54 NZST 2021:
-Shutting down instance a816c00e-0179-3140-4b53-00002fcc4ed4 on database directory D:\git\PatientManagementSystemGUI\MedicationDB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@c387f44 
-Mon May 03 20:02:54 NZST 2021 Thread[DRDAConnThread_2,5,main] (DATABASE = MedicationDB), (DRDAID = {2}), Database 'MedicationDB' shutdown.
-----------------------------------------------------------------
-Mon May 03 20:02:57 NZST 2021:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance 6ede40af-0179-3140-4b53-00002fcc4ed4 
-on database directory D:\git\PatientManagementSystemGUI\MedicationDB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@c387f44 
+Tue May 04 16:59:44 NZST 2021:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-0179-35bf-071d-00002fcc4ed4 
+on database directory D:\git\PatientManagementSystemGUI\PatientDB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@c387f44 
 Loaded from file:/C:/Users/Raj/Desktop/db-derby-10.14.2.0-lib(2)/db-derby-10.14.2.0-lib/lib/derby.jar
 java.vendor=Oracle Corporation
 java.runtime.version=13.0.2+8
