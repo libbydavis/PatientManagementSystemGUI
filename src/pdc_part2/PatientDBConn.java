@@ -51,7 +51,7 @@ public class PatientDBConn {
             System.out.println("Connected Successfully");
             ResultSet rs;
             Statement statement1 = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            String tableName = "ADMIN1.PATIENTS";
+            String tableName = "ADMIN1.PATIENT";
             String sqlQuery = "SELECT * FROM " + tableName; // PrintAllPatients Method needs this query to work
             rs = statement1.executeQuery(sqlQuery);
             PatientDBConn pdbc = new PatientDBConn();
