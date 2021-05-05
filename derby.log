@@ -33,3 +33,16 @@ Database Class Loader started - derby.database.classpath=''
 Wed May 05 13:20:27 NZST 2021:
 Shutting down instance 6ede40af-0179-3a1c-48b7-00002fcc4ed4 on database directory D:\git\PatientManagementSystemGUI\PatientDB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@c387f44 
 Wed May 05 13:20:27 NZST 2021 Thread[DRDAConnThread_2,5,main] (DATABASE = PatientDB), (DRDAID = {4}), Database 'PatientDB' shutdown.
+----------------------------------------------------------------
+Wed May 05 13:45:02 NZST 2021:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance 2ef60150-0179-3a1c-48b7-00002fcc4ed4 
+on database directory D:\git\PatientManagementSystemGUI\PatientDB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@c387f44 
+Loaded from file:/C:/Users/Raj/Desktop/db-derby-10.14.2.0-lib(2)/db-derby-10.14.2.0-lib/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=13.0.2+8
+user.dir=C:\Users\Raj\Desktop\db-derby-10.14.2.0-lib(2)\db-derby-10.14.2.0-lib
+os.name=Windows 10
+os.arch=amd64
+os.version=10.0
+derby.system.home=D:\git\PatientManagementSystemGUI
+Database Class Loader started - derby.database.classpath=''
