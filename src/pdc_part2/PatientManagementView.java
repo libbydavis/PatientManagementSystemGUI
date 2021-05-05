@@ -10,18 +10,18 @@ public class PatientManagementView extends JFrame {
 
     public PatientManagementView(String title) throws IOException {
         super(title);
-        setLayout(new GridLayout(4, 0));
+        getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
         Dimension size = Toolkit. getDefaultToolkit().getScreenSize();
         width = size.getWidth();
-        height = size.getHeight();
+        height = (size.getHeight() - 20);
         this.setSize(size);
 
         MainMenuPanel mainMenu = new MainMenuPanel(width, height);
+        mainMenu.setAlignmentY(SwingConstants.TOP);
         this.add(mainMenu);
         MenuIconsPanel menuIcons = new MenuIconsPanel(this);
         this.add(menuIcons);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-
 
     }
 
@@ -33,3 +33,4 @@ public class PatientManagementView extends JFrame {
 
 
 }
+

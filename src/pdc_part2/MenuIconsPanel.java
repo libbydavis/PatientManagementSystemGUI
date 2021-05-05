@@ -14,7 +14,7 @@ public class MenuIconsPanel extends JPanel {
     public MenuIconsPanel(PatientManagementView frame) throws IOException {
         setLayout(new GridLayout(0, 5));
         //see patients
-        BufferedImage patientsIcon = ImageIO.read(new File("C:\\Users\\libst\\IdeaProjects\\TestingPart2Code\\src\\iconPDCPatientsSmall.png"));
+        BufferedImage patientsIcon = ImageIO.read(new File("src\\Images\\iconPDCPatientsSmall.png"));
         JButton patientsButton = new JButton(new ImageIcon(patientsIcon));
         patientsButton.setBorder(BorderFactory.createEmptyBorder());
         patientsButton.setContentAreaFilled(false);
@@ -22,7 +22,12 @@ public class MenuIconsPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Object source = e.getSource();
-                PatientsPanel patientsPanel = new PatientsPanel(frame, getWidth(), getHeight());
+                PatientsPanel patientsPanel = null;
+                try {
+                    patientsPanel = new PatientsPanel(frame, getWidth(), getHeight());
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
                 frame.remove(store);
                 frame.add(patientsPanel);
                 frame.revalidate();
@@ -31,7 +36,7 @@ public class MenuIconsPanel extends JPanel {
         });
         add(patientsButton);
         //appointments
-        BufferedImage appointmentsIcon = ImageIO.read(new File("C:\\Users\\libst\\IdeaProjects\\TestingPart2Code\\src\\iconPDCAppointmentsSmall.png"));
+        BufferedImage appointmentsIcon = ImageIO.read(new File("src\\Images\\iconPDCAppointmentsSmall.png"));
         JButton appointmentsButton = new JButton(new ImageIcon(appointmentsIcon));
         appointmentsButton.setBorder(BorderFactory.createEmptyBorder());
         appointmentsButton.setContentAreaFilled(false);
@@ -39,15 +44,21 @@ public class MenuIconsPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Object source = e.getSource();
-                AppointmentsPanel appointmentsPanel = new AppointmentsPanel(frame);
+                AppointmentsPanel appointmentsPanel = null;
+                try {
+                    appointmentsPanel = new AppointmentsPanel(frame, frame.getWidth(), frame.getHeight());
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
                 frame.remove(store);
+                appointmentsPanel.setPreferredSize(new Dimension(frame.getWidth(), (frame.getHeight() - 200)));
                 frame.add(appointmentsPanel);
                 frame.revalidate();
             }
         });
         add(appointmentsButton);
         //prescription
-        BufferedImage prescriptionIcon = ImageIO.read(new File("C:\\Users\\libst\\IdeaProjects\\TestingPart2Code\\src\\iconPDCPrescriptionSmall.png"));
+        BufferedImage prescriptionIcon = ImageIO.read(new File("src\\Images\\iconPDCPrescriptionSmall.png"));
         JButton prescriptionButton = new JButton(new ImageIcon(prescriptionIcon));
         prescriptionButton.setBorder(BorderFactory.createEmptyBorder());
         prescriptionButton.setContentAreaFilled(false);
@@ -55,7 +66,12 @@ public class MenuIconsPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Object source = e.getSource();
-                PrescriptionPanel prescriptionPanel = new PrescriptionPanel(frame);
+                PrescriptionPanel prescriptionPanel = null;
+                try {
+                    prescriptionPanel = new PrescriptionPanel(frame);
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
                 frame.remove(store);
                 frame.add(prescriptionPanel);
                 frame.revalidate();
@@ -64,3 +80,4 @@ public class MenuIconsPanel extends JPanel {
         add(prescriptionButton);
     }
 }
+

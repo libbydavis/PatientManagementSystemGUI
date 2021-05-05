@@ -5,19 +5,22 @@
  */
 package pdc_part2;
 
-/**
- *
- * @author libst
- */
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 
 public class PrescriptionPanel extends JPanel {
     PrescriptionPanel panel = this;
-    public PrescriptionPanel(PatientManagementView frame) {
-        JButton backButton = new JButton("Back");
+    public PrescriptionPanel(PatientManagementView frame) throws IOException {
+        BufferedImage backImage = ImageIO.read(new File("src\\Images\\backButtonArrow.png"));
+        JButton backButton = new JButton(new ImageIcon(backImage));
+        backButton.setBorder(new EmptyBorder(10, 10, 10, 10));
+        backButton.setContentAreaFilled(false);
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -36,3 +39,4 @@ public class PrescriptionPanel extends JPanel {
 
     }
 }
+
