@@ -25,7 +25,6 @@ os.arch=amd64
 os.version=10.0
 derby.system.home=C:\Users\libst\Documents\GitHub\PatientManagementSystemGUI
 Database Class Loader started - derby.database.classpath=''
-<<<<<<< Updated upstream
 Wed May 05 13:31:50 NZST 2021 Thread[DRDAConnThread_3,5,main] (XID = 180), (SESSIONID = 0), (DATABASE = MedicationDB), (DRDAID = {3}), Cleanup action starting
 java.sql.SQLNonTransientConnectionException: Connection authentication failure occurred.  Reason: Invalid authentication..
 	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)
@@ -81,10 +80,4 @@ ERROR 08004: Connection authentication failure occurred.  Reason: Invalid authen
 ============= end nested exception, level (1) ===========
 Cleanup action completed
 Wed May 05 13:31:50 NZST 2021 Thread[DRDAConnThread_3,5,main] (DATABASE = MedicationDB), (DRDAID = {3}), Connection authentication failure occurred.  Reason: Invalid authentication..
-=======
-----------------------------------------------------------------
-Wed May 05 14:11:16 NZST 2021: Shutting down Derby engine
-----------------------------------------------------------------
-Wed May 05 14:11:16 NZST 2021:
-Shutting down instance a13ec033-0179-3a48-5be8-ffffa28d3b0a on database directory C:\Users\libst\Documents\GitHub\PatientManagementSystemGUI\MedicationDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
->>>>>>> Stashed changes
+
