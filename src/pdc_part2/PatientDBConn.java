@@ -30,6 +30,7 @@ public class PatientDBConn {
             System.out.println("NHI: " + rs.getString("NHI"));
             System.out.println("First Name: " + rs.getString("FIRSTNAME"));
             System.out.println("Last Name: " + rs.getString("LASTNAME"));
+            /*
             System.out.println("Age: " + rs.getInt("AGE"));
             System.out.println("Phone Number: " + rs.getString("PHONENUMBER"));
             System.out.println("Address: " + rs.getString("ADDRESS"));
@@ -39,6 +40,7 @@ public class PatientDBConn {
             System.out.println("Prescriptions: " + rs.getString("PRESCRIPTIONS"));
             System.out.println("Appointment History: " + rs.getString("APTHISTORY"));
             System.out.println("\n");
+            */
         }
     }
     

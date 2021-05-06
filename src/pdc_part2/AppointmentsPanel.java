@@ -11,9 +11,14 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class AppointmentsPanel extends JPanel {
     AppointmentsPanel panel = this;
@@ -84,6 +89,57 @@ public class AppointmentsPanel extends JPanel {
 
 
     }
+
+    public JFrame getPatient() {
+        JFrame patientFrame = new getPatientPopup();
+        return patientFrame;
+    }
+
+    private class getPatientPopup extends JFrame {
+        public getPatientPopup() {
+            super("Patient");
+            setSize(500, 300);
+            setLocation(200, 200);
+            setLayout(new GridBagLayout());
+            GridBagConstraints c = new GridBagConstraints();
+
+            JLabel patientLabel = new JLabel("Enter Patient NHI: ");
+            JTextField patientField = new JTextField();
+            JButton findPatient = new JButton("Find Patient");
+            findPatient.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String NHI = patientField.getText();
+                Patient p1 = new Patient();
+                try {
+                    p1.getPatientFromDatabase(NHI);
+                } catch (SQLException ex) {
+                    Logger.getLogger(AppointmentsPanel.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            });
+
+            c.gridx = 0;
+            c.gridy = 0;
+            c.weightx = 0.2;
+            c.fill = GridBagConstraints.HORIZONTAL;
+            c.anchor = GridBagConstraints.FIRST_LINE_START;
+            c.insets = new Insets(0, 15, 0, 0);
+            add(patientLabel, c);
+            c.gridx = 1;
+            c.weightx = 1;
+            c.insets = new Insets(0, 0, 0, 15);
+            add(patientField, c);
+            c.gridx = 1;
+            c.gridy = 2;
+            c.weightx = 1;
+            c.insets = new Insets(10, 0, 0, 15);
+            c.fill = GridBagConstraints.PAGE_END;
+            c.anchor = GridBagConstraints.EAST;
+            add(findPatient, c);
+        }
+    }
 }
+
 
 

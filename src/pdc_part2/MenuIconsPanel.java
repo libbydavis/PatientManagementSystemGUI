@@ -47,6 +47,8 @@ public class MenuIconsPanel extends JPanel {
                 AppointmentsPanel appointmentsPanel = null;
                 try {
                     appointmentsPanel = new AppointmentsPanel(frame, frame.getWidth(), frame.getHeight());
+                    JFrame patientsPopup = appointmentsPanel.getPatient();
+                    patientsPopup.setVisible(true);
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
                 }
@@ -80,4 +82,5 @@ public class MenuIconsPanel extends JPanel {
         add(prescriptionButton);
     }
 }
+
 
