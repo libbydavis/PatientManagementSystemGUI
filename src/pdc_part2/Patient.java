@@ -10,12 +10,43 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  *
  * @author libst
  */
 public class Patient {
+    private String fName;
+    private String lName;
+    private int age;
+    private String phoneNumber;
+    private String address;
+    private String NHI;
+    private HashSet conditions;
+    private HashSet currentMedications;
+    private ArrayList<Measurements> measurements;
+    private ArrayList prescriptions;
+    private ArrayList<Appointment> appointmentsHistory;
+    
+    public Patient() {
+        NHI = "";
+        fName = "";
+        lName = "";
+    }
+    
+    public String getNHI() {
+        return NHI;
+    }
+    
+    public String getfName() {
+        return fName;
+    }
+    
+    public String getlName() {
+        return lName;
+    }
     
     public void getPatientFromDatabase(String nhi) throws SQLException {
             Connection conn = null;
@@ -26,6 +57,13 @@ public class Patient {
             String tableName = "ADMIN1.PATIENTS";
             String sqlQuery = "SELECT * FROM " + tableName + " WHERE NHI='" + nhi + "'"; // PrintAllPatients Method needs this query to work
             rs = statement1.executeQuery(sqlQuery);
+            
+            //set values
+            rs.beforeFirst();
+            rs.next();
+            NHI = rs.getString("NHI");
+            fName = rs.getString("FIRSTNAME");
+            lName = rs.getString("LASTNAME");
             PatientDBConn pdbc = new PatientDBConn();
             
             pdbc.printPatients(rs);

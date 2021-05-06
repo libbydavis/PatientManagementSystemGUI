@@ -22,7 +22,12 @@ import java.util.logging.Logger;
 
 public class AppointmentsPanel extends JPanel {
     AppointmentsPanel panel = this;
+    Patient patient1;
+    JLabel titleAP;
+    
     public AppointmentsPanel(PatientManagementView frame, int width, int height) throws IOException {
+        patient1 = new Patient();
+        
         setLayout(new GridBagLayout());
         setBackground(new Color(18, 29, 94));
         GridBagConstraints c = new GridBagConstraints();
@@ -68,10 +73,10 @@ public class AppointmentsPanel extends JPanel {
         add(backButton, c);
 
         c.anchor = GridBagConstraints.CENTER;
-        JLabel title = new JLabel("Appointment");
-        title.setFont(new Font("Arial", Font.BOLD, 40));
-        title.setForeground(Color.WHITE);
-        add(title, c);
+        titleAP = new JLabel("Appointment" + patient1.getfName() + " " + patient1.getlName());
+        titleAP.setFont(new Font("Arial", Font.BOLD, 40));
+        titleAP.setForeground(Color.WHITE);
+        add(titleAP, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 0;
@@ -89,14 +94,22 @@ public class AppointmentsPanel extends JPanel {
 
 
     }
+    
+    public void setPatient(Patient p) {
+        patient1 = p;
+    }
 
-    public JFrame getPatient() {
-        JFrame patientFrame = new getPatientPopup();
-        return patientFrame;
+    public Patient getPatient(JLabel title) {
+        getPatientPopup patientFrame = new getPatientPopup(title);
+        patientFrame.setVisible(true);
+        Patient p1 = patientFrame.getPatientObj();
+        return p1;
     }
 
     private class getPatientPopup extends JFrame {
-        public getPatientPopup() {
+        Patient p1;
+        
+        public getPatientPopup(JLabel title) {
             super("Patient");
             setSize(500, 300);
             setLocation(200, 200);
@@ -110,9 +123,13 @@ public class AppointmentsPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String NHI = patientField.getText();
-                Patient p1 = new Patient();
+                p1 = new Patient();
+                if (p1.getNHI() != null) {
+                    setVisible(false);
+                }
                 try {
                     p1.getPatientFromDatabase(NHI);
+                    title.setText("Appointment - " + p1.getfName() + " " + p1.getlName());
                 } catch (SQLException ex) {
                     Logger.getLogger(AppointmentsPanel.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -138,7 +155,12 @@ public class AppointmentsPanel extends JPanel {
             c.anchor = GridBagConstraints.EAST;
             add(findPatient, c);
         }
+        
+        public Patient getPatientObj() {
+            return p1;
+        }
     }
+    
 }
 
 
