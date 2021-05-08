@@ -64,9 +64,9 @@ public class Patient {
             NHI = rs.getString("NHI");
             fName = rs.getString("FIRSTNAME");
             lName = rs.getString("LASTNAME");
-            PatientDBConn pdbc = new PatientDBConn();
+            //PatientDBConn pdbc = new PatientDBConn();
             
-            pdbc.printPatients(rs);
+            //pdbc.printPatients(rs);
     }
     
 }

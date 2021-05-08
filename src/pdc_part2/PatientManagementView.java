@@ -26,11 +26,10 @@ public class PatientManagementView extends JFrame {
     }
 
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException 
+    {
         PatientManagementView frame = new PatientManagementView("Patient Management System");
         frame.setVisible(true);
     }
-
-
 }
 
