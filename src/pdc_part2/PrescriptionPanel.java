@@ -29,8 +29,9 @@ import javax.swing.table.TableColumnModel;
 
 public class PrescriptionPanel extends JPanel {
     PrescriptionPanel panel = this;
+    PrescriptionButtonsPanel buttonsPane;
     
-    public PrescriptionPanel(PatientManagementView frame) throws IOException {
+    public PrescriptionPanel(PatientManagementView frame, int width, int height) throws IOException {
         setLayout(new GridBagLayout());
         setBackground(new Color(18, 29, 94));
         GridBagConstraints c = new GridBagConstraints();
@@ -69,8 +70,17 @@ public class PrescriptionPanel extends JPanel {
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 0;
         c.gridy = 1;
-        MedicationsPanel medPane = new MedicationsPanel();
-        add(medPane, c);
+        buttonsPane = new PrescriptionButtonsPanel(frame, width, height, this);
+        add(buttonsPane, c);
     }
+    
+    public void removeButtonsPane() {
+        remove(buttonsPane);
+    }
+    
+    public void addPanel() {
+        
+    }
+
 }
 

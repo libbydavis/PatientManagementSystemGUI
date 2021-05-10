@@ -3,13 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/git/PatientManagementSystemGUI/src/pdc_part2/Patient.java</file>
-            <file>file:/D:/git/PatientManagementSystemGUI/src/pdc_part2/PrescriptionPanel.java</file>
-            <file>file:/D:/git/PatientManagementSystemGUI/src/pdc_part2/Measurements.java</file>
-            <file>file:/D:/git/PatientManagementSystemGUI/src/pdc_part2/MainMenuPanel.java</file>
-            <file>file:/D:/git/PatientManagementSystemGUI/src/pdc_part2/AppointmentsPanel.java</file>
-            <file>file:/D:/git/PatientManagementSystemGUI/src/pdc_part2/PatientsPanel.java</file>
-            <file>file:/D:/git/PatientManagementSystemGUI/src/pdc_part2/PatientManagementView.java</file>
+            <file>file:/C:/Users/libst/Documents/GitHub/PatientManagementSystemGUI/src/pdc_part2/PatientsPanel.java</file>
+            <file>file:/C:/Users/libst/Documents/GitHub/PatientManagementSystemGUI/src/pdc_part2/Medication.java</file>
+            <file>file:/C:/Users/libst/Documents/GitHub/PatientManagementSystemGUI/src/pdc_part2/MedicationsPanel.java</file>
+            <file>file:/C:/Users/libst/Documents/GitHub/PatientManagementSystemGUI/src/pdc_part2/PrescriptionButtonsPanel.java</file>
+            <file>file:/C:/Users/libst/Documents/GitHub/PatientManagementSystemGUI/src/pdc_part2/Patient.java</file>
+            <file>file:/C:/Users/libst/Documents/GitHub/PatientManagementSystemGUI/src/pdc_part2/MenuIconsPanel.java</file>
+            <file>file:/C:/Users/libst/Documents/GitHub/PatientManagementSystemGUI/src/pdc_part2/AppointmentsForm.java</file>
+            <file>file:/C:/Users/libst/Documents/GitHub/PatientManagementSystemGUI/src/pdc_part2/AppointmentsPanel.java</file>
+            <file>file:/C:/Users/libst/Documents/GitHub/PatientManagementSystemGUI/src/pdc_part2/PrescriptionPanel.java</file>
+            <file>file:/C:/Users/libst/Documents/GitHub/PatientManagementSystemGUI/src/pdc_part2/PatientManagementView.java</file>
         </group>
     </open-files>
 </project-private>

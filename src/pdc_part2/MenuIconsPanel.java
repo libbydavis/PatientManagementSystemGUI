@@ -70,7 +70,7 @@ public class MenuIconsPanel extends JPanel {
                 Object source = e.getSource();
                 PrescriptionPanel prescriptionPanel = null;
                 try {
-                    prescriptionPanel = new PrescriptionPanel(frame);
+                    prescriptionPanel = new PrescriptionPanel(frame, (int) frame.getWidth(), (int) frame.getHeight());
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
                 }
