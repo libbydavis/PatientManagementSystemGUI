@@ -1,20 +1,7 @@
-Mon May 10 16:27:29 NZST 2021 : Apache Derby Network Server - 10.14.2.0 - (1828579) started and ready to accept connections on port 1527
+Wed May 12 23:41:24 NZST 2021 : Apache Derby Network Server - 10.14.2.0 - (1828579) started and ready to accept connections on port 1527
 ----------------------------------------------------------------
-Mon May 10 16:27:30 NZST 2021:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-0179-5487-b12a-ffffa28d3b0a 
-on database directory C:\Users\libst\Documents\GitHub\PatientManagementSystemGUI\MedicationDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
-Loaded from file:/C:/Apache/db-derby-10.14.2.0-bin/lib/derby.jar
-java.vendor=Oracle Corporation
-java.runtime.version=1.8.0_281-b09
-user.dir=C:\Apache\db-derby-10.14.2.0-bin
-os.name=Windows 10
-os.arch=amd64
-os.version=10.0
-derby.system.home=C:\Users\libst\Documents\GitHub\PatientManagementSystemGUI
-Database Class Loader started - derby.database.classpath=''
-----------------------------------------------------------------
-Mon May 10 16:32:51 NZST 2021:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance 00cd0029-0179-5487-b12a-ffffa28d3b0a 
+Wed May 12 23:41:25 NZST 2021:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-0179-6061-ad80-ffffa28d3b0a 
 on database directory C:\Users\libst\Documents\GitHub\PatientManagementSystemGUI\PatientDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
 Loaded from file:/C:/Apache/db-derby-10.14.2.0-bin/lib/derby.jar
 java.vendor=Oracle Corporation
@@ -26,11 +13,8 @@ os.version=10.0
 derby.system.home=C:\Users\libst\Documents\GitHub\PatientManagementSystemGUI
 Database Class Loader started - derby.database.classpath=''
 ----------------------------------------------------------------
-Mon May 10 23:09:14 NZST 2021: Shutting down Derby engine
+Thu May 13 00:09:40 NZST 2021: Shutting down Derby engine
 ----------------------------------------------------------------
-Mon May 10 23:09:14 NZST 2021:
-Shutting down instance 00cd0029-0179-5487-b12a-ffffa28d3b0a on database directory C:\Users\libst\Documents\GitHub\PatientManagementSystemGUI\PatientDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
-----------------------------------------------------------------
-Mon May 10 23:09:14 NZST 2021:
-Shutting down instance a816c00e-0179-5487-b12a-ffffa28d3b0a on database directory C:\Users\libst\Documents\GitHub\PatientManagementSystemGUI\MedicationDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Thu May 13 00:09:40 NZST 2021:
+Shutting down instance a816c00e-0179-6061-ad80-ffffa28d3b0a on database directory C:\Users\libst\Documents\GitHub\PatientManagementSystemGUI\PatientDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
 ----------------------------------------------------------------
