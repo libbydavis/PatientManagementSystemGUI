@@ -27,14 +27,14 @@ import javax.swing.border.EmptyBorder;
 public class PrescriptionButtonsPanel extends JPanel{
     PrescriptionButtonsPanel store = this;
     PrescriptionPanel panel;
-    public PrescriptionButtonsPanel(PatientManagementView frame, int width, int height, PrescriptionPanel panel) {
+    public PrescriptionButtonsPanel(PatientManagementView frame, Dimension d, PrescriptionPanel panel) {
         this.panel = panel;
          //set layout
         setLayout(new GridBagLayout());
         setBackground(Color.WHITE);
         GridBagConstraints c = new GridBagConstraints();
-        this.setPreferredSize(new Dimension(width, height - 300));
-        this.setMinimumSize(new Dimension(width, height - 300));
+        this.setPreferredSize(d);
+        this.setMinimumSize(d);
 
        Font buttonFont = new Font("Arial", Font.BOLD, 25);
        Color dBlue = new Color(18, 29, 94);
@@ -67,9 +67,9 @@ public class PrescriptionButtonsPanel extends JPanel{
             @Override
             public void actionPerformed(ActionEvent e) {
                 Object source = e.getSource();
-                JPanel medPanelNew = new MedicationsPanel();
+                JPanel medPanelNew = new MedicationsPanel(d);
                 panel.removeButtonsPane();
-                frame.add(medPanelNew);
+                panel.addPrescPane(medPanelNew);
                 frame.revalidate();
             }
         });

@@ -30,11 +30,14 @@ import javax.swing.table.TableColumnModel;
 public class PrescriptionPanel extends JPanel {
     PrescriptionPanel panel = this;
     PrescriptionButtonsPanel buttonsPane;
+    GridBagConstraints c;
+    Dimension preferredD;
     
     public PrescriptionPanel(PatientManagementView frame, int width, int height) throws IOException {
         setLayout(new GridBagLayout());
         setBackground(new Color(18, 29, 94));
-        GridBagConstraints c = new GridBagConstraints();
+        c = new GridBagConstraints();
+        preferredD = new Dimension(width, (height - 300));
         BufferedImage backImage = ImageIO.read(new File("src\\Images\\backButtonArrow.png"));
         JButton backButton = new JButton(new ImageIcon(backImage));
         backButton.setBorder(new EmptyBorder(30, 30, 10, 10));
@@ -70,7 +73,7 @@ public class PrescriptionPanel extends JPanel {
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 0;
         c.gridy = 1;
-        buttonsPane = new PrescriptionButtonsPanel(frame, width, height, this);
+        buttonsPane = new PrescriptionButtonsPanel(frame, preferredD, this);
         add(buttonsPane, c);
     }
     
@@ -78,8 +81,8 @@ public class PrescriptionPanel extends JPanel {
         remove(buttonsPane);
     }
     
-    public void addPanel() {
-        
+    public void addPrescPane(JPanel pane) {
+        add(pane, c);
     }
 
 }

@@ -30,7 +30,7 @@ public class MedicationsPanel extends JPanel{
     JTable table = new JTable(model);
     JPanel jp = new JPanel();
     
-    public MedicationsPanel() {
+    public MedicationsPanel(Dimension d) {
         model.addColumn("MEDNO");
         model.addColumn("MEDNAME");
         model.addColumn("SIDE_EFFECTS");
@@ -59,8 +59,10 @@ public class MedicationsPanel extends JPanel{
         }
 
         JScrollPane jsp = new JScrollPane(table);
-        jsp.setPreferredSize(new Dimension(1850, 600));
+        jsp.setPreferredSize(d);
         this.add(jsp);
+        this.setPreferredSize(d);
+        this.setMinimumSize(d);
         
     }
     
