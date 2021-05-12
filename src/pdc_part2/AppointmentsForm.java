@@ -127,7 +127,7 @@ public class AppointmentsForm extends JPanel{
         return new NotesPopUp(currentAppointment, notesList);
     }
 
-    public class ReasonPopUp extends JFrame {
+    private class ReasonPopUp extends JFrame {
         public ReasonPopUp(Appointment current, JList reasonsList) {
             super("Add Reasons");
             setSize(500, 300);
