@@ -46,6 +46,8 @@ public class AppointmentsPanel extends JPanel {
                     frame.revalidate();
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
                 }
             }
         });
@@ -61,6 +63,8 @@ public class AppointmentsPanel extends JPanel {
                     frame.revalidate();
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
                 }
             }
         });
