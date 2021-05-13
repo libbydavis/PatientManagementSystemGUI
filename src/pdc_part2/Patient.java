@@ -10,6 +10,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -72,7 +73,8 @@ public class Patient {
     
     public void saveAppointmentToDB(Appointment app) throws SQLException {
         Statement statement2 = conn.createStatement();
-        String query1 = "INSERT INTO ADMIN1.APPOINTMENT (NHI) VALUES ('" + app.NHI + "')";
+        Timestamp ts = Timestamp.from(app.date);
+        String query1 = "INSERT INTO ADMIN1.APPOINTMENT (NHI, REASONS, MEASUREMENTS, NOTES, DATETIME) VALUES ('" + app.NHI + "', '" + app.getReasonsString() + "', '" + app.getMeasurementsString() + "', '" + app.getNotesString() +  "', '" + ts + "')";
         statement2.executeUpdate(query1);
     }
     
