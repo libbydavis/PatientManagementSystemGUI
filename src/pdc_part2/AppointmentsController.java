@@ -33,6 +33,10 @@ public class AppointmentsController implements ActionListener{
     public Appointment getAppointment() {
         return appointment1;
     }
+    
+    public void setNHI(String NHI) {
+        appointment1.NHI = NHI;
+    }
 
     public void addPanel2(AppointmentsForm form) {
         this.form = form;

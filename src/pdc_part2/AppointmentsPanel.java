@@ -84,8 +84,9 @@ public class AppointmentsPanel extends JPanel {
     
     public void setPatient(Patient p) {
         patient1 = p;
+        controller.setNHI(p.getNHI());
     }
-
+    
     public Patient getPatient(JLabel title) {
         getPatientPopup patientFrame = new getPatientPopup(title);
         patientFrame.setVisible(true);
@@ -121,6 +122,7 @@ public class AppointmentsPanel extends JPanel {
                 try {
                     p1.getPatientFromDatabase(NHI);
                     title.setText("Appointment - " + p1.getfName() + " " + p1.getlName());
+                    setPatient(p1);
                 } catch (SQLException ex) {
                     Logger.getLogger(AppointmentsPanel.class.getName()).log(Level.SEVERE, null, ex);
                 }

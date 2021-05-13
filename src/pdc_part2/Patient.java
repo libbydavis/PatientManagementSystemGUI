@@ -72,7 +72,8 @@ public class Patient {
     
     public void saveAppointmentToDB(Appointment app) throws SQLException {
         Statement statement2 = conn.createStatement();
-        statement2.executeUpdate("UPDATE " + tableName + " SET ISNULL(APPOINTMENTS_HISTORY, '') = APPOINTMENTS_HISTORY + " + app.toString() + " WHERE NHI = " + this.NHI);
+        String query1 = "INSERT INTO ADMIN1.APPOINTMENT (NHI) VALUES ('" + app.NHI + "')";
+        statement2.executeUpdate(query1);
     }
     
 }
