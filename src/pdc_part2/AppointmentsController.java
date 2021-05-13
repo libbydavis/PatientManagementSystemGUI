@@ -8,6 +8,9 @@ package pdc_part2;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -19,10 +22,16 @@ public class AppointmentsController implements ActionListener{
     private PatientManagementView frame;
     private AppointmentsPanel panel;
     private AppointmentsForm form;
+    private Appointment appointment1;
     
     public AppointmentsController(PatientManagementView frame, AppointmentsPanel panel) {
         this.frame = frame;
         this.panel = panel;
+        appointment1 = new Appointment();
+    }
+    
+    public Appointment getAppointment() {
+        return appointment1;
     }
 
     public void addPanel2(AppointmentsForm form) {
@@ -42,6 +51,13 @@ public class AppointmentsController implements ActionListener{
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
                 }
+        }
+        if (source == panel.getFinishAppointment()) {
+            try {
+                panel.patient1.saveAppointmentToDB(appointment1);
+            } catch (SQLException ex) {
+                Logger.getLogger(AppointmentsController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         else if (source == form.getReasonButton()) {
             JFrame popUp = form.getReasonPopUp();

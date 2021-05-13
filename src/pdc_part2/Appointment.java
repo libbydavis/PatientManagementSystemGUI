@@ -107,6 +107,23 @@ public class Appointment {
     public String[] getNotes() {
         return notes;
     }
+    
+    public String toString() {
+        String total = "Appointment:\n";
+        total += "Reasons:\n";
+        for (String reason : reasons) {
+            total += reason + "\n";
+        }
+        total += "Measurements:\n";
+        for (Measurements measure : measurements) {
+            total += measure.name + ": " + measure.measurement + measure.units + "\n";
+        }
+        total += "Notes:\n";
+        for (String note : notes) {
+            total += note + "\n";
+        }
+        return total;
+    }
 }
 
 

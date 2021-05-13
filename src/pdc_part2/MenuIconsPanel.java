@@ -8,6 +8,9 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class MenuIconsPanel extends JPanel {
     MenuIconsPanel store = this;
@@ -51,6 +54,8 @@ public class MenuIconsPanel extends JPanel {
                     appointmentsPanel.setPatient(patient1);
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
+                } catch (SQLException ex) {
+                    Logger.getLogger(MenuIconsPanel.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 frame.remove(store);
                 appointmentsPanel.setPreferredSize(new Dimension(frame.getWidth(), (frame.getHeight() - 200)));

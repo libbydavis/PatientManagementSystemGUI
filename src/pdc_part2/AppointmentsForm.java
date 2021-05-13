@@ -32,7 +32,7 @@ public class AppointmentsForm extends JPanel{
         controller.addPanel2(this);
         
         //create appointment
-        currentAppointment = new Appointment();
+        currentAppointment = controller.getAppointment();
 
         //set layout
         setLayout(new GridBagLayout());

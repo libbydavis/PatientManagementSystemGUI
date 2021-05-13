@@ -29,11 +29,15 @@ public class Patient {
     private ArrayList<Measurements> measurements;
     private ArrayList prescriptions;
     private ArrayList<Appointment> appointmentsHistory;
+    private Connection conn;
+    private String tableName = "ADMIN1.PATIENTS";
     
-    public Patient() {
+    public Patient() throws SQLException {
         NHI = "";
         fName = "";
         lName = "";
+        DatabaseConnection DBconnect = new DatabaseConnection();
+        conn = DBconnect.getConnectionPatients();
     }
     
     public String getNHI() {
@@ -48,13 +52,10 @@ public class Patient {
         return lName;
     }
     
+    
     public void getPatientFromDatabase(String nhi) throws SQLException {
-            Connection conn = null;
-            conn = DriverManager.getConnection("jdbc:derby://localhost:1527/PatientDB;", "admin1", "admin123");
-            System.out.println("Connected Successfully");
             ResultSet rs;
             Statement statement1 = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            String tableName = "ADMIN1.PATIENTS";
             String sqlQuery = "SELECT * FROM " + tableName + " WHERE NHI='" + nhi + "'"; // PrintAllPatients Method needs this query to work
             rs = statement1.executeQuery(sqlQuery);
             
@@ -67,6 +68,11 @@ public class Patient {
             //PatientDBConn pdbc = new PatientDBConn();
             
             //pdbc.printPatients(rs);
+    }
+    
+    public void saveAppointmentToDB(Appointment app) throws SQLException {
+        Statement statement2 = conn.createStatement();
+        statement2.executeUpdate("UPDATE " + tableName + " SET ISNULL(APPOINTMENTS_HISTORY, '') = APPOINTMENTS_HISTORY + " + app.toString() + " WHERE NHI = " + this.NHI);
     }
     
 }

@@ -28,7 +28,7 @@ public class AppointmentsPanel extends JPanel {
     private JButton finishAppointment;
     private JButton backButton;
     
-    public AppointmentsPanel(PatientManagementView frame, int width, int height) throws IOException {
+    public AppointmentsPanel(PatientManagementView frame, int width, int height) throws IOException, SQLException {
         patient1 = new Patient();
         controller = new AppointmentsController(frame, this);
         
@@ -110,7 +110,11 @@ public class AppointmentsPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String NHI = patientField.getText();
-                p1 = new Patient();
+                try {
+                    p1 = new Patient();
+                } catch (SQLException ex) {
+                    Logger.getLogger(AppointmentsPanel.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 if (p1.getNHI() != null) {
                     setVisible(false);
                 }
