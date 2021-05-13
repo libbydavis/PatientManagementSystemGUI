@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 
 public class MenuIconsPanel extends JPanel {
     MenuIconsPanel store = this;
-    public MenuIconsPanel(PatientManagementView frame) throws IOException {
+    public MenuIconsPanel(PatientManagementView frame) throws IOException, SQLException {
         setLayout(new GridLayout(0, 5));
         //see patients
         BufferedImage patientsIcon = ImageIO.read(new File("src\\Images\\iconPDCPatientsSmall.png"));
@@ -30,6 +30,8 @@ public class MenuIconsPanel extends JPanel {
                     patientsPanel = new PatientsPanel(frame, getWidth(), getHeight());
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
+                } catch (SQLException ex) {
+                    Logger.getLogger(MenuIconsPanel.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 frame.remove(store);
                 frame.add(patientsPanel);

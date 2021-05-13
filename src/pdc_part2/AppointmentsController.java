@@ -54,7 +54,9 @@ public class AppointmentsController implements ActionListener{
                     frame.revalidate();
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
-                }
+                } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
         if (source == panel.getFinishAppointment()) {
             try {

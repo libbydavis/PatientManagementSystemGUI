@@ -21,7 +21,7 @@ public class DatabaseConnection {
     public Connection getConnectionPatients() throws SQLException {
         Connection conn = null;
         conn = DriverManager.getConnection("jdbc:derby://localhost:1527/PatientDB;", "admin1", "admin123");
-        System.out.println("Connected Successfully");
+        //System.out.println("Connected Successfully"); shows in console everytime patients button is clicked 
         return conn;
     }
 }
