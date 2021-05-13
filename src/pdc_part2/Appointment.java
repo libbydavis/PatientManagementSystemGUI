@@ -7,13 +7,17 @@ package pdc_part2;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Date;
 
 public class Appointment {
+    Date date;
+    String NHI;
     private String[] reasons;
     private Measurements[] measurements;
     private String[] notes;
 
     public Appointment() {
+        date = new Date();
         reasons = new String[10];
         measurements = new Measurements[10];
         notes = new String[10];
@@ -86,7 +90,7 @@ public class Appointment {
         String[] measurementsStrings = new String[measurements.length];
         for (int i = 0; i < measurements.length; i++) {
             if (measurements[i] != null) {
-                String measurementString1 = measurements[i].name + ": " + measurements[i].measurement + measurements[i].units;
+                String measurementString1 = measurements[i].name + " " + measurements[i].measurement + measurements[i].units;
                 measurementsStrings[i] = measurementString1;
             }
             else {
@@ -107,6 +111,7 @@ public class Appointment {
     public String[] getNotes() {
         return notes;
     }
+    
 }
 
 

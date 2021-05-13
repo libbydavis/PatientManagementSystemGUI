@@ -38,11 +38,15 @@ public class Patient {
     private ArrayList<Measurements> measurements;
     private ArrayList prescriptions;
     private ArrayList<Appointment> appointmentsHistory;
+    private Connection conn;
+    private String tableName = "ADMIN1.PATIENTS";
     
-    public Patient() {
+    public Patient() throws SQLException {
         NHI = "";
         fName = "";
         lName = "";
+        DatabaseConnection DBconnect = new DatabaseConnection();
+        conn = DBconnect.getConnectionPatients();
     }
     
     public String getNHI() 
@@ -60,6 +64,7 @@ public class Patient {
         return lName;
     }
     
+
     public void setFName(String fname)
     {
         //TODO
@@ -74,11 +79,11 @@ public class Patient {
     {
         
     }
-    public Connection connectToPatientDB() throws SQLException 
-    {
-        Connection conn;
-        return conn = DriverManager.getConnection("jdbc:derby://localhost:1527/PatientDB; create = true","admin1", "admin123");
-    }
+//    public Connection connectToPatientDB() throws SQLException 
+//    {
+//        Connection conn;
+//        return conn = DriverManager.getConnection("jdbc:derby://localhost:1527/PatientDB; create = true","admin1", "admin123");
+//    }
     
     public DefaultTableModel patientColumnNames()
     {
@@ -95,11 +100,11 @@ public class Patient {
     {
         DefaultTableModel patientTableModel = patientColumnNames();
         JTable patientTable = new JTable(patientTableModel);
-
+        DatabaseConnection dbc = new DatabaseConnection();
         try 
         {
-            connectToPatientDB();
-            PreparedStatement prepstmt = connectToPatientDB().prepareStatement("SELECT NHI, FIRSTNAME, LASTNAME FROM PATIENTS");
+      
+            PreparedStatement prepstmt = dbc.getConnectionPatients().prepareStatement("SELECT NHI, FIRSTNAME, LASTNAME FROM PATIENTS");
             ResultSet rs = prepstmt.executeQuery();
             while (rs.next()) 
             {            
@@ -126,10 +131,11 @@ public class Patient {
     public void getPatientFromDatabase(String nhi) throws SQLException 
     {
         DefaultTableModel model = new DefaultTableModel();
+        DatabaseConnection dbc = new DatabaseConnection();
         
         try 
         {
-            PreparedStatement prepstmt = connectToPatientDB().prepareStatement("SELECT * FROM PATIENTS WHERE NHI = " + "\'" +nhi.toLowerCase()+ "\'");
+            PreparedStatement prepstmt = dbc.getConnectionPatients().prepareStatement("SELECT * FROM PATIENTS WHERE NHI = " + "\'" +nhi.toLowerCase()+ "\'");
             ResultSet rs = prepstmt.executeQuery();
 
             while (rs.next()) 
@@ -143,6 +149,13 @@ public class Patient {
             e.printStackTrace();
         }
     }   
+    
+    public void saveAppointmentToDB(Appointment app) throws SQLException {
+        Statement statement2 = conn.createStatement();
+        String query1 = "INSERT INTO ADMIN1.APPOINTMENT (NHI) VALUES ('" + app.NHI + "')";
+        statement2.executeUpdate(query1);
+    }
+    
 }
     // nhi of the patient you want to make the prescription for // validate whether this nhi exists
     // medno# for the prescription you want to set

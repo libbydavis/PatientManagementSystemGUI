@@ -22,10 +22,10 @@ import javax.swing.table.TableColumnModel;
 public class PatientsPanel extends JPanel 
 {
     PatientsPanel panel = this;
-    public static Connection conn;
-    public static String url = "jdbc:derby://localhost:1527/PatientDB; create = true";
-    public static String username = "admin1";
-    public static String password = "admin123";
+//    public static Connection conn;
+//    public static String url = "jdbc:derby://localhost:1527/PatientDB; create = true";
+//    public static String username = "admin1";
+//    public static String password = "admin123";
 
     public PatientsPanel(PatientManagementView frame, double width, double height) throws IOException, SQLException {
         //setLayout(new BorderLayout());

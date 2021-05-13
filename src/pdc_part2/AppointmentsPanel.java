@@ -24,17 +24,22 @@ public class AppointmentsPanel extends JPanel {
     AppointmentsPanel panel = this;
     Patient patient1;
     JLabel titleAP;
+    private AppointmentsController controller;
+    private JButton finishAppointment;
+    private JButton backButton;
     
-    public AppointmentsPanel(PatientManagementView frame, int width, int height) throws IOException {
+    public AppointmentsPanel(PatientManagementView frame, int width, int height) throws IOException, SQLException {
         patient1 = new Patient();
+        controller = new AppointmentsController(frame, this);
         
         setLayout(new GridBagLayout());
         setBackground(new Color(18, 29, 94));
         GridBagConstraints c = new GridBagConstraints();
         BufferedImage backImage = ImageIO.read(new File("src\\Images\\backButtonArrow.png"));
-        JButton backButton = new JButton(new ImageIcon(backImage));
+        backButton = new JButton(new ImageIcon(backImage));
         backButton.setBorder(new EmptyBorder(30, 30, 10, 10));
         backButton.setContentAreaFilled(false);
+
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -68,6 +73,10 @@ public class AppointmentsPanel extends JPanel {
                 }
             }
         });
+        //backButton.addActionListener(controller); This was causing duplication problems
+
+        finishAppointment = new JButton("Save and Exit");
+        finishAppointment.addActionListener(controller);
 
         c.gridx = 0;
         c.gridy = 0;
@@ -85,7 +94,7 @@ public class AppointmentsPanel extends JPanel {
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 0;
         c.gridy = 1;
-        AppointmentsForm aForm = new AppointmentsForm(width, height);
+        AppointmentsForm aForm = new AppointmentsForm(width, height, controller);
         aForm.setMinimumSize(new Dimension(width, (height - 400)));
         add(aForm, c);
 
@@ -99,10 +108,19 @@ public class AppointmentsPanel extends JPanel {
 
     }
     
+    public JButton getFinishAppointment() {
+        return finishAppointment;
+    }
+    
+    public JButton getBackButton() {
+        return backButton;
+    }
+    
     public void setPatient(Patient p) {
         patient1 = p;
+        controller.setNHI(p.getNHI());
     }
-
+    
     public Patient getPatient(JLabel title) {
         getPatientPopup patientFrame = new getPatientPopup(title);
         patientFrame.setVisible(true);
@@ -127,13 +145,18 @@ public class AppointmentsPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String NHI = patientField.getText();
-                p1 = new Patient();
+                try {
+                    p1 = new Patient();
+                } catch (SQLException ex) {
+                    Logger.getLogger(AppointmentsPanel.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 if (p1.getNHI() != null) {
                     setVisible(false);
                 }
                 try {
                     p1.getPatientFromDatabase(NHI);
                     title.setText("Appointment - " + p1.getfName() + " " + p1.getlName());
+                    setPatient(p1);
                 } catch (SQLException ex) {
                     Logger.getLogger(AppointmentsPanel.class.getName()).log(Level.SEVERE, null, ex);
                 }

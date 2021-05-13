@@ -53,9 +53,10 @@ public class MenuIconsPanel extends JPanel {
                 try {
                     appointmentsPanel = new AppointmentsPanel(frame, frame.getWidth(), frame.getHeight());
                     Patient patient1 = appointmentsPanel.getPatient(appointmentsPanel.titleAP);
-                    appointmentsPanel.setPatient(patient1);
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
+                } catch (SQLException ex) {
+                    Logger.getLogger(MenuIconsPanel.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 frame.remove(store);
                 appointmentsPanel.setPreferredSize(new Dimension(frame.getWidth(), (frame.getHeight() - 200)));
@@ -75,7 +76,7 @@ public class MenuIconsPanel extends JPanel {
                 Object source = e.getSource();
                 PrescriptionPanel prescriptionPanel = null;
                 try {
-                    prescriptionPanel = new PrescriptionPanel(frame);
+                    prescriptionPanel = new PrescriptionPanel(frame, (int) frame.getWidth(), (int) frame.getHeight());
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
                 }

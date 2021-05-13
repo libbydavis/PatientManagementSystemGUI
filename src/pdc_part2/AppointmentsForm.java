@@ -18,9 +18,21 @@ import javax.swing.border.EmptyBorder;
  * @author libst
  */
 public class AppointmentsForm extends JPanel{
-    public AppointmentsForm(int width, int height) {
+    private AppointmentsController controller;
+    private JButton addReason;
+    private Appointment currentAppointment;
+    private JList reasonsList;
+    private JList measurementsList;
+    private JButton addMeasurement;
+    private JList notesList;
+    private JButton addNote;
+    
+    public AppointmentsForm(int width, int height, AppointmentsController controller) {
+        this.controller = controller;
+        controller.addPanel2(this);
+        
         //create appointment
-        Appointment currentAppointment = new Appointment();
+        currentAppointment = controller.getAppointment();
 
         //set layout
         setLayout(new GridBagLayout());
@@ -42,22 +54,14 @@ public class AppointmentsForm extends JPanel{
         add(reasons, c);
         c.gridy = 1;
         //reasons list
-        JList reasonsList = new JList();
+        reasonsList = new JList();
         String[] reasonsStrings = currentAppointment.getReasons();
         reasonsList.setListData(reasonsStrings);
         add(reasonsList, c);
         //button and popup
         c.gridy = 2;
-        JButton addReason = new JButton("Add Reason");
-        addReason.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Object source = e.getSource();
-                ReasonPopUp popUp = new ReasonPopUp(currentAppointment, reasonsList);
-                popUp.setVisible(true);
-                revalidate();
-            }
-        });
+        addReason = new JButton("Add Reason");
+        addReason.addActionListener(controller);
         add(addReason, c);
 
         //measurements
@@ -68,22 +72,14 @@ public class AppointmentsForm extends JPanel{
         add(measurements, c);
         //measurements list
         c.gridy = 1;
-        JList measurementsList = new JList();
+        measurementsList = new JList();
         Measurements[] measurementsArray = currentAppointment.getMeasurements();
         measurementsList.setListData(measurementsArray);
         add(measurementsList, c);
         //button and popup
         c.gridy = 2;
-        JButton addMeasurement = new JButton("Add Measurement");
-        addMeasurement.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Object source = e.getSource();
-                MeasurementsPopUp popUp = new MeasurementsPopUp(currentAppointment, measurementsList);
-                popUp.setVisible(true);
-                revalidate();
-            }
-        });
+        addMeasurement = new JButton("Add Measurement");
+        addMeasurement.addActionListener(controller);
         add(addMeasurement, c);
 
         //notes
@@ -94,25 +90,41 @@ public class AppointmentsForm extends JPanel{
         add(notes, c);
         //notes list
         c.gridy = 1;
-        JList notesList = new JList();
+        notesList = new JList();
         String[] notesArray = currentAppointment.getNotes();
         notesList.setListData(notesArray);
         add(notesList, c);
         //button and popup
         c.gridy = 2;
-        JButton addNote = new JButton("Add Note");
-        addNote.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Object source = e.getSource();
-                NotesPopUp popUp = new NotesPopUp(currentAppointment, notesList);
-                popUp.setVisible(true);
-                revalidate();
-            }
-        });
+        addNote = new JButton("Add Note");
+        addNote.addActionListener(controller);
         add(addNote, c);
 
 
+    }
+    
+    public JButton getReasonButton() {
+        return addReason;
+    }
+    
+    public JButton getMeasureButton() {
+        return addMeasurement;
+    }
+    
+    public JButton getNoteButton() {
+        return addNote;
+    }
+    
+    public ReasonPopUp getReasonPopUp() {
+        return new ReasonPopUp(currentAppointment, reasonsList);
+    }
+    
+    public MeasurementsPopUp getMeasurementsPopup() {
+        return new MeasurementsPopUp(currentAppointment, measurementsList);
+    }
+    
+    public NotesPopUp getNotesPopup() {
+        return new NotesPopUp(currentAppointment, notesList);
     }
 
     private class ReasonPopUp extends JFrame {
