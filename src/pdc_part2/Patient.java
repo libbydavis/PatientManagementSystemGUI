@@ -62,10 +62,11 @@ public class Patient {
             
             //set values
             rs.beforeFirst();
-            rs.next();
-            NHI = rs.getString("NHI");
-            fName = rs.getString("FIRSTNAME");
-            lName = rs.getString("LASTNAME");
+            if (rs.next() == true) {
+                NHI = rs.getString("NHI");
+                fName = rs.getString("FIRSTNAME");
+                lName = rs.getString("LASTNAME");
+            }
             //PatientDBConn pdbc = new PatientDBConn();
             
             //pdbc.printPatients(rs);
