@@ -121,27 +121,51 @@ public class AppointmentsPanel extends JPanel {
             setLayout(new GridBagLayout());
             GridBagConstraints c = new GridBagConstraints();
 
-            JLabel patientLabel = new JLabel("Enter Patient NHI: ");
+            JLabel patientLabel = new JLabel("Search Patient By ");
+            String[] options = {"NHI", "First Name", "Last Name"};
+            JComboBox searchOptions = new JComboBox(options);
             JTextField patientField = new JTextField();
+            patientField.addFocusListener(new FocusListener(){
+                @Override
+                public void focusGained(FocusEvent e){
+                    patientField.setForeground(Color.BLACK);
+                    patientField.setText("");
+                }
+                @Override
+                public void focusLost(FocusEvent e) {
+
+                }
+            });
             JButton findPatient = new JButton("Find Patient");
             findPatient.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String NHI = patientField.getText();
-                try {
-                    p1 = new Patient();
-                } catch (SQLException ex) {
-                    Logger.getLogger(AppointmentsPanel.class.getName()).log(Level.SEVERE, null, ex);
+                String inputString = patientField.getText();
+                if ((inputString.length() == 6 && searchOptions.getSelectedItem().equals("NHI")) || (inputString.length() > 2 && searchOptions.getSelectedItem().equals("First Name")) || (inputString.length() > 2 && searchOptions.getSelectedItem().equals("Last Name"))) {
+                    try {
+                        p1 = new Patient();
+                    } catch (SQLException ex) {
+                        Logger.getLogger(AppointmentsPanel.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    try {
+                        p1.getPatientFromDatabase(inputString, searchOptions.getSelectedItem());
+                        if (p1.getNHI().length() == 6) {
+                            setVisible(false);
+                            title.setText("Appointment - " + p1.getfName() + " " + p1.getlName());
+                            setPatient(p1);
+                        }
+                        else {
+                            patientField.setText("Patient Not Found. Try Again.");
+                            patientField.setForeground(Color.RED);
+                        }
+                        
+                    } catch (SQLException ex) {
+                        Logger.getLogger(AppointmentsPanel.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
-                if (p1.getNHI() != null) {
-                    setVisible(false);
-                }
-                try {
-                    p1.getPatientFromDatabase(NHI);
-                    title.setText("Appointment - " + p1.getfName() + " " + p1.getlName());
-                    setPatient(p1);
-                } catch (SQLException ex) {
-                    Logger.getLogger(AppointmentsPanel.class.getName()).log(Level.SEVERE, null, ex);
+                else {
+                    patientField.setText("Enter a 6 character code (3 letters, 3 numbers)");
+                    patientField.setForeground(Color.RED);
                 }
             }
             });
@@ -154,10 +178,15 @@ public class AppointmentsPanel extends JPanel {
             c.insets = new Insets(0, 15, 0, 0);
             add(patientLabel, c);
             c.gridx = 1;
+            c.insets = new Insets(0, 0, 0, 0);
+            c.fill = GridBagConstraints.FIRST_LINE_START;
+            add(searchOptions, c);
+            c.fill = GridBagConstraints.HORIZONTAL;
+            c.gridx = 2;
             c.weightx = 1;
             c.insets = new Insets(0, 0, 0, 15);
             add(patientField, c);
-            c.gridx = 1;
+            c.gridx = 2;
             c.gridy = 2;
             c.weightx = 1;
             c.insets = new Insets(10, 0, 0, 15);

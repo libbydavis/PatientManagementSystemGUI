@@ -7,17 +7,17 @@ package pdc_part2;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Date;
+import java.time.Instant;
 
 public class Appointment {
-    Date date;
+    Instant date;
     String NHI;
     private String[] reasons;
     private Measurements[] measurements;
     private String[] notes;
 
     public Appointment() {
-        date = new Date();
+        date = Instant.now();
         reasons = new String[10];
         measurements = new Measurements[10];
         notes = new String[10];
@@ -90,7 +90,7 @@ public class Appointment {
         String[] measurementsStrings = new String[measurements.length];
         for (int i = 0; i < measurements.length; i++) {
             if (measurements[i] != null) {
-                String measurementString1 = measurements[i].name + " " + measurements[i].measurement + measurements[i].units;
+                String measurementString1 = measurements[i].name + ": " + measurements[i].measurement + measurements[i].units;
                 measurementsStrings[i] = measurementString1;
             }
             else {
@@ -110,6 +110,46 @@ public class Appointment {
 
     public String[] getNotes() {
         return notes;
+    }
+    
+    public String getReasonsString() {
+        String reasonsString = "";
+        for (int i = 0; i < reasons.length; i++) {
+            if (reasons[i] != null) {
+                reasonsString += reasons[i];
+                if (i < reasons.length - 1) {
+                    reasonsString += ", ";
+                }
+            }
+        }
+        return reasonsString;
+    }
+    
+    public String getNotesString() {
+        String notesString = "";
+        for (int i = 0; i < notes.length; i++) {
+            if (notes[i] != null) {
+                notesString += notes[i];
+                if (i < notes.length - 1) {
+                    notesString += ", ";
+                }
+            }
+        }
+        return notesString;
+    }
+   
+    public String getMeasurementsString() {
+        String measurementsString = "";
+        String[] measureList = getMeasurementArrayToString();
+        for (int i = 0; i < measureList.length; i++) {
+            if (measureList[i] != null) {
+                measurementsString += measureList[i];
+                if (i < reasons.length - 1) {
+                    measurementsString += ", ";
+                }
+            }
+        }
+        return measurementsString;
     }
     
 }

@@ -13,6 +13,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Vector;
@@ -70,6 +71,38 @@ public class Patient {
         //TODO
     }
     
+    public void getPatientFromDatabase(String input, Object option) throws SQLException {
+            ResultSet rs;
+            Statement statement1 = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            String sqlQuery = "";
+            if (option.equals("NHI")) {
+                sqlQuery = "SELECT * FROM " + tableName + " WHERE NHI='" + input + "'"; // PrintAllPatients Method needs this query to work
+            }
+            else if (option.equals("First Name")) {
+                sqlQuery = "SELECT * FROM " + tableName + " WHERE FIRSTNAME='" + input + "'";
+            }
+            else if (option.equals("Last Name")) {
+                sqlQuery = "SELECT * FROM " + tableName + " WHERE LASTNAME='" + input + "'";
+            }
+            rs = statement1.executeQuery(sqlQuery);
+            
+            //set values
+            rs.beforeFirst();
+            if (rs.next() == true) {
+                NHI = rs.getString("NHI");
+                fName = rs.getString("FIRSTNAME");
+                lName = rs.getString("LASTNAME");
+            }
+            //PatientDBConn pdbc = new PatientDBConn();
+            
+            //pdbc.printPatients(rs);
+    }
+
+    public void setLName(String lname)
+    {
+        
+    }
+   
     public void setAge(int age)
     {
         
@@ -149,7 +182,8 @@ public class Patient {
     
     public void saveAppointmentToDB(Appointment app) throws SQLException {
         Statement statement2 = conn.createStatement();
-        String query1 = "INSERT INTO ADMIN1.APPOINTMENT (NHI) VALUES ('" + app.NHI + "')";
+        Timestamp ts = Timestamp.from(app.date);
+        String query1 = "INSERT INTO ADMIN1.APPOINTMENT (NHI, REASONS, MEASUREMENTS, NOTES, DATETIME) VALUES ('" + app.NHI + "', '" + app.getReasonsString() + "', '" + app.getMeasurementsString() + "', '" + app.getNotesString() +  "', '" + ts + "')";
         statement2.executeUpdate(query1);
     }
     
