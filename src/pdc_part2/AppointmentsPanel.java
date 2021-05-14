@@ -39,23 +39,7 @@ public class AppointmentsPanel extends JPanel {
         backButton = new JButton(new ImageIcon(backImage));
         backButton.setBorder(new EmptyBorder(30, 30, 10, 10));
         backButton.setContentAreaFilled(false);
-
-        backButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Object source = e.getSource();
-                try {
-                    MenuIconsPanel menuIconsPanel = new MenuIconsPanel(frame);
-                    frame.remove(panel);
-                    frame.add(menuIconsPanel);
-                    frame.revalidate();
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                }
-            }
-        });
+        backButton.addActionListener(controller); //This was causing duplication problems
 
         JButton finishAppointment = new JButton("Save and Exit");
         finishAppointment.addActionListener(new ActionListener() {
@@ -73,7 +57,6 @@ public class AppointmentsPanel extends JPanel {
                 }
             }
         });
-        //backButton.addActionListener(controller); This was causing duplication problems
 
         finishAppointment = new JButton("Save and Exit");
         finishAppointment.addActionListener(controller);

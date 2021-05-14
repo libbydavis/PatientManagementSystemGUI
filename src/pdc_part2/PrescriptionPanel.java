@@ -52,7 +52,9 @@ public class PrescriptionPanel extends JPanel {
         setLayout(new GridBagLayout());
         setBackground(new Color(18, 29, 94));
         c = new GridBagConstraints();
-        preferredD = new Dimension(width, (height - 300));
+        Toolkit kit = Toolkit.getDefaultToolkit();
+        Dimension screenSize = kit.getScreenSize();
+        preferredD = new Dimension(screenSize.width/2, screenSize.height/2);
         BufferedImage backImage = ImageIO.read(new File("src\\Images\\backButtonArrow.png"));
         JButton backButton = new JButton(new ImageIcon(backImage));
         backButton.setBorder(new EmptyBorder(30, 30, 10, 10));
@@ -74,82 +76,6 @@ public class PrescriptionPanel extends JPanel {
             }
         });
         add(backButton);
-        // Button that allows you to view Medication
-        viewMeds = new JToggleButton("View Medication");
-        model = new DefaultTableModel();
-        table = new JTable(model);
-        jsp = new JScrollPane(table);
-        jp = new JPanel();
-        jp.add(jsp);
-        // Column names
-//        TableColumnModel columnModel = table.getColumnModel();
-//        model.addColumn("MEDNO");
-//        model.addColumn("MEDNAME");
-//        model.addColumn("SIDE_EFFECTS");
-//        model.addColumn("CONDITIONS");
-//        // Setting column widths
-//        columnModel.getColumn(0).setPreferredWidth(50);
-//        columnModel.getColumn(1).setPreferredWidth(100);
-//        columnModel.getColumn(2).setPreferredWidth(450);
-//        columnModel.getColumn(3).setPreferredWidth(645);
-//        
-//        jp.setVisible(false);
-//        viewMeds.setLocation(100, 50);
-//        viewMeds.addActionListener(new ActionListener() 
-//        {
-//            @Override
-//            public void actionPerformed(ActionEvent e) 
-//            {
-//                if (viewMeds.isSelected()) 
-//                {
-//                    jp.setVisible(true);
-//                    try 
-//                    {
-//                        conn = DriverManager.getConnection(url, username, password);
-//                        PreparedStatement prepstmt = conn.prepareStatement("SELECT * FROM MEDICATION");
-//                        ResultSet rs = prepstmt.executeQuery();
-//
-//                        while (rs.next()) 
-//                        {
-//                            model.addRow(new Object[]{rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4)});
-//                        }
-//                    } 
-//                    catch (SQLException ex) 
-//                    {
-//                        ex.printStackTrace();
-//                    }                
-//                } 
-//                else
-//                {
-//                    try 
-//                    {
-//                        conn = DriverManager.getConnection(url, username, password);
-//                        PreparedStatement prepstmt = conn.prepareStatement("SELECT * FROM MEDICATION");
-//                        ResultSet rs = prepstmt.executeQuery();
-//
-//                        while (rs.next()) 
-//                        {
-//                            model.removeRow(0);
-//                        }
-//                    } 
-//                    catch (SQLException ex) 
-//                    {
-//                        ex.printStackTrace();
-//                    }
-//                    jp.setVisible(false);
-//                }
-//            }
-//        });
-//        this.add(viewMeds);
-//        
-//        genPresc = new JButton("Generate Prescription");
-//        this.add(genPresc);
-//        //Variables needed to display Medication Table.
-//        Toolkit kit = Toolkit.getDefaultToolkit();
-//        Dimension screenSize = kit.getScreenSize();
-//        jsp.setPreferredSize(new Dimension(1250, 135));
-//        this.add(jp);
-//        this.setSize((screenSize.width / 2), (screenSize.height / 2));
 
         c.gridx = 0;
         c.gridy = 0;
