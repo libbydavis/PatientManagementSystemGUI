@@ -3,12 +3,14 @@ package pdc_part2;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class PatientManagementView extends JFrame {
     double width;
     double height;
 
-    public PatientManagementView(String title) throws IOException {
+    public PatientManagementView(String title) throws IOException, SQLException
+    {
         super(title);
         getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
         Dimension size = Toolkit. getDefaultToolkit().getScreenSize();
@@ -22,11 +24,9 @@ public class PatientManagementView extends JFrame {
         MenuIconsPanel menuIcons = new MenuIconsPanel(this);
         this.add(menuIcons);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-
     }
 
-
-    public static void main(String[] args) throws IOException 
+    public static void main(String[] args) throws IOException, SQLException 
     {
         PatientManagementView frame = new PatientManagementView("Patient Management System");
         frame.setVisible(true);
