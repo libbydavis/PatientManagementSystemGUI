@@ -54,10 +54,19 @@ public class Patient {
     }
     
     
-    public void getPatientFromDatabase(String nhi) throws SQLException {
+    public void getPatientFromDatabase(String input, Object option) throws SQLException {
             ResultSet rs;
             Statement statement1 = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            String sqlQuery = "SELECT * FROM " + tableName + " WHERE NHI='" + nhi + "'"; // PrintAllPatients Method needs this query to work
+            String sqlQuery = "";
+            if (option.equals("NHI")) {
+                sqlQuery = "SELECT * FROM " + tableName + " WHERE NHI='" + input + "'"; // PrintAllPatients Method needs this query to work
+            }
+            else if (option.equals("First Name")) {
+                sqlQuery = "SELECT * FROM " + tableName + " WHERE FIRSTNAME='" + input + "'";
+            }
+            else if (option.equals("Last Name")) {
+                sqlQuery = "SELECT * FROM " + tableName + " WHERE LASTNAME='" + input + "'";
+            }
             rs = statement1.executeQuery(sqlQuery);
             
             //set values
