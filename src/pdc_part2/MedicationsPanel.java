@@ -22,7 +22,8 @@ import javax.swing.table.TableColumnModel;
  *
  * @author libst
  */
-public class MedicationsPanel extends JPanel{
+public class MedicationsPanel extends JPanel
+{
     DefaultTableModel model;
     JTable table;
     JPanel jp;
