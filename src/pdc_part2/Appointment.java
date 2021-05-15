@@ -152,6 +152,10 @@ public class Appointment {
         return measurementsString;
     }
     
+    public void deleteReason(int index) {
+        reasons[index] = null;
+    }
+    
 }
 
 

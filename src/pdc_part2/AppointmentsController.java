@@ -5,14 +5,23 @@
  */
 package pdc_part2;
 
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -23,6 +32,10 @@ public class AppointmentsController implements ActionListener{
     private AppointmentsPanel panel;
     private AppointmentsForm form;
     private Appointment appointment1;
+    private JPanel confirmation;
+    private JList reasonsList;
+    private JList measurements;
+    private JList notes;
     
     public AppointmentsController(PatientManagementView frame, AppointmentsPanel panel) {
         this.frame = frame;
@@ -32,6 +45,12 @@ public class AppointmentsController implements ActionListener{
     
     public Appointment getAppointment() {
         return appointment1;
+    }
+    
+    public void setLists(JList reasons, JList measurements, JList notes) {
+        this.reasonsList = reasons;
+        this.measurements = measurements;
+        this.notes = notes;
     }
     
     public void setNHI(String NHI) {
@@ -47,6 +66,21 @@ public class AppointmentsController implements ActionListener{
         Object source = e.getSource();
         
         if (source == panel.getBackButton() || source == panel.getFinishAppointment()) {
+            if (source == panel.getFinishAppointment()) {
+            try {
+                panel.patient1.saveAppointmentToDB(appointment1);
+                createConfirmation();
+                Timer t = new Timer();
+                t.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        removeConfirmation();
+                    }
+                }, 3000);
+            } catch (SQLException ex) {
+                Logger.getLogger(AppointmentsController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
             try {
                     MenuIconsPanel menuIconsPanel = new MenuIconsPanel(frame);
                     frame.remove(panel);
@@ -58,17 +92,19 @@ public class AppointmentsController implements ActionListener{
                 ex.printStackTrace();
             }
         }
-        if (source == panel.getFinishAppointment()) {
-            try {
-                panel.patient1.saveAppointmentToDB(appointment1);
-            } catch (SQLException ex) {
-                Logger.getLogger(AppointmentsController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+       
         else if (source == form.getReasonButton()) {
             JFrame popUp = form.getReasonPopUp();
             popUp.setVisible(true);
             form.revalidate();
+        }
+        else if (source == form.getDeleteReasonButton()) {
+            int index = reasonsList.getSelectedIndex();
+            if (index > -1) {
+                reasonsList.setModel(new DefaultListModel());
+                DefaultListModel model = (DefaultListModel) reasonsList.getModel();
+                model.remove(index);
+            }
         }
         else if (source == form.getMeasureButton()) {
             JFrame popUp = form.getMeasurementsPopup();
@@ -82,4 +118,16 @@ public class AppointmentsController implements ActionListener{
         }
     }
     
+    public void createConfirmation() {
+        confirmation = new JPanel();
+        confirmation.setMaximumSize(new Dimension(frame.getWidth(), 30));
+        confirmation.setBackground(Color.GREEN);
+        confirmation.add(new JLabel("Appointment Saved"));
+        frame.add(confirmation);
+    }
+    
+    public void removeConfirmation() {
+        frame.remove(confirmation);
+        frame.revalidate();
+    }
 }

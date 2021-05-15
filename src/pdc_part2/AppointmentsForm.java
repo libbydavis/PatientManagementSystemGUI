@@ -26,6 +26,9 @@ public class AppointmentsForm extends JPanel{
     private JButton addMeasurement;
     private JList notesList;
     private JButton addNote;
+    private JButton deleteReason;
+    private JButton deleteMeasurement;
+    private JButton deleteNote;
     
     public AppointmentsForm(int width, int height, AppointmentsController controller) {
         this.controller = controller;
@@ -58,11 +61,19 @@ public class AppointmentsForm extends JPanel{
         String[] reasonsStrings = currentAppointment.getReasons();
         reasonsList.setListData(reasonsStrings);
         add(reasonsList, c);
-        //button and popup
+        //buttons and popup
+        //add button
         c.gridy = 2;
         addReason = new JButton("Add Reason");
         addReason.addActionListener(controller);
         add(addReason, c);
+        //remove button
+        c.gridy = 3;
+        deleteReason = new JButton("Remove Reason");
+        deleteReason.addActionListener(controller);
+        c.insets = new Insets(10,0,0,0);
+        add(deleteReason, c);
+       
 
         //measurements
         JLabel measurements = new JLabel("Measurements", SwingConstants.CENTER);
@@ -100,8 +111,10 @@ public class AppointmentsForm extends JPanel{
         addNote.addActionListener(controller);
         add(addNote, c);
 
-
+        controller.setLists(reasonsList, measurementsList, notesList);
     }
+    
+    //getters
     
     public JButton getReasonButton() {
         return addReason;
@@ -113,6 +126,10 @@ public class AppointmentsForm extends JPanel{
     
     public JButton getNoteButton() {
         return addNote;
+    }
+    
+    public JButton getDeleteReasonButton() {
+        return deleteReason;
     }
     
     public ReasonPopUp getReasonPopUp() {
