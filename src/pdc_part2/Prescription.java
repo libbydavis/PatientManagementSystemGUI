@@ -8,9 +8,25 @@ public class Prescription
 {
     private String dateTime;
     private Medication meds;
+    private Dosage dosage;
     private String doctorName;
     private String patientName;
     private Boolean repeat;
+
+    public Prescription(String dateTime, Medication meds, Dosage dosage, String doctorName, String patientName, Boolean repeat) 
+    {
+        this.dateTime = dateTime;
+        this.meds = meds;
+        this.dosage = dosage;
+        this.doctorName = doctorName;
+        this.patientName = patientName;
+        this.repeat = repeat;
+    }
+
+    public Prescription() 
+    {
+        
+    }
 
     public String getDateTime() 
     {
@@ -30,6 +46,16 @@ public class Prescription
     public void setMeds(Medication meds) 
     {
         this.meds = meds;
+    }
+
+    public Dosage getDosage() 
+    {
+        return dosage;
+    }
+
+    public void setDosage(Dosage dosage) 
+    {
+        this.dosage = dosage;
     }
 
     public String getDoctorName() 
@@ -59,15 +85,6 @@ public class Prescription
 
     public void setRepeat(Boolean repeat) 
     {
-        this.repeat = repeat;
-    }
- 
-    public Prescription() 
-    {	
-        this.dateTime = dateTime;
-        this.meds = meds;
-        this.doctorName = doctorName;
-        this.patientName = patientName;
         this.repeat = repeat;
     }
 }

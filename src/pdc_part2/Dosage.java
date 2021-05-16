@@ -5,8 +5,8 @@ package pdc_part2;
  */
 public class Dosage 
 {  
-    double amount;
-    String howOften;
+    private double amount;
+    private String howOften;
 
     public Dosage(double amount, String howOften) 
     {
@@ -18,6 +18,26 @@ public class Dosage
     {
         this.amount = 0.0;
         this.howOften = "UNDEFINED";
+    }
+
+    public double getAmount() 
+    {
+        return amount;
+    }
+
+    public void setAmount(double amount) 
+    {
+        this.amount = amount;
+    }
+
+    public String getHowOften() 
+    {
+        return howOften;
+    }
+
+    public void setHowOften(String howOften) 
+    {
+        this.howOften = howOften;
     }
     
     public String toString() 
