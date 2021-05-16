@@ -34,8 +34,8 @@ public class AppointmentsController implements ActionListener{
     private Appointment appointment1;
     private JPanel confirmation;
     private JList reasonsList;
-    private JList measurements;
-    private JList notes;
+    private JList measurementsList;
+    private JList notesList;
     
     public AppointmentsController(PatientManagementView frame, AppointmentsPanel panel) {
         this.frame = frame;
@@ -49,8 +49,8 @@ public class AppointmentsController implements ActionListener{
     
     public void setLists(JList reasons, JList measurements, JList notes) {
         this.reasonsList = reasons;
-        this.measurements = measurements;
-        this.notes = notes;
+        this.measurementsList = measurements;
+        this.notesList = notes;
     }
     
     public void setNHI(String NHI) {
@@ -101,9 +101,8 @@ public class AppointmentsController implements ActionListener{
         else if (source == form.getDeleteReasonButton()) {
             int index = reasonsList.getSelectedIndex();
             if (index > -1) {
-                reasonsList.setModel(new DefaultListModel());
-                DefaultListModel model = (DefaultListModel) reasonsList.getModel();
-                model.remove(index);
+                appointment1.deleteReason(index);
+                reasonsList.setListData(appointment1.getReasons());
             }
         }
         else if (source == form.getMeasureButton()) {
@@ -111,10 +110,24 @@ public class AppointmentsController implements ActionListener{
             popUp.setVisible(true);
             form.revalidate();
         }
+        else if (source == form.getDeleteMeasurementButton()) {
+            int index = measurementsList.getSelectedIndex();
+            if (index > -1) {
+                appointment1.deleteMeasurement(index);
+                measurementsList.setListData(appointment1.getMeasurements());
+            }
+        }
         else if (source == form.getNoteButton()) {
             JFrame popUp = form.getNotesPopup();
             popUp.setVisible(true);
             form.revalidate();
+        }
+        else if (source == form.getDeleteNoteButton()) {
+            int index = notesList.getSelectedIndex();
+            if (index > -1) {
+                appointment1.deleteNote(index);
+                notesList.setListData(appointment1.getNotes());
+            }
         }
     }
     
