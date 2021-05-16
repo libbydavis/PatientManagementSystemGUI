@@ -31,6 +31,12 @@ public class NotesPopUp extends JFrame {
             }
             return NotesPopUpInstance;
         }
+        public static synchronized void noteClosePopUp() { 
+        if (NotesPopUpInstance != null) {
+            NotesPopUpInstance.setVisible(false);
+            NotesPopUpInstance = null;
+        }
+    }
     private NotesPopUp(Appointment current, JList notesList) {
         super("Add Notes");
         setSize(500, 300);

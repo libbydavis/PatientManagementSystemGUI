@@ -31,6 +31,12 @@ public class ReasonPopUp extends JFrame {
         }
         return ReasonPopUpInstance;
     }
+    public static synchronized void reasonClosePopUp() { 
+        if (ReasonPopUpInstance != null) {
+            ReasonPopUpInstance.setVisible(false);
+            ReasonPopUpInstance = null;
+        }
+    }
     private ReasonPopUp(Appointment current, JList reasonsList) {
         super("Add Reasons");
         setSize(500, 300);

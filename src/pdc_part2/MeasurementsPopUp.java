@@ -31,6 +31,12 @@ public class MeasurementsPopUp extends JFrame {
             }
             return MeasurementsPopUpInstance;
         }
+        public static synchronized void measurementClosePopUp() { 
+        if (MeasurementsPopUpInstance != null) {
+            MeasurementsPopUpInstance.setVisible(false);
+            MeasurementsPopUpInstance = null;
+        }
+    }
     private MeasurementsPopUp(Appointment current, JList measurementsList) {
         super("Add Measurement");
         setSize(500, 300);

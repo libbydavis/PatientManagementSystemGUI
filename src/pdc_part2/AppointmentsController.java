@@ -66,6 +66,7 @@ public class AppointmentsController implements ActionListener{
         Object source = e.getSource();
         
         if (source == panel.getBackButton() || source == panel.getFinishAppointment()) {
+            closePopUps();
             if (source == panel.getFinishAppointment()) {
             try {
                 panel.patient1.saveAppointmentToDB(appointment1);
@@ -96,6 +97,8 @@ public class AppointmentsController implements ActionListener{
         else if (source == form.getReasonButton()) {
             JFrame popUp = form.getReasonPopUp();
             popUp.setVisible(true);
+            MeasurementsPopUp.measurementClosePopUp();
+            NotesPopUp.noteClosePopUp();
             form.revalidate();
         }
         else if (source == form.getDeleteReasonButton()) {
@@ -108,6 +111,8 @@ public class AppointmentsController implements ActionListener{
         else if (source == form.getMeasureButton()) {
             JFrame popUp = form.getMeasurementsPopup();
             popUp.setVisible(true);
+            ReasonPopUp.reasonClosePopUp();
+            NotesPopUp.noteClosePopUp();
             form.revalidate();
         }
         else if (source == form.getDeleteMeasurementButton()) {
@@ -120,6 +125,8 @@ public class AppointmentsController implements ActionListener{
         else if (source == form.getNoteButton()) {
             JFrame popUp = form.getNotesPopup();
             popUp.setVisible(true);
+            ReasonPopUp.reasonClosePopUp();
+            MeasurementsPopUp.measurementClosePopUp();
             form.revalidate();
         }
         else if (source == form.getDeleteNoteButton()) {
@@ -142,5 +149,11 @@ public class AppointmentsController implements ActionListener{
     public void removeConfirmation() {
         frame.remove(confirmation);
         frame.revalidate();
+    }
+    
+    public void closePopUps() {
+        ReasonPopUp.reasonClosePopUp();
+        MeasurementsPopUp.measurementClosePopUp();
+        NotesPopUp.noteClosePopUp();
     }
 }
