@@ -114,7 +114,7 @@ public class AppointmentsController implements ActionListener{
             int index = measurementsList.getSelectedIndex();
             if (index > -1) {
                 appointment1.deleteMeasurement(index);
-                measurementsList.setListData(appointment1.getMeasurements());
+                measurementsList.setListData(appointment1.getMeasurementArrayToString());
             }
         }
         else if (source == form.getNoteButton()) {

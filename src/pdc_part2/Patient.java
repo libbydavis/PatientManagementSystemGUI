@@ -74,6 +74,7 @@ public class Patient {
     public void getPatientFromDatabase(String input, Object option) throws SQLException {
             ResultSet rs;
             Statement statement1 = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            Statement statement2 = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
             String sqlQuery = "";
             if (option.equals("NHI")) {
                 sqlQuery = "SELECT * FROM " + tableName + " WHERE NHI='" + input + "'"; // PrintAllPatients Method needs this query to work
@@ -85,17 +86,21 @@ public class Patient {
                 sqlQuery = "SELECT * FROM " + tableName + " WHERE LASTNAME='" + input + "'";
             }
             rs = statement1.executeQuery(sqlQuery);
-            
             //set values
             rs.beforeFirst();
-            if (rs.next() == true) {
+            boolean rsNext;
+            boolean patientFound = false;
+            while (rsNext = rs.next()) {
+                if (patientFound == true) {
+                    System.out.println("More than one patient");
+                }
                 NHI = rs.getString("NHI");
                 fName = rs.getString("FIRSTNAME");
                 lName = rs.getString("LASTNAME");
+                patientFound = true;
             }
-            //PatientDBConn pdbc = new PatientDBConn();
             
-            //pdbc.printPatients(rs);
+            rs.close();
     }
 
     public void setLName(String lname)
