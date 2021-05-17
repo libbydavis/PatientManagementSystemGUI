@@ -152,6 +152,18 @@ public class Appointment {
         return measurementsString;
     }
     
+    public void deleteReason(int index) {
+        reasons[index] = null;
+    }
+    
+    public void deleteMeasurement(int index) {
+        measurements[index] = null;
+    }
+    
+    public void deleteNote(int index) {
+        notes[index] = null;
+    }
+    
 }
 
 
