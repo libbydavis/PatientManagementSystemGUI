@@ -48,20 +48,16 @@ public class MenuIconsPanel extends JPanel {
         appointmentsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Object source = e.getSource();
-                AppointmentsPanel appointmentsPanel = null;
+                frame.remove(store);
+                AppointmentButtonsPanel appointmentButtons;
                 try {
-                    appointmentsPanel = new AppointmentsPanel(frame, frame.getWidth(), frame.getHeight());
-                    Patient patient1 = appointmentsPanel.getPatient(appointmentsPanel.titleAP);
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
-                } catch (SQLException ex) {
+                    appointmentButtons = new AppointmentButtonsPanel(frame);
+                    frame.add(appointmentButtons);
+                    frame.revalidate();
+                } catch (IOException ex) {
                     Logger.getLogger(MenuIconsPanel.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                frame.remove(store);
-                appointmentsPanel.setPreferredSize(new Dimension(frame.getWidth(), (frame.getHeight() - 200)));
-                frame.add(appointmentsPanel);
-                frame.revalidate();
+                
             }
         });
         add(appointmentsButton);
