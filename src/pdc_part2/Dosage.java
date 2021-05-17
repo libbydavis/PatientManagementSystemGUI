@@ -8,16 +8,14 @@ public class Dosage
     private double amount;
     private String howOften;
 
-    public Dosage(double amount, String howOften) 
+    public Dosage(double amount) 
     {
         this.amount = amount;
-        this.howOften = howOften;
     }
-        
-    public Dosage() 
+
+    public Dosage(String howOften) 
     {
-        this.amount = 0.0;
-        this.howOften = "UNDEFINED";
+        this.howOften = howOften;
     }
 
     public double getAmount() 
