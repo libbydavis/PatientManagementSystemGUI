@@ -17,6 +17,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Vector;
+import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -71,7 +72,7 @@ public class Patient {
         //TODO
     }
     
-    public void getPatientFromDatabase(String input, Object option) throws SQLException {
+    public void getPatientFromDatabase(String input, Object option, getPatientPopUp patientPopUp) throws SQLException {
             ResultSet rs;
             Statement statement1 = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
             Statement statement2 = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
@@ -89,34 +90,36 @@ public class Patient {
             //set values
             rs.beforeFirst();
             boolean rsNext;
-            boolean patientFound = false;
+            ArrayList<Patient> matchingPatients = new ArrayList();
+            Patient iteratePatient = new Patient();
             while (rsNext = rs.next()) {
-                if (patientFound == true) {
-                    System.out.println("More than one patient");
-                }
-                NHI = rs.getString("NHI");
-                fName = rs.getString("FIRSTNAME");
-                lName = rs.getString("LASTNAME");
-                patientFound = true;
+                iteratePatient = new Patient();
+                iteratePatient.NHI = rs.getString("NHI");
+                iteratePatient.fName = rs.getString("FIRSTNAME");
+                iteratePatient.lName = rs.getString("LASTNAME");
+                iteratePatient.age = rs.getInt("AGE");
+                
+                matchingPatients.add(iteratePatient);
+            }
+            if (matchingPatients.size() > 1) {
+                specifyPatient(matchingPatients, patientPopUp);
+            }
+            else {
+                NHI = iteratePatient.NHI;
+                fName = iteratePatient.fName;
+                lName = iteratePatient.lName;
+                age = iteratePatient.age;
             }
             
             rs.close();
     }
-
-    public void setLName(String lname)
-    {
-        
-    }
     
-    public void setAge(int age)
-    {
+    public void specifyPatient(ArrayList<Patient> matchingPatients, getPatientPopUp patientPopUp) {
         
+        Object[] matchingPatientsArray = matchingPatients.toArray();
+        JComboBox patientSelect = new JComboBox(matchingPatientsArray);
+        patientPopUp.setPatientPicker(patientSelect);
     }
-//    public Connection connectToPatientDB() throws SQLException 
-//    {
-//        Connection conn;
-//        return conn = DriverManager.getConnection("jdbc:derby://localhost:1527/PatientDB; create = true","admin1", "admin123");
-//    }
     
     public DefaultTableModel patientColumnNames()
     {
@@ -190,6 +193,9 @@ public class Patient {
         statement2.executeUpdate(query1);
     }
     
+    public String toString() {
+        return fName + " " + lName + " NHI: " + NHI;
+    }
 }
     // nhi of the patient you want to make the prescription for // validate whether this nhi exists
     // medno# for the prescription you want to set

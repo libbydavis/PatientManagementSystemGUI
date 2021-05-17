@@ -89,100 +89,13 @@ public class AppointmentsPanel extends JPanel {
     }
     
     public Patient getPatient(JLabel title) {
-        getPatientPopup patientFrame = new getPatientPopup(title);
+        getPatientPopUp patientFrame = new getPatientPopUp(title, this);
         patientFrame.setVisible(true);
         Patient p1 = patientFrame.getPatientObj();
         return p1;
     }
 
-    private class getPatientPopup extends JFrame {
-        Patient p1;
-        
-        public getPatientPopup(JLabel title) {
-            super("Patient");
-            setSize(500, 300);
-            setLocation(200, 200);
-            setLayout(new GridBagLayout());
-            GridBagConstraints c = new GridBagConstraints();
-
-            JLabel patientLabel = new JLabel("Search Patient By ");
-            String[] options = {"NHI", "First Name", "Last Name"};
-            JComboBox searchOptions = new JComboBox(options);
-            JTextField patientField = new JTextField();
-            patientField.addFocusListener(new FocusListener(){
-                @Override
-                public void focusGained(FocusEvent e){
-                    patientField.setForeground(Color.BLACK);
-                    patientField.setText("");
-                }
-                @Override
-                public void focusLost(FocusEvent e) {
-
-                }
-            });
-            JButton findPatient = new JButton("Find Patient");
-            findPatient.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String inputString = patientField.getText();
-                if ((inputString.length() == 6 && searchOptions.getSelectedItem().equals("NHI")) || (inputString.length() > 2 && searchOptions.getSelectedItem().equals("First Name")) || (inputString.length() > 2 && searchOptions.getSelectedItem().equals("Last Name"))) {
-                    try {
-                        p1 = new Patient();
-                    } catch (SQLException ex) {
-                        Logger.getLogger(AppointmentsPanel.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    try {
-                        p1.getPatientFromDatabase(inputString, searchOptions.getSelectedItem());
-                        if (p1.getNHI().length() == 6) {
-                            setVisible(false);
-                            title.setText("Appointment - " + p1.getfName() + " " + p1.getlName());
-                            setPatient(p1);
-                        }
-                        else {
-                            patientField.setText("Patient Not Found. Try Again.");
-                            patientField.setForeground(Color.RED);
-                        }
-                        
-                    } catch (SQLException ex) {
-                        Logger.getLogger(AppointmentsPanel.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-                else {
-                    patientField.setText("Enter a 6 character code (3 letters, 3 numbers)");
-                    patientField.setForeground(Color.RED);
-                }
-            }
-            });
-
-            c.gridx = 0;
-            c.gridy = 0;
-            c.weightx = 0.2;
-            c.fill = GridBagConstraints.HORIZONTAL;
-            c.anchor = GridBagConstraints.FIRST_LINE_START;
-            c.insets = new Insets(0, 15, 0, 0);
-            add(patientLabel, c);
-            c.gridx = 1;
-            c.insets = new Insets(0, 0, 0, 0);
-            c.fill = GridBagConstraints.FIRST_LINE_START;
-            add(searchOptions, c);
-            c.fill = GridBagConstraints.HORIZONTAL;
-            c.gridx = 2;
-            c.weightx = 1;
-            c.insets = new Insets(0, 0, 0, 15);
-            add(patientField, c);
-            c.gridx = 2;
-            c.gridy = 2;
-            c.weightx = 1;
-            c.insets = new Insets(10, 0, 0, 15);
-            c.fill = GridBagConstraints.PAGE_END;
-            c.anchor = GridBagConstraints.EAST;
-            add(findPatient, c);
-        }
-        
-        public Patient getPatientObj() {
-            return p1;
-        }
-    }
+   
     
 }
 
