@@ -52,6 +52,14 @@ public class PrescriptionButtonsPanel extends JPanel{
             @Override
             public void actionPerformed(ActionEvent e) {
                 Object source = e.getSource();
+                // TODO:
+                // - remove buttons panel
+                CreatePrescriptionPanel createPresc = new CreatePrescriptionPanel();
+                panel.removeButtonsPane();
+                panel.addPrescPane(createPresc);
+                frame.revalidate();
+                // - add create prescription panel
+                // - revalidate
             }
         });
         add(createPrescriptionB, c);

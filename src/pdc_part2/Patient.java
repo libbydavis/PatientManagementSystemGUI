@@ -168,11 +168,13 @@ public class Patient {
     {
         DefaultTableModel model = new DefaultTableModel();
         DatabaseConnection dbc = new DatabaseConnection();
+        //static final String tableName = "ADMIN1.PATIENTS"; 
         
         try 
         {
             PreparedStatement prepstmt = dbc.getConnectionPatients().prepareStatement("SELECT * FROM PATIENTS WHERE NHI = " + "\'" +nhi.toLowerCase()+ "\'");
             ResultSet rs = prepstmt.executeQuery();
+
 
             while (rs.next()) 
             {

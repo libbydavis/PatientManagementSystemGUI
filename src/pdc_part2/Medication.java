@@ -15,14 +15,12 @@ import java.util.Scanner;
 public class Medication 
 {
     private String name;
-    private Dosage dosage;
-    private HashSet<String> sideEffects;
-    private HashSet<String> conditions;
+    private String sideEffects;
+    private String conditions;
 
-    public Medication(String name, Dosage dosage, HashSet<String> sideEffects, HashSet<String> conditions) 
+    public Medication(String name, String sideEffects, String conditions) 
     {
         this.name = name;
-        this.dosage = dosage;
         this.sideEffects = sideEffects;
         this.conditions = conditions;
     }
@@ -32,22 +30,12 @@ public class Medication
         return name;
     }
 
-    public Dosage getDosage() 
-    {
-        return dosage;
-    }
-
-    public void setDosage(Dosage dosage) 
-    {
-        this.dosage = dosage;
-    }
-
-    public HashSet<String> getSideEffects() 
+    public String getSideEffects() 
     {
         return sideEffects;
     }
 
-    public HashSet<String> getConditions() 
+    public String getConditions() 
     {
         return conditions;
     }
@@ -177,6 +165,6 @@ public class Medication
     
     public String toString() 
     {
-        return "Medication Name: " + name + "\n" + dosage + "\nSide Effects: " + sideEffects + "\nConditions: " + conditions;
+        return "Medication Name: " + name + "\n" + "\nSide Effects: " + sideEffects + "\nConditions: " + conditions;
     }
 }

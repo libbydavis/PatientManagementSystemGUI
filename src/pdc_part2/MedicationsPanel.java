@@ -6,6 +6,7 @@
 package pdc_part2;
 
 import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -21,16 +22,17 @@ import javax.swing.table.TableColumnModel;
  *
  * @author libst
  */
-public class MedicationsPanel extends JPanel{
-    public static Connection conn;
-    public static String url = "jdbc:derby://localhost:1527/MedicationDB; create = true";    
-    public static String username = "admin1";
-    public static String password = "admin123";
-    DefaultTableModel model = new DefaultTableModel();
-    JTable table = new JTable(model);
-    JPanel jp = new JPanel();
+public class MedicationsPanel extends JPanel
+{
+    DefaultTableModel model;
+    JTable table;
+    JPanel jp;
     
     public MedicationsPanel(Dimension d) {
+        model = new DefaultTableModel();
+        table = new JTable(model);
+        jp = new JPanel();
+        
         model.addColumn("MEDNO");
         model.addColumn("MEDNAME");
         model.addColumn("SIDE_EFFECTS");
@@ -39,13 +41,13 @@ public class MedicationsPanel extends JPanel{
         TableColumnModel columnModel = table.getColumnModel();
         columnModel.getColumn(0).setPreferredWidth(50);
         columnModel.getColumn(1).setPreferredWidth(100);
-        columnModel.getColumn(2).setPreferredWidth(905);
-        columnModel.getColumn(3).setPreferredWidth(845);
+        columnModel.getColumn(2).setPreferredWidth(400);
+        columnModel.getColumn(3).setPreferredWidth(650);
  
         try 
         {
-            conn = DriverManager.getConnection(url, username, password);
-            PreparedStatement prepstmt = conn.prepareStatement("SELECT * FROM MEDICATION");
+            DatabaseConnection medDBC = new DatabaseConnection();
+            PreparedStatement prepstmt = medDBC.getConnectionMedication().prepareStatement("SELECT * FROM MEDICATION");
             ResultSet rs = prepstmt.executeQuery();
 
             while (rs.next()) 
@@ -59,11 +61,11 @@ public class MedicationsPanel extends JPanel{
         }
 
         JScrollPane jsp = new JScrollPane(table);
-        jsp.setPreferredSize(d);
+        // Set preferred size so the width of jsp adds up to the width of all the column widths - it is necessary to be able to display columns correctly.
+        jsp.setPreferredSize(new Dimension(1500, 135));
         this.add(jsp);
         this.setPreferredSize(d);
-        this.setMinimumSize(d);
-        
+        this.setMinimumSize(d);     
     }
     
 }

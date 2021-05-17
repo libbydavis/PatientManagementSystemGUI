@@ -18,6 +18,12 @@
             <file>file:/C:/Users/libst/Documents/GitHub/PatientManagementSystemGUI/src/pdc_part2/AppointmentsPanel.java</file>
             <file>file:/C:/Users/libst/Documents/GitHub/PatientManagementSystemGUI/src/pdc_part2/PrescriptionPanel.java</file>
             <file>file:/C:/Users/libst/Documents/GitHub/PatientManagementSystemGUI/src/pdc_part2/AppointmentsController.java</file>
+
+            <file>file:/D:/git/PatientManagementSystemGUI/src/pdc_part2/Dosage.java</file>
+            <file>file:/D:/git/PatientManagementSystemGUI/src/pdc_part2/Prescription.java</file>
+            <file>file:/D:/git/PatientManagementSystemGUI/src/pdc_part2/Medication.java</file>
+            <file>file:/D:/git/PatientManagementSystemGUI/src/pdc_part2/CreatePrescriptionPanel.java</file>
+
         </group>
     </open-files>
 </project-private>

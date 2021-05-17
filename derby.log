@@ -10,7 +10,7 @@ user.dir=C:\Apache\db-derby-10.14.2.0-bin
 os.name=Windows 10
 os.arch=amd64
 os.version=10.0
-derby.system.home=C:\Users\libst\Documents\GitHub\PatientManagementSystemGUI
+derby.system.home=D:\git\PatientManagementSystemGUI
 Database Class Loader started - derby.database.classpath=''
 ----------------------------------------------------------------
 Mon May 17 17:00:20 NZST 2021: Shutting down Derby engine
