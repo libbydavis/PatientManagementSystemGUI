@@ -40,6 +40,6 @@ public class Dosage
     
     public String toString() 
     {
-        return "Dosage amount: " + amount + ", Frequency: " + howOften;
+        return "Dosage amount: " + amount + ", Dosage Frequency: " + howOften;
     }
 }

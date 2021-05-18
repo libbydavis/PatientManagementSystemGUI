@@ -43,7 +43,6 @@ public class PrescriptionPanel extends JPanel {
     JToggleButton viewMeds;
     JScrollPane jsp;
     JButton genPresc;
-    //public PrescriptionPanel(PatientManagementView frame) throws IOException {
     PrescriptionButtonsPanel buttonsPane;
     GridBagConstraints c;
     Dimension preferredD;

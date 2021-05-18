@@ -87,4 +87,10 @@ public class Prescription
     {
         this.repeat = repeat;
     }
+
+    @Override
+    public String toString() 
+    {
+        return "Date and Time:" + dateTime + "Doctors. Name: " + doctorName + "Patients Name: " + patientName + "Medication: " + meds + "Dosage: " + dosage + "Repeat: " + repeat;
+    } 
 }

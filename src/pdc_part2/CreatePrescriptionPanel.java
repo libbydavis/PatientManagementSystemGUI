@@ -10,13 +10,12 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Scanner;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -28,13 +27,13 @@ import javax.swing.JTextField;
  */
 public class CreatePrescriptionPanel extends JPanel
 {
+    CreatePrescriptionPanel cpp = this;
     JPanel docPanel, nhiPanel, medNoPanel, repMedsPanel, timeDatePanel, savePanel, confirmedPrescPanel, dsgAmtPanel, dsgFreqPanel;
     JTextField enterDocName, enterNHI, enterMedNo, enterRepMeds, enterDosage, enterDosageFreq;// enter rep meds must be T/F
-    JLabel timeDate, nhiPatName, docNamePrompt, patNHIPrompt, medNoPrompt, repMedsPrompt, dsgAmtPrompt, dsgFreqPrompt, medNoErrorMsg, nhiErrorMsg, dsgAmtErrorMsg, dsgFreqErrorMsg, repMedsErrorMsg, docNameErrorMsg;
-    Prescription objPresc;
-    Dimension screenSize;
+    JLabel timeDate, nhiPatName, docNamePrompt, patNHIPrompt, medNoPrompt, repMedsPrompt, dsgAmtPrompt, dsgFreqPrompt, docNameErrorMsg, medNoErrorMsg, nhiErrorMsg, dsgAmtErrorMsg, dsgFreqErrorMsg, repMedsErrorMsg;
+    boolean validDocName, validNHI, validMedNo, validDsgAmt, validDsgFreq, validMedsRep;
     JButton savePresc;
-    Toolkit kit;
+
     /**
      * For the focusGained method on each focusListener, could make a method.
      * Need to make an error JLabel for every time incorrect input is entered.
@@ -43,9 +42,9 @@ public class CreatePrescriptionPanel extends JPanel
     public CreatePrescriptionPanel() 
     {
         // General Panel Setup
-        objPresc = new Prescription();
-        kit = Toolkit.getDefaultToolkit();
-        screenSize = kit.getScreenSize();
+        Prescription objPresc = new Prescription();
+        Toolkit kit = Toolkit.getDefaultToolkit();
+        Dimension screenSize = kit.getScreenSize();
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         // Date and Time Panel
         timeDatePanel = new JPanel();
@@ -56,78 +55,65 @@ public class CreatePrescriptionPanel extends JPanel
         timeDatePanel.add(timeDate);
         this.add(timeDatePanel);
         // Doctor Panel
-        docPanel = new JPanel();
-        docNamePrompt = new JLabel("Doctor's Name: ");
-        enterDocName = new JTextField("e.g John Smith");
+        PrescriptionComponent makeDocPanel = new PrescriptionComponent();         
+        docPanel = makeDocPanel.CreatePrescComponents("Doctor's Name: " ,"e.g John Smith", "Doctor's Name cannot be empty, please try again!");
+        enterDocName = (JTextField) docPanel.getComponent(1);
         enterDocName.setPreferredSize(new Dimension(113, 20));
-        docNameErrorMsg = new JLabel("Doctor's Name cannot be empty, please try again!");
-        docNameErrorMsg.setVisible(false);
+        docNameErrorMsg = (JLabel) docPanel.getComponent(2);
         enterDocName.addActionListener(new ActionListener()
         {
             @Override
             public void actionPerformed(ActionEvent e) 
             {
-                String docName = enterDocName.getText();
+                 String docName = enterDocName.getText();
                 if(docName.length() == 0)
                 {
                     docNameErrorMsg.setVisible(true);
+                    validDocName = false;
                 }
                 else
                 {
                     docNameErrorMsg.setVisible(false);
+                    validDocName = true;
+                    isValidPrescription();
                 }
-                objPresc.setDoctorName((String)enterDocName.getText()); //To change body of generated methods, choose Tools | Templates.
+                objPresc.setDoctorName((String)enterDocName.getText()); 
             }
         });
-        enterDocName.addFocusListener(new FocusListener()
-        {
-            @Override
-            public void focusGained(FocusEvent e) 
-            {
-                JTextField source = (JTextField) e.getComponent();
-                source.setText("");
-            }
-
-            @Override
-            public void focusLost(FocusEvent e) 
-            {  
-                //enterDocName.setText("e.g John Smith");
-            }
-        });
-        docPanel.add(docNamePrompt);
-        docPanel.add(enterDocName);
-        docPanel.add(docNameErrorMsg);
-        this.add(docPanel); 
+        this.add(docPanel);
         // NHI Panel
-        nhiPanel = new JPanel();
+        PrescriptionComponent makeNHIPanel = new PrescriptionComponent();
+        nhiPanel = makeNHIPanel.CreatePrescComponents("Enter Patient's NHI: ", "e.g(tes123)", "This NHI does not exist, please try again!");
         patNHIPrompt = new JLabel("Enter Patient's NHI: ");
-        enterNHI = new JTextField("e.g(tes123)");
-        nhiErrorMsg = new JLabel("This NHI does not exist, please try again!");
+        nhiPanel.getComponent(1);
+        enterNHI = (JTextField) nhiPanel.getComponent(1);
+        enterNHI.setPreferredSize(new Dimension(70, 20));
+        nhiErrorMsg = (JLabel) nhiPanel.getComponent(2);
         nhiErrorMsg.setVisible(false);
         enterNHI.addActionListener(new ActionListener()
         {
-            public void actionPerformed(ActionEvent e) 
+            public void actionPerformed(ActionEvent e)
             {
                 try 
                 {
-                    
                     DatabaseConnection dbc = new DatabaseConnection();
                     PreparedStatement prepstmt = dbc.getConnectionPatients().prepareStatement("SELECT FIRSTNAME, LASTNAME FROM PATIENTS WHERE NHI = \'" + enterNHI.getText().toLowerCase() + "\'");
                     ResultSet rs = prepstmt.executeQuery();
                     
                     if(rs.next())
                     {
-                        System.out.println("true");
-                        //enterNHI.setText("");
                         nhiErrorMsg.setVisible(false);
                         String patFName = rs.getString(1);
                         String patLName = rs.getString(2);
                         objPresc.setPatientName(patFName.concat(" " + patLName));
+                        validNHI = true;
+                        isValidPrescription();
                     }
                     else
                     {
                        enterNHI.setText("");
                        nhiErrorMsg.setVisible(true);
+                       validNHI = false;
                     }
                 } 
                 catch (SQLException ex) 
@@ -136,34 +122,14 @@ public class CreatePrescriptionPanel extends JPanel
                 } 
             }
         });
-        enterNHI.setPreferredSize(new Dimension(70, 20));
-        enterNHI.addFocusListener(new FocusListener()
-        {
-            @Override
-            public void focusGained(FocusEvent e) 
-            {
-                JTextField source = (JTextField) e.getComponent();
-                source.setText("");
-            }
-
-            @Override
-            public void focusLost(FocusEvent e) 
-            {
-                //enterNHI.setText("e.g(tes123)");
-            }
-            
-        });
-        nhiPanel.add(patNHIPrompt);
-        nhiPanel.add(enterNHI);
-        nhiPanel.add(nhiErrorMsg);
         this.add(nhiPanel);
         // MedNo Panel
-        medNoPanel = new JPanel();
-        medNoPrompt = new JLabel("Medicine Number: ");
-        enterMedNo = new JTextField("Enter Number from 1-7");
-        medNoErrorMsg = new JLabel("Incorrect input! Please Try Again");
-        medNoErrorMsg.setVisible(false);
+        PrescriptionComponent makeMedNoPanel = new PrescriptionComponent();
+        medNoPanel = makeMedNoPanel.CreatePrescComponents("Medicine Number: ", "Enter Number from 1-7", "Incorrect input! Please Try Again");
+        enterMedNo = (JTextField) medNoPanel.getComponent(1);
         enterMedNo.setPreferredSize(new Dimension(135, 20));
+        medNoErrorMsg = (JLabel) medNoPanel.getComponent(2);
+        medNoErrorMsg.setVisible(false);
         enterMedNo.addActionListener(new ActionListener()
         {
             @Override
@@ -177,11 +143,11 @@ public class CreatePrescriptionPanel extends JPanel
                     {
                         enterMedNo.setText("");   
                         medNoErrorMsg.setVisible(true);
+                        validMedNo = false;
                     } 
                     else 
                     {
                         medNoErrorMsg.setVisible(false);
-                        enterMedNo.setText("");
 
                         DatabaseConnection dbc = new DatabaseConnection();
                         PreparedStatement prepstmt = dbc.getConnectionMedication().prepareStatement("SELECT MEDNAME, SIDE_EFFECTS, CONDITIONS FROM MEDICATION WHERE MEDNO = " + medNo);
@@ -192,9 +158,11 @@ public class CreatePrescriptionPanel extends JPanel
                             String medName = rs.getString(1);
                             String medSideEff = rs.getString(2);
                             String medConditions = rs.getString(3);
-                            System.out.println(medName);
                             objPresc.setMeds(new Medication(medName, medSideEff, medConditions));
-                        } 
+                        }
+                        
+                        validMedNo = true;
+                        isValidPrescription();
                         prepstmt.close();
                         rs.close();
                     }
@@ -210,33 +178,14 @@ public class CreatePrescriptionPanel extends JPanel
                 }
             }    
         });
-        enterMedNo.addFocusListener(new FocusListener()
-        {
-            @Override
-            public void focusGained(FocusEvent e) 
-            {
-                JTextField source = (JTextField) e.getComponent();
-                source.setText("");
-            }
-
-            @Override
-            public void focusLost(FocusEvent e) 
-            {
-              //enterMedNo.setText("Enter Number from 1-7");
-            }
-            
-        });
-        medNoPanel.add(medNoPrompt);
-        medNoPanel.add(enterMedNo);
-        medNoPanel.add(medNoErrorMsg);
         this.add(medNoPanel);
         // Dosage Amount Panel
-        dsgAmtPanel = new JPanel();
-        dsgAmtPrompt = new JLabel("Enter Medication Dosage: ");
-        enterDosage = new JTextField("Enter mg/ml to 2 d.p");
-        dsgAmtErrorMsg = new JLabel("Incorrect format for dosage amount, please try again!");
-        dsgAmtErrorMsg.setVisible(false);
+        PrescriptionComponent makeDsgAmtPanel = new PrescriptionComponent();
+        dsgAmtPanel = makeDsgAmtPanel.CreatePrescComponents("Enter Medication Dosage: ", "Enter mg/ml to 2 d.p", "Incorrect format for dosage amount, please try again!");
+        enterDosage = (JTextField) dsgAmtPanel.getComponent(1);
         enterDosage.setPreferredSize(new Dimension(120, 20));
+        dsgAmtErrorMsg = (JLabel) dsgAmtPanel.getComponent(2);
+        dsgAmtErrorMsg.setVisible(false);
         enterDosage.addActionListener(new ActionListener()
         {
             @Override
@@ -248,49 +197,34 @@ public class CreatePrescriptionPanel extends JPanel
                     
                     if(dosageEntered <= 0.0)
                     {
+                        enterDosage.setText("");
                         dsgAmtErrorMsg.setVisible(true);
+                        validDsgAmt = false;
                     }
                     else
                     {
                         dsgAmtErrorMsg.setVisible(false);
+                        validDsgAmt = true;
+                        isValidPrescription();
                     }
                     
                     objPresc.setDosage(new Dosage(dosageEntered));
                 }
                 catch(NumberFormatException nfe)
                 {
-                    dsgAmtErrorMsg.setVisible(true);
                     enterDosage.setText("");
+                    dsgAmtErrorMsg.setVisible(true);
                 }
             }
         });
-        enterDosage.addFocusListener(new FocusListener()
-        {
-            @Override
-            public void focusGained(FocusEvent e) 
-            {
-                JTextField source = (JTextField) e.getComponent();
-                source.setText("");
-            }
-
-            @Override
-            public void focusLost(FocusEvent e) 
-            {
-                //enterDosage.setText("Enter mg/ml to 2 d.p");
-            }
-            
-        });
-        dsgAmtPanel.add(dsgAmtPrompt);
-        dsgAmtPanel.add(enterDosage);
-        dsgAmtPanel.add(dsgAmtErrorMsg);
         this.add(dsgAmtPanel);
         // Dosage Frequency Panel
-        dsgFreqPanel = new JPanel();
-        dsgFreqPrompt = new JLabel("Dosage Frequency: ");
-        enterDosageFreq = new JTextField("Frequency of dosage e.g (3 times a week)");
-        dsgFreqErrorMsg = new JLabel("This field cannot be empty, please try again!");
-        dsgFreqErrorMsg.setVisible(false);
+        PrescriptionComponent makeDsgFreqPanel = new PrescriptionComponent();
+        dsgFreqPanel = makeDsgFreqPanel.CreatePrescComponents("Dosage Frequency: ", "Frequency of dosage e.g (3 times a week)", "This field cannot be empty, please try again!");
+        enterDosageFreq = (JTextField) dsgFreqPanel.getComponent(1);
         enterDosageFreq.setPreferredSize(new Dimension(240, 20));
+        dsgFreqErrorMsg = (JLabel) dsgFreqPanel.getComponent(2);
+        dsgFreqErrorMsg.setVisible(false);
         enterDosageFreq.addActionListener(new ActionListener()
         {
             @Override
@@ -300,93 +234,77 @@ public class CreatePrescriptionPanel extends JPanel
                 if(dsgFreq.length() == 0)
                 {
                     dsgFreqErrorMsg.setVisible(true);
+                    validDsgFreq = false;
                 }
                 else
                 {
                     dsgFreqErrorMsg.setVisible(false);
+                    validDsgFreq = true;
+                    objPresc.setDosage(new Dosage(dsgFreq));
+                    isValidPrescription();
                 }
             }
         });
-        enterDosageFreq.addFocusListener(new FocusListener()
-        {
-            @Override
-            public void focusGained(FocusEvent e) 
-            {
-                JTextField source = (JTextField) e.getComponent();
-                source.setText("");
-            }
-
-            @Override
-            public void focusLost(FocusEvent e) 
-            {
-                //enterDosageFreq.setText("Frequency of dosage e.g (3 times a week)");
-            }
-        });
-        dsgFreqPanel.add(dsgFreqPrompt);
-        dsgFreqPanel.add(enterDosageFreq);
-        dsgFreqPanel.add(dsgFreqErrorMsg);
         this.add(dsgFreqPanel);
         // Repeat meds Panel T/F
-        repMedsPanel = new JPanel();
-        repMedsPrompt = new JLabel("Repeat Prescription: ");
-        enterRepMeds = new JTextField("True/False OR T/F");
-        repMedsErrorMsg = new JLabel("Not a boolean, please try again!");
-        repMedsErrorMsg.setVisible(false);
+        PrescriptionComponent makeRepMedsPanel = new PrescriptionComponent();
+        repMedsPanel = makeRepMedsPanel.CreatePrescComponents("Repeat Prescription: ", "True/False OR T/F", "Not a boolean, please try again!");
+        enterRepMeds = (JTextField) repMedsPanel.getComponent(1);
         enterRepMeds.setPreferredSize(new Dimension(110, 20));
+        repMedsErrorMsg = (JLabel) repMedsPanel.getComponent(2);
+        repMedsErrorMsg.setVisible(false);
         enterRepMeds.addActionListener(new ActionListener()
         {
             @Override
             public void actionPerformed(ActionEvent e) 
             {
-                if(enterRepMeds.getText().equalsIgnoreCase("true"))
+                if(enterRepMeds.getText().length() == 0)
+                {
+                    enterRepMeds.setText("");
+                    repMedsErrorMsg.setVisible(true);
+                    validMedsRep = false;
+                }
+                else if(enterRepMeds.getText().equalsIgnoreCase("true"))
                 {
                     repMedsErrorMsg.setVisible(false);
                     objPresc.setRepeat(true);
+                    validMedsRep = true;
+                    isValidPrescription();
                 }
                 else if(enterRepMeds.getText().equals("false"))
                 {
                     repMedsErrorMsg.setVisible(false);
                     objPresc.setRepeat(false);
+                    validMedsRep = true;
+                    isValidPrescription();
                 }
                 else if(enterRepMeds.getText().toLowerCase().toCharArray()[0] == 't')
                 {
                     repMedsErrorMsg.setVisible(false);
                     objPresc.setRepeat(true);
+                    validMedsRep = true;
+                    isValidPrescription();
                 }
                 else if(enterRepMeds.getText().toLowerCase().toCharArray()[0] == 'f')
                 {
                     repMedsErrorMsg.setVisible(false);
                     objPresc.setRepeat(false);
+                    validMedsRep = true;
+                    isValidPrescription();
                 }
                 else
                 {
                     enterRepMeds.setText("");
                     repMedsErrorMsg.setVisible(true);
-                }    
+                    validMedsRep = false;
+                }
             }
         });
-        enterRepMeds.addFocusListener(new FocusListener()
-        {
-            @Override
-            public void focusGained(FocusEvent e) 
-            {
-                JTextField source = (JTextField) e.getComponent();
-                source.setText("");
-            }
-
-            @Override
-            public void focusLost(FocusEvent e) 
-            {
-                //enterRepMeds.setText("True/False OR T/F");
-            }    
-        });
-        repMedsPanel.add(repMedsPrompt);
-        repMedsPanel.add(enterRepMeds);
-        repMedsPanel.add(repMedsErrorMsg);
         this.add(repMedsPanel);
         //Confirm Prescription Panel
         savePanel = new JPanel();
-        savePresc = new JButton("Save");
+        savePresc = new JButton("Save and Exit");
+        savePresc.setVisible(false);
         JLabel saved = new JLabel("Saved Successfully!");
         saved.setVisible(false);
         savePanel.add(saved);
@@ -395,9 +313,50 @@ public class CreatePrescriptionPanel extends JPanel
             @Override
             public void actionPerformed(ActionEvent e) 
             {
-                // Make a Prescription table - primary key is 
-                // Put objPresc into the Prescription Table
-                saved.setVisible(true);
+                try 
+                {
+                    // Make a Prescription table - primary key is
+                    // Put objPresc into the Prescription Table
+                    String sqlQuery;
+                    String originalPresc = objPresc.toString();
+                    String cleanPresc = "";
+                    Scanner scan = new Scanner(originalPresc);
+                    scan.useDelimiter("\\'\\'*");
+                    while(scan.hasNext())
+                    {
+                        cleanPresc += scan.next();
+                    }
+           
+                    //use string delimeter or string function to add an apostrophe everytime there's an apostrophe in the string.
+                    DatabaseConnection dbc = new DatabaseConnection();
+                    sqlQuery = "SELECT PRESCRIPTIONNO FROM PRESCRIPTIONS WHERE NHI = \'" + enterNHI.getText() + "\'";
+                    
+                    PreparedStatement prepstmt = dbc.getConnectionPatients().prepareStatement(sqlQuery);
+                    ResultSet rs = prepstmt.executeQuery();
+                    int rsPrescNo = 1;
+                    
+                    while(rs.next())
+                    {
+                        rsPrescNo = rs.getInt(1);
+                        
+                        if(rsPrescNo == 0)
+                        {
+                            rsPrescNo = 1;
+                        }
+                        rsPrescNo++;
+                    }
+                    
+                    sqlQuery = "INSERT INTO ADMIN1.PRESCRIPTIONS (NHI, PRESCRIPTIONNO, PRESCRIPTION_DETAILS) VALUES (" + "\'" + enterNHI.getText() + "\'," + rsPrescNo + ",\'" + cleanPresc +"\')";
+                    prepstmt = dbc.getConnectionPatients().prepareStatement(sqlQuery);
+                    prepstmt.executeUpdate();
+                    
+                    saved.setVisible(true);
+                    //TODO: Save and Exit 
+                } 
+                catch (SQLException ex) 
+                {
+                    ex.printStackTrace();
+                }
             }
         });
         savePanel.add(savePresc);
@@ -406,4 +365,15 @@ public class CreatePrescriptionPanel extends JPanel
         this.setPreferredSize(new Dimension(screenSize.width/2, screenSize.height/2));
     }
     
+    public void isValidPrescription()
+    {
+        if(validDocName && validNHI && validMedNo && validDsgAmt && validDsgFreq && validMedsRep) 
+        {
+            savePresc.setVisible(true);
+        } 
+        else 
+        {
+            savePresc.setVisible(false);
+        }
+    }
 }
