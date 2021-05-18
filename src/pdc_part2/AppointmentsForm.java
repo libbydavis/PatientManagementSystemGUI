@@ -41,7 +41,8 @@ public class AppointmentsForm extends JPanel{
         setLayout(new GridBagLayout());
         setBackground(Color.WHITE);
         GridBagConstraints c = new GridBagConstraints();
-        this.setPreferredSize(new Dimension(width, height - 200));
+        this.setPreferredSize(new Dimension(width, height/2 + 20));
+        this.setMinimumSize(new Dimension(width, height/2 +20));
 
         //display
         Font labelFont = new Font("Arial", Font.BOLD, 24);

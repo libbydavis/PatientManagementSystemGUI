@@ -49,12 +49,13 @@ public class MenuIconsPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.remove(store);
-                AppointmentButtonsPanel appointmentButtons;
                 try {
-                    appointmentButtons = new AppointmentButtonsPanel(frame);
-                    frame.add(appointmentButtons);
+                    AppointmentsPanel appointmentsPanel = new AppointmentsPanel(frame, frame.getWidth(), frame.getHeight());
+                    frame.add(appointmentsPanel);
                     frame.revalidate();
                 } catch (IOException ex) {
+                    Logger.getLogger(MenuIconsPanel.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
                     Logger.getLogger(MenuIconsPanel.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 
