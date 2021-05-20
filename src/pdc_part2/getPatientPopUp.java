@@ -44,6 +44,7 @@ public class getPatientPopUp extends JFrame {
             this.appointmentPanel = appointmentPanel;
             this.title = title;
 
+            JLabel info = new JLabel("Select a Patient To Run an Appointment For: ");
             JLabel patientLabel = new JLabel("Search Patient By ");
             String[] options = {"NHI", "First Name", "Last Name"};
             JComboBox searchOptions = new JComboBox(options);
@@ -91,28 +92,36 @@ public class getPatientPopUp extends JFrame {
             }
             });
 
+            //c.gridwidth = 4;
             c.gridx = 0;
             c.gridy = 0;
-            c.weightx = 0.2;
-            c.fill = GridBagConstraints.HORIZONTAL;
+            c.weighty = 1;
+            //c.insets = new Insets(0, 15, 0, 0);
+            add(info, c);
+            c.gridy = 1;
+            //c.weighty = 0.5;
+            //c.weightx = 0.5;
             c.anchor = GridBagConstraints.FIRST_LINE_START;
-            c.insets = new Insets(0, 15, 0, 0);
+            
+            
+            //c.insets = new Insets(0, 15, 0, 0);
             add(patientLabel, c);
             c.gridx = 1;
-            c.insets = new Insets(0, 0, 0, 0);
-            c.fill = GridBagConstraints.FIRST_LINE_START;
+            //c.gridwidth = GridBagConstraints.REMAINDER;
+            //c.insets = new Insets(0, 0, 0, 20);
+            
             add(searchOptions, c);
             c.fill = GridBagConstraints.HORIZONTAL;
             c.gridx = 2;
-            c.weightx = 1;
-            c.insets = new Insets(0, 0, 0, 15);
+            //c.weightx = 1;
+            //c.insets = new Insets(0, 0, 0, 15);
             add(patientField, c);
             c.gridx = 2;
             c.gridy = 2;
-            c.weightx = 1;
-            c.insets = new Insets(10, 0, 0, 15);
-            c.fill = GridBagConstraints.PAGE_END;
-            c.anchor = GridBagConstraints.EAST;
+            //c.weightx = 1;
+            //c.insets = new Insets(10, 0, 0, 15);
+            //c.fill = GridBagConstraints.PAGE_END;
+            //c.anchor = GridBagConstraints.EAST;
             add(findPatient, c);
         }
         

@@ -43,6 +43,7 @@ public class AppointmentsPanel extends JPanel{
     private JButton backButton;
     private JButton finishAppointment;
     Color dBlue = new Color(18, 29, 94);
+    private JButton createAppointmentB;
    
     
     public AppointmentsPanel(PatientManagementView frame, int width, int height) throws IOException, SQLException {
@@ -63,22 +64,7 @@ public class AppointmentsPanel extends JPanel{
         backButton = new JButton(new ImageIcon(backImage));
         backButton.setBorder(new EmptyBorder(30, 30, 10, 10));
         backButton.setContentAreaFilled(false);
-        backButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Object source = e.getSource();
-                try {
-                    MenuIconsPanel menuIconsPanel = new MenuIconsPanel(frame);
-                    frame.remove(panel);
-                    frame.add(menuIconsPanel);
-                    frame.revalidate();
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                }
-            }
-        });
+        backButton.addActionListener(controller);
 
         c.gridx = 0;
         c.gridy = 0;
@@ -105,6 +91,28 @@ public class AppointmentsPanel extends JPanel{
     public JButton getFinishAppointment() {
         return finishAppointment;
     }
+    
+    public JButton getCreateAppointmentB() {
+        return createAppointmentB;
+    }
+
+    public JLabel getTitleAP() {
+        return titleAP;
+    }
+
+    public Patient getPatient1() {
+        return patient1;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+    
+    
     
     public JButton getBackButton() {
         return backButton;
@@ -137,24 +145,13 @@ public class AppointmentsPanel extends JPanel{
         c.weightx = 0.5;
         c.gridwidth = 2;
         c.gridy = 2;
-        JButton createAppointmentB = new JButton("Create Appointment");
+        createAppointmentB = new JButton("Create Appointment");
         createAppointmentB.setBackground(dBlue);
         createAppointmentB.setForeground(Color.WHITE);
         createAppointmentB.setBorderPainted(false);
         createAppointmentB.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         createAppointmentB.setFont(buttonFont);
-        createAppointmentB.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JPanel appointmentsForm = new AppointmentsForm(width, height, controller);
-                panel.removeButtons();
-                panel.addComponentAppointments(appointmentsForm);
-                getPatient(titleAP);
-                setConstraintsSaveButton();
-                panel.addComponentAppointments(finishAppointment);
-                frame.revalidate();
-            }
-        });
+        createAppointmentB.addActionListener(controller);
         add(createAppointmentB, c);
         
         c.gridx = 2;
@@ -164,15 +161,8 @@ public class AppointmentsPanel extends JPanel{
         viewHistoryB.setBorderPainted(false);
         viewHistoryB.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         viewHistoryB.setFont(buttonFont);
-        viewHistoryB.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                
-            }
-        });
+        viewHistoryB.addActionListener(controller);
         add(viewHistoryB, c);
-            
-             
         }
     }
     

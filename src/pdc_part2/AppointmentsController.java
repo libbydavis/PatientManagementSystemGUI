@@ -20,6 +20,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -36,6 +37,8 @@ public class AppointmentsController implements ActionListener{
     private JList reasonsList;
     private JList measurementsList;
     private JList notesList;
+    private AppointmentsController store = this;
+    private JPanel appointmentsForm;
     
     public AppointmentsController(PatientManagementView frame, AppointmentsPanel panel) {
         this.frame = frame;
@@ -67,6 +70,13 @@ public class AppointmentsController implements ActionListener{
         
         if (source == panel.getBackButton() || source == panel.getFinishAppointment()) {
             closePopUps();
+            int confirmation = 0;
+            
+            if (source == panel.getBackButton() && appointmentsForm != null) {
+                confirmation = JOptionPane.showConfirmDialog(null, "Are you sure you want to leave your unsaved changes?", "Leave Unsaved Appointment",
+                JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
+                System.out.println(confirmation);
+            }
             if (source == panel.getFinishAppointment()) {
             try {
                 panel.patient1.saveAppointmentToDB(appointment1);
@@ -82,16 +92,28 @@ public class AppointmentsController implements ActionListener{
                 Logger.getLogger(AppointmentsController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-            try {
-                    MenuIconsPanel menuIconsPanel = new MenuIconsPanel(frame);
-                    frame.remove(panel);
-                    frame.add(menuIconsPanel);
-                    frame.revalidate();
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
-                } catch (SQLException ex) {
-                ex.printStackTrace();
+            if (confirmation != JOptionPane.NO_OPTION) {
+                try {
+                        MenuIconsPanel menuIconsPanel = new MenuIconsPanel(frame);
+                        frame.remove(panel);
+                        frame.add(menuIconsPanel);
+                        frame.revalidate();
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
             }
+        }
+        
+        else if (source == panel.getCreateAppointmentB()) {
+            appointmentsForm = new AppointmentsForm(panel.getWidth(), panel.getHeight(), store);
+            panel.removeButtons();
+            panel.addComponentAppointments(appointmentsForm);
+            panel.getPatient(panel.getTitleAP());
+            panel.setConstraintsSaveButton();
+            panel.addComponentAppointments(panel.getFinishAppointment());
+            frame.revalidate();
         }
        
         else if (source == form.getReasonButton()) {
