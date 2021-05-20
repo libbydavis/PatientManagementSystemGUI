@@ -7,7 +7,13 @@ package pdc_part2;
 
 import javax.swing.*;
 import java.awt.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Appointment {
     Instant date;
@@ -162,6 +168,55 @@ public class Appointment {
     
     public void deleteNote(int index) {
         notes[index] = null;
+    }
+    
+    public static ResultSet getAppointmentHistory() throws SQLException {
+        DatabaseConnection DBconnect = new DatabaseConnection();
+        Connection conn = DBconnect.getConnectionPatients();
+        
+        Statement statement1 = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+        String query = "SELECT * FROM ADMIN1.APPOINTMENT";
+        ResultSet rs = statement1.executeQuery(query);
+        
+        return rs;
+    }
+    
+    public static ArrayList displayAppointmentHistorySummary() throws SQLException {
+        ResultSet rs = getAppointmentHistory();
+        HashMap<String, Integer> map = new HashMap();
+        ArrayList<Object[]> list = new ArrayList();
+        Patient currentPatient = new Patient();
+        
+        rs.beforeFirst();
+        
+        //get number of appointments
+        while (rs.next()) {
+            String nhi = rs.getString("NHI");
+            if (map.containsKey(nhi)) {
+                int num = map.get(nhi) + 1;
+                map.put(nhi, num);
+            }
+            else {
+                map.put(nhi, 1);
+            }
+            
+        }
+        
+        //get arraylist of each unique person in appointment history
+        for (String key : map.keySet()) {
+            Object[] row = new Object[4];
+            row[0] = key;
+            currentPatient.getPatientFromDatabase(key, "NHI");
+            row[1] = currentPatient.getfName();
+            row[2] = currentPatient.getlName();
+            row[3] = map.get(key);
+            
+            list.add(row);
+            currentPatient = new Patient();
+        }
+        
+        
+        return list;
     }
     
 }

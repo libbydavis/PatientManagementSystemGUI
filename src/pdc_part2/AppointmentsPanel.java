@@ -44,6 +44,7 @@ public class AppointmentsPanel extends JPanel{
     private JButton finishAppointment;
     Color dBlue = new Color(18, 29, 94);
     private JButton createAppointmentB;
+    private JButton viewHistoryB;
    
     
     public AppointmentsPanel(PatientManagementView frame, int width, int height) throws IOException, SQLException {
@@ -111,7 +112,10 @@ public class AppointmentsPanel extends JPanel{
     public int getHeight() {
         return height;
     }
-    
+
+    public JButton getViewHistoryB() {
+        return viewHistoryB;
+    }
     
     
     public JButton getBackButton() {
@@ -155,7 +159,7 @@ public class AppointmentsPanel extends JPanel{
         add(createAppointmentB, c);
         
         c.gridx = 2;
-        JButton viewHistoryB = new JButton("View Appointment History");
+        viewHistoryB = new JButton("View Appointment History");
         viewHistoryB.setBackground(dBlue);
         viewHistoryB.setForeground(Color.WHITE);
         viewHistoryB.setBorderPainted(false);

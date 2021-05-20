@@ -32,6 +32,7 @@ public class AppointmentsController implements ActionListener{
     private PatientManagementView frame;
     private AppointmentsPanel panel;
     private AppointmentsForm form;
+    private AppointmentsHistoryPanel historyPanel;
     private Appointment appointment1;
     private JPanel confirmation;
     private int error;
@@ -63,6 +64,10 @@ public class AppointmentsController implements ActionListener{
 
     public void addPanel2(AppointmentsForm form) {
         this.form = form;
+    }
+    
+    public void addHistoryPane(AppointmentsHistoryPanel panel) {
+        this.historyPanel = panel;
     }
     
     @Override
@@ -113,6 +118,18 @@ public class AppointmentsController implements ActionListener{
             panel.setConstraintsSaveButton();
             panel.addComponentAppointments(panel.getFinishAppointment());
             frame.revalidate();
+        }
+        
+        else if (source == panel.getViewHistoryB()) {
+            JPanel historyPanel;
+            try {
+                historyPanel = new AppointmentsHistoryPanel(panel.getWidth(), panel.getHeight(), store);
+                panel.removeButtons();
+                panel.addComponentAppointments(historyPanel);
+                frame.revalidate();
+            } catch (SQLException ex) {
+                Logger.getLogger(AppointmentsController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
        
         else if (source == form.getReasonButton()) {

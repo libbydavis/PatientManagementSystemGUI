@@ -18,6 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -26,7 +27,7 @@ import javax.swing.JTextField;
  *
  * @author libst
  */
-public class getPatientPopUp extends JFrame {
+public class getPatientPopUp extends JDialog {
         Patient p1;
         private JTextField patientField;
         getPatientPopUp store = this;
@@ -35,7 +36,8 @@ public class getPatientPopUp extends JFrame {
         private JLabel title;
         
         public getPatientPopUp(JLabel title, AppointmentsPanel appointmentPanel) {
-            super("Select a Patient For The Appointment");
+            setTitle("Select a Patient For The Appointment");
+            setModal(true);
             setSize(500, 300);
             setLocation(200, 200);
             setLayout(new GridBagLayout());
@@ -44,7 +46,6 @@ public class getPatientPopUp extends JFrame {
             this.appointmentPanel = appointmentPanel;
             this.title = title;
 
-            JLabel info = new JLabel("Select a Patient To Run an Appointment For: ");
             JLabel patientLabel = new JLabel("Search Patient By ");
             String[] options = {"NHI", "First Name", "Last Name"};
             JComboBox searchOptions = new JComboBox(options);
@@ -72,7 +73,7 @@ public class getPatientPopUp extends JFrame {
                         Logger.getLogger(AppointmentsPanel.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     try {
-                        p1.getPatientFromDatabase(inputString, searchOptions.getSelectedItem(), store);
+                        p1.getPatientFromDatabase(inputString, searchOptions.getSelectedItem());
                         if (p1.getNHI().length() == 6) {
                             setAndClose();
                         }
@@ -118,6 +119,7 @@ public class getPatientPopUp extends JFrame {
         }
         
         public Patient getPatientObj() {
+            p1.setPopUp(this);
             return p1;
         }
         

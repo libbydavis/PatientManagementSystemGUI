@@ -42,6 +42,7 @@ public class Patient {
     private ArrayList<Appointment> appointmentsHistory;
     private Connection conn;
     private String tableName = "ADMIN1.PATIENTS";
+    private getPatientPopUp patientPopUp;
     
     public Patient() throws SQLException {
         NHI = "";
@@ -71,8 +72,11 @@ public class Patient {
     {
         //TODO
     }
+    public void setPopUp(getPatientPopUp patientPopUp) {
+        this.patientPopUp = patientPopUp;
+    }
     
-    public void getPatientFromDatabase(String input, Object option, getPatientPopUp patientPopUp) throws SQLException {
+    public void getPatientFromDatabase(String input, Object option) throws SQLException {
             ResultSet rs;
             Statement statement1 = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
             Statement statement2 = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
