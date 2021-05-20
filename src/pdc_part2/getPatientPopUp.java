@@ -35,7 +35,7 @@ public class getPatientPopUp extends JFrame {
         private JLabel title;
         
         public getPatientPopUp(JLabel title, AppointmentsPanel appointmentPanel) {
-            super("Patient");
+            super("Select a Patient For The Appointment");
             setSize(500, 300);
             setLocation(200, 200);
             setLayout(new GridBagLayout());
@@ -92,36 +92,28 @@ public class getPatientPopUp extends JFrame {
             }
             });
 
-            //c.gridwidth = 4;
             c.gridx = 0;
             c.gridy = 0;
-            c.weighty = 1;
-            //c.insets = new Insets(0, 15, 0, 0);
-            add(info, c);
-            c.gridy = 1;
-            //c.weighty = 0.5;
-            //c.weightx = 0.5;
+            c.weightx = 0.2;
+            c.fill = GridBagConstraints.HORIZONTAL;
             c.anchor = GridBagConstraints.FIRST_LINE_START;
-            
-            
-            //c.insets = new Insets(0, 15, 0, 0);
+            c.insets = new Insets(0, 15, 0, 0);
             add(patientLabel, c);
             c.gridx = 1;
-            //c.gridwidth = GridBagConstraints.REMAINDER;
-            //c.insets = new Insets(0, 0, 0, 20);
-            
+            c.insets = new Insets(0, 0, 0, 0);
+            c.fill = GridBagConstraints.FIRST_LINE_START;
             add(searchOptions, c);
             c.fill = GridBagConstraints.HORIZONTAL;
             c.gridx = 2;
-            //c.weightx = 1;
-            //c.insets = new Insets(0, 0, 0, 15);
+            c.weightx = 1;
+            c.insets = new Insets(0, 0, 0, 15);
             add(patientField, c);
             c.gridx = 2;
             c.gridy = 2;
-            //c.weightx = 1;
-            //c.insets = new Insets(10, 0, 0, 15);
-            //c.fill = GridBagConstraints.PAGE_END;
-            //c.anchor = GridBagConstraints.EAST;
+            c.weightx = 1;
+            c.insets = new Insets(10, 0, 0, 15);
+            c.fill = GridBagConstraints.PAGE_END;
+            c.anchor = GridBagConstraints.EAST;
             add(findPatient, c);
         }
         

@@ -34,6 +34,7 @@ public class AppointmentsController implements ActionListener{
     private AppointmentsForm form;
     private Appointment appointment1;
     private JPanel confirmation;
+    private int error;
     private JList reasonsList;
     private JList measurementsList;
     private JList notesList;
@@ -70,12 +71,10 @@ public class AppointmentsController implements ActionListener{
         
         if (source == panel.getBackButton() || source == panel.getFinishAppointment()) {
             closePopUps();
-            int confirmation = 0;
+            int confirmationLeave = 0;
             
             if (source == panel.getBackButton() && appointmentsForm != null) {
-                confirmation = JOptionPane.showConfirmDialog(null, "Are you sure you want to leave your unsaved changes?", "Leave Unsaved Appointment",
-                JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
-                System.out.println(confirmation);
+                confirmationLeave = createErrorMessage("Are you sure you want to leave your unsaved changes?", "Leave Unsaved Appointment", JOptionPane.YES_NO_OPTION);
             }
             if (source == panel.getFinishAppointment()) {
             try {
@@ -92,7 +91,7 @@ public class AppointmentsController implements ActionListener{
                 Logger.getLogger(AppointmentsController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-            if (confirmation != JOptionPane.NO_OPTION) {
+            if (confirmationLeave != JOptionPane.NO_OPTION) {
                 try {
                         MenuIconsPanel menuIconsPanel = new MenuIconsPanel(frame);
                         frame.remove(panel);
@@ -129,6 +128,10 @@ public class AppointmentsController implements ActionListener{
                 appointment1.deleteReason(index);
                 reasonsList.setListData(appointment1.getReasons());
             }
+            else {
+                createErrorMessage("Select a reason from the list then press the remove button to delete.",
+                        "No Reason Selected", JOptionPane.DEFAULT_OPTION);
+            }
         }
         else if (source == form.getMeasureButton()) {
             JFrame popUp = form.getMeasurementsPopup();
@@ -142,6 +145,10 @@ public class AppointmentsController implements ActionListener{
             if (index > -1) {
                 appointment1.deleteMeasurement(index);
                 measurementsList.setListData(appointment1.getMeasurementArrayToString());
+            }
+            else {
+                createErrorMessage("Select a measurement from the list then press the remove button to delete.",
+                        "No Measurement Selected", JOptionPane.DEFAULT_OPTION);
             }
         }
         else if (source == form.getNoteButton()) {
@@ -157,6 +164,10 @@ public class AppointmentsController implements ActionListener{
                 appointment1.deleteNote(index);
                 notesList.setListData(appointment1.getNotes());
             }
+            else {
+                createErrorMessage("Select a note from the list then press the remove button to delete.",
+                        "No Note Selected", JOptionPane.DEFAULT_OPTION);
+            }
         }
     }
     
@@ -166,6 +177,13 @@ public class AppointmentsController implements ActionListener{
         confirmation.setBackground(Color.GREEN);
         confirmation.add(new JLabel("Appointment Saved"));
         frame.add(confirmation);
+    }
+    
+    public int createErrorMessage(String errorMessage, String errorType, int type) {
+        error = JOptionPane.showConfirmDialog(null, errorMessage, errorType,
+                type, JOptionPane.ERROR_MESSAGE);
+        System.out.println(error);
+        return error;
     }
     
     public void removeConfirmation() {
