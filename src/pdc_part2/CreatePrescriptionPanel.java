@@ -6,16 +6,23 @@
 package pdc_part2;
 
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -27,7 +34,7 @@ import javax.swing.JTextField;
  */
 public class CreatePrescriptionPanel extends JPanel
 {
-    CreatePrescriptionPanel cpp = this;
+    CreatePrescriptionPanel createPrescPanel = this;
     JPanel docPanel, nhiPanel, medNoPanel, repMedsPanel, timeDatePanel, savePanel, confirmedPrescPanel, dsgAmtPanel, dsgFreqPanel;
     JTextField enterDocName, enterNHI, enterMedNo, enterRepMeds, enterDosage, enterDosageFreq;// enter rep meds must be T/F
     JLabel timeDate, nhiPatName, docNamePrompt, patNHIPrompt, medNoPrompt, repMedsPrompt, dsgAmtPrompt, dsgFreqPrompt, docNameErrorMsg, medNoErrorMsg, nhiErrorMsg, dsgAmtErrorMsg, dsgFreqErrorMsg, repMedsErrorMsg;
@@ -39,7 +46,7 @@ public class CreatePrescriptionPanel extends JPanel
      * Need to make an error JLabel for every time incorrect input is entered.
      * Make a method for each panel within the 'CreatePrescriptionComponents' class.
      */
-    public CreatePrescriptionPanel() 
+    public CreatePrescriptionPanel(PatientManagementView frame, PrescriptionPanel prescPanel) 
     {
         // General Panel Setup
         Prescription objPresc = new Prescription();
@@ -304,9 +311,9 @@ public class CreatePrescriptionPanel extends JPanel
         //Confirm Prescription Panel
         savePanel = new JPanel();
         savePresc = new JButton("Save and Exit");
-        savePresc.setVisible(false);
         JLabel saved = new JLabel("Saved Successfully!");
         saved.setVisible(false);
+        savePresc.setEnabled(false);
         savePanel.add(saved);
         savePresc.addActionListener(new ActionListener() 
         {
@@ -315,9 +322,6 @@ public class CreatePrescriptionPanel extends JPanel
             {
                 try 
                 {
-                    // Make a Prescription table - primary key is
-                    // Put objPresc into the Prescription Table
-                    String sqlQuery;
                     String originalPresc = objPresc.toString();
                     String cleanPresc = "";
                     Scanner scan = new Scanner(originalPresc);
@@ -326,10 +330,9 @@ public class CreatePrescriptionPanel extends JPanel
                     {
                         cleanPresc += scan.next();
                     }
-           
-                    //use string delimeter or string function to add an apostrophe everytime there's an apostrophe in the string.
+                    
                     DatabaseConnection dbc = new DatabaseConnection();
-                    sqlQuery = "SELECT PRESCRIPTIONNO FROM PRESCRIPTIONS WHERE NHI = \'" + enterNHI.getText() + "\'";
+                    String sqlQuery = "SELECT PRESCRIPTIONNO FROM PRESCRIPTIONS WHERE NHI = \'" + enterNHI.getText() + "\'";
                     
                     PreparedStatement prepstmt = dbc.getConnectionPatients().prepareStatement(sqlQuery);
                     ResultSet rs = prepstmt.executeQuery();
@@ -351,7 +354,36 @@ public class CreatePrescriptionPanel extends JPanel
                     prepstmt.executeUpdate();
                     
                     saved.setVisible(true);
-                    //TODO: Save and Exit 
+                    
+                    JPanel confirmation = new JPanel();
+                    confirmation.setMaximumSize(new Dimension(frame.getWidth(), 30));
+                    confirmation.setBackground(Color.GREEN);
+                    confirmation.add(new JLabel("Prescription Saved"));
+                    frame.remove(createPrescPanel);
+                    frame.remove(prescPanel);
+                    
+                    try 
+                    {
+                        frame.add(confirmation);
+                        frame.add(new MenuIconsPanel(frame));
+                        Timer t = new Timer();
+                        t.schedule(new TimerTask()
+                        {
+                            @Override
+                            public void run() 
+                            {
+                               frame.remove(confirmation);
+                               frame.revalidate();
+                            }
+                            
+                        }, 3000);
+                    } 
+                    catch (IOException ex)
+                    {
+                        ex.printStackTrace();
+                    }
+                    
+                    frame.revalidate();       
                 } 
                 catch (SQLException ex) 
                 {
@@ -369,11 +401,9 @@ public class CreatePrescriptionPanel extends JPanel
     {
         if(validDocName && validNHI && validMedNo && validDsgAmt && validDsgFreq && validMedsRep) 
         {
-            savePresc.setVisible(true);
+            savePresc.setEnabled(true);
         } 
-        else 
-        {
-            savePresc.setVisible(false);
-        }
     }
+    
+       
 }

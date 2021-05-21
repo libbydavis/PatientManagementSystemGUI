@@ -9,9 +9,12 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -24,7 +27,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Raj
  */
-public class EditPrescriptionPanel extends JPanel 
+public class DeletePrescriptionPanel extends JPanel 
 {
     JPanel editPanel, tablePanel, removePanel;
     JLabel prompt, errorMsg;
@@ -32,7 +35,7 @@ public class EditPrescriptionPanel extends JPanel
     PrescriptionComponent objPC;
     JButton removeButton;
 
-    public EditPrescriptionPanel() 
+    public DeletePrescriptionPanel() 
     {
         // General Setup
         Toolkit tk = Toolkit.getDefaultToolkit();
@@ -59,7 +62,8 @@ public class EditPrescriptionPanel extends JPanel
                     DatabaseConnection dbc = new DatabaseConnection();
                     Statement stmt = dbc.getConnectionPatients().createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
                     ResultSet rs = stmt.executeQuery("SELECT PRESCRIPTIONNO, PRESCRIPTION_DETAILS FROM PRESCRIPTIONS WHERE NHI = \'" + enterNHI.getText().toLowerCase() + "\'");
-                    
+                    //add functionality that when a new nhi is entered, the old prescriptions are removed.
+                    tablePanel.setVisible(true);
                     while(rs.next()) 
                     {
                         prescTableModel.addRow(new Object[]{rs.getString(1), rs.getString(2)});
@@ -85,8 +89,9 @@ public class EditPrescriptionPanel extends JPanel
         tablePanel = new JPanel();
         JScrollPane prescJsp = new JScrollPane(prescTable);
         prescJsp.setPreferredSize(new Dimension(800, 300));
-        this.add(tablePanel);
         tablePanel.add(prescJsp);
+        this.add(tablePanel);
+        tablePanel.setVisible(false);
         //Remove Panel
         removePanel = new JPanel();
         removeButton = new JButton("Remove");
@@ -97,9 +102,24 @@ public class EditPrescriptionPanel extends JPanel
             {
                 if(prescTable.getSelectedRow() != -1)
                 {
+                    String strPrescNo = prescTableModel.getValueAt(prescTable.getSelectedRow(), 0).toString();
+                    int intPrescNo = Integer.parseInt(strPrescNo);
+                    System.out.println(strPrescNo);
+                    System.out.println(intPrescNo);
                     prescTableModel.removeRow(prescTable.getSelectedRow());
-                    String selected = (String) prescTableModel.getValueAt(prescTable.getSelectedRow(), 1);
-                    System.out.println(selected);
+                    
+                    DatabaseConnection dbc = new DatabaseConnection();
+                    String sqlQuery = "DELETE FROM PRESCRIPTIONS WHERE PRESCRIPTIONNO = " + intPrescNo;
+                    try 
+                    {
+                        PreparedStatement prepstmt = dbc.getConnectionPatients().prepareStatement(sqlQuery);
+                        prepstmt.executeUpdate();
+                    } 
+                    catch (SQLException ex) 
+                    {
+                        ex.printStackTrace();
+                    }
+                    
                 }
             }     
         });

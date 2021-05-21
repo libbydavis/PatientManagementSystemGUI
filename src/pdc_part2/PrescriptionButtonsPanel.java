@@ -52,7 +52,7 @@ public class PrescriptionButtonsPanel extends JPanel{
             @Override
             public void actionPerformed(ActionEvent e) {
                 Object source = e.getSource();
-                CreatePrescriptionPanel createPresc = new CreatePrescriptionPanel();
+                CreatePrescriptionPanel createPresc = new CreatePrescriptionPanel(frame, panel);
                 panel.removeButtonsPane();
                 panel.addPrescPane(createPresc);
                 frame.revalidate();
@@ -81,7 +81,7 @@ public class PrescriptionButtonsPanel extends JPanel{
         add(viewMedsB, c);
         
         c.gridx = 4;
-        JButton editPrescriptionB = new JButton("Edit Prescription");
+        JButton editPrescriptionB = new JButton("Delete Prescription");
         editPrescriptionB.setBackground(dBlue);
         editPrescriptionB.setForeground(Color.WHITE);
         editPrescriptionB.setBorderPainted(false);
@@ -91,13 +91,12 @@ public class PrescriptionButtonsPanel extends JPanel{
             @Override
             public void actionPerformed(ActionEvent e) {
                 Object source = e.getSource();
-                EditPrescriptionPanel epp = new EditPrescriptionPanel();
+                DeletePrescriptionPanel epp = new DeletePrescriptionPanel();
                 panel.removeButtonsPane();
                 panel.addPrescPane(epp);
                 frame.revalidate();
             }
         });
-        add(editPrescriptionB, c);
-        
+        add(editPrescriptionB, c);      
     }
 }
