@@ -76,12 +76,12 @@ public class AppointmentsController implements ActionListener{
             int confirmationLeave = 0;
             
             if (source == panel.getBackButton() && appointmentsForm != null) {
-                confirmationLeave = createErrorMessage("Are you sure you want to leave your unsaved changes?", "Leave Unsaved Appointment", JOptionPane.YES_NO_OPTION);
+                confirmationLeave = Confirmation.createErrorMessage("Are you sure you want to leave your unsaved changes?", "Leave Unsaved Appointment", JOptionPane.YES_NO_OPTION);
             }
             if (source == panel.getFinishAppointment()) {
             try {
                 panel.patient1.saveAppointmentToDB(appointment1);
-                createConfirmation();
+                Confirmation.createConfirmation("Appointment Saved", frame);
                 Timer t = new Timer();
                 t.schedule(new TimerTask() {
                     @Override
@@ -144,7 +144,7 @@ public class AppointmentsController implements ActionListener{
                 reasonsList.setListData(appointment1.getReasons());
             }
             else {
-                createErrorMessage("Select a reason from the list then press the remove button to delete.",
+                Confirmation.createErrorMessage("Select a reason from the list then press the remove button to delete.",
                         "No Reason Selected", JOptionPane.DEFAULT_OPTION);
             }
         }
@@ -162,7 +162,7 @@ public class AppointmentsController implements ActionListener{
                 measurementsList.setListData(appointment1.getMeasurementArrayToString());
             }
             else {
-                createErrorMessage("Select a measurement from the list then press the remove button to delete.",
+                Confirmation.createErrorMessage("Select a measurement from the list then press the remove button to delete.",
                         "No Measurement Selected", JOptionPane.DEFAULT_OPTION);
             }
         }
@@ -180,7 +180,7 @@ public class AppointmentsController implements ActionListener{
                 notesList.setListData(appointment1.getNotes());
             }
             else {
-                createErrorMessage("Select a note from the list then press the remove button to delete.",
+                Confirmation.createErrorMessage("Select a note from the list then press the remove button to delete.",
                         "No Note Selected", JOptionPane.DEFAULT_OPTION);
             }
         }
@@ -188,6 +188,7 @@ public class AppointmentsController implements ActionListener{
         
     }
     
+    /*
     public void createConfirmation() {
         confirmation = new JPanel();
         confirmation.setMaximumSize(new Dimension(frame.getWidth(), 30));
@@ -202,6 +203,7 @@ public class AppointmentsController implements ActionListener{
         System.out.println(error);
         return error;
     }
+*/
     
     public void removeConfirmation() {
         frame.remove(confirmation);

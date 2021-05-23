@@ -48,7 +48,7 @@ public class AppointmentsHistoryController implements ActionListener{
                 }
             }
             else {
-              appointmentsMainController.createErrorMessage("Please select a patient row to view patient's appointments", "No row selected", JOptionPane.DEFAULT_OPTION); 
+              Confirmation.createErrorMessage("Please select a patient row to view patient's appointments", "No row selected", JOptionPane.DEFAULT_OPTION); 
             }
         }
     }
