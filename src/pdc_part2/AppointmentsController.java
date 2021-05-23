@@ -32,7 +32,6 @@ public class AppointmentsController implements ActionListener{
     private PatientManagementView frame;
     private AppointmentsPanel panel;
     private AppointmentsForm form;
-    private AppointmentsHistoryPanel historyPanel;
     private Appointment appointment1;
     private JPanel confirmation;
     private int error;
@@ -66,9 +65,7 @@ public class AppointmentsController implements ActionListener{
         this.form = form;
     }
     
-    public void addHistoryPane(AppointmentsHistoryPanel panel) {
-        this.historyPanel = panel;
-    }
+    
     
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -123,13 +120,14 @@ public class AppointmentsController implements ActionListener{
         else if (source == panel.getViewHistoryB()) {
             JPanel historyPanel;
             try {
-                historyPanel = new AppointmentsHistoryPanel(panel.getWidth(), panel.getHeight(), store);
+                historyPanel = new AppointmentsHistoryPanel(panel.getWidth(), panel.getHeight(), new AppointmentsHistoryController(store, frame));
+                panel.setTitleAP("Appointment History Summary");
                 panel.removeButtons();
                 panel.addComponentAppointments(historyPanel);
                 frame.revalidate();
-            } catch (SQLException ex) {
-                Logger.getLogger(AppointmentsController.class.getName()).log(Level.SEVERE, null, ex);
-            }
+                } catch (SQLException ex) {
+                    Logger.getLogger(AppointmentsController.class.getName()).log(Level.SEVERE, null, ex);
+                }
         }
        
         else if (source == form.getReasonButton()) {
@@ -186,6 +184,8 @@ public class AppointmentsController implements ActionListener{
                         "No Note Selected", JOptionPane.DEFAULT_OPTION);
             }
         }
+        
+        
     }
     
     public void createConfirmation() {

@@ -11,6 +11,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -22,33 +24,68 @@ import javax.swing.table.DefaultTableModel;
  * @author libst
  */
 public class AppointmentsHistoryPanel extends JPanel{
-    private AppointmentsController controller;
+    private AppointmentsHistoryController controller;
+    private JButton selectPatientHistory;
+    private JTable summaryTable;
+    private Dimension d;
+    private SummaryTablePanel summaryTablePanel;
+    private static ArrayList<Object[]> summaryData;
     
-    public AppointmentsHistoryPanel(int width, int height, AppointmentsController controller) throws SQLException {
+    public AppointmentsHistoryPanel(int width, int height, AppointmentsHistoryController controller) throws SQLException {
         this.controller = controller;
         controller.addHistoryPane(this);
 
         //set layout
-        //setLayout(new GridBagLayout());
+        setLayout(new GridBagLayout());
         setBackground(Color.WHITE);
         GridBagConstraints c = new GridBagConstraints();
-        this.setPreferredSize(new Dimension(width, height/2));
-        this.setMinimumSize(new Dimension(width, height/2));
+        d = new Dimension(width, height/2);
+        this.setPreferredSize(d);
+        this.setMinimumSize(d);
+        summaryTablePanel = new SummaryTablePanel();
+        add(summaryTablePanel);
         
-        DefaultTableModel model = new DefaultTableModel();
-        JTable table = new JTable(model);
-        
-        model.addColumn("FIRSTNAME");
-        model.addColumn("LASTNAME");
-        model.addColumn("NHI");
-        model.addColumn("NO_APPOINTMENTS");
-        
-        ArrayList<Object[]> list = Appointment.displayAppointmentHistorySummary();
-        for (int i = 0; i < list.size(); i++) {
-            model.addRow(list.get(i));   
+    }
+    
+    public SummaryTablePanel getSummaryTablePanel() {
+        return summaryTablePanel;
+    }
+    
+    public JButton getSelectPatientHistory() {
+        return selectPatientHistory;
+    }
+    
+    public JTable getSummaryTable() {
+        return summaryTable;
+    }
+    
+    public PatientAppointmentHistory getPatientHistoryPanel(Patient p) throws SQLException {
+        return new PatientAppointmentHistory(p, d);
+    }
+    
+    private class SummaryTablePanel extends JPanel{
+        public SummaryTablePanel() throws SQLException {
+            DefaultTableModel model = new DefaultTableModel();
+            summaryTable = new JTable(model);
+
+            model.addColumn("FIRSTNAME");
+            model.addColumn("LASTNAME");
+            model.addColumn("NHI");
+            model.addColumn("NO_APPOINTMENTS");
+
+            if (summaryData == null) {
+                summaryData = Appointment.displayAppointmentHistorySummary();
+            }
+            for (int i = 0; i < summaryData.size(); i++) {
+                model.addRow(summaryData.get(i));   
+            }
+                
+            add(summaryTable);
+            
+            selectPatientHistory = new JButton("View Appointments");
+            selectPatientHistory.addActionListener(controller);
+            add(selectPatientHistory);
         }
-        
-        add(table);
     }
 
 }

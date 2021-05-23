@@ -100,6 +100,10 @@ public class AppointmentsPanel extends JPanel{
     public JLabel getTitleAP() {
         return titleAP;
     }
+    
+    public void setTitleAP(String text) {
+        titleAP.setText(text);
+    }
 
     public Patient getPatient1() {
         return patient1;

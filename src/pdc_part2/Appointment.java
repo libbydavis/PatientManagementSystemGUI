@@ -170,19 +170,26 @@ public class Appointment {
         notes[index] = null;
     }
     
-    public static ResultSet getAppointmentHistory() throws SQLException {
+    public static ResultSet getAppointmentHistory(String select) throws SQLException {
         DatabaseConnection DBconnect = new DatabaseConnection();
         Connection conn = DBconnect.getConnectionPatients();
         
         Statement statement1 = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-        String query = "SELECT * FROM ADMIN1.APPOINTMENT";
+        
+        String query = "";
+        if (select.equals("ALL")) {
+            query = "SELECT * FROM ADMIN1.APPOINTMENT";
+        }
+        else {
+            query = "SELECT * FROM ADMIN1.APPOINTMENT WHERE NHI='" + select + "'";
+        }
         ResultSet rs = statement1.executeQuery(query);
         
         return rs;
     }
     
     public static ArrayList displayAppointmentHistorySummary() throws SQLException {
-        ResultSet rs = getAppointmentHistory();
+        ResultSet rs = getAppointmentHistory("ALL");
         HashMap<String, Integer> map = new HashMap();
         ArrayList<Object[]> list = new ArrayList();
         Patient currentPatient = new Patient();
@@ -217,6 +224,26 @@ public class Appointment {
         
         
         return list;
+    }
+    
+    public static ArrayList displayAppointmentHistoryForPatient(String nhi) throws SQLException {
+        ResultSet rs = getAppointmentHistory(nhi);
+        
+        rs.beforeFirst();
+        ArrayList<Object[]> appointments = new ArrayList();
+        Object[] singleAppointment;
+        
+        while (rs.next()) {
+            singleAppointment = new Object[4];
+            singleAppointment[0] = rs.getDate("DATETIME");
+            singleAppointment[1] = rs.getString("REASONS");
+            singleAppointment[2] = rs.getString("MEASUREMENTS");
+            singleAppointment[3] = rs.getString("NOTES");
+            appointments.add(singleAppointment);
+        }
+        rs.close();
+        
+        return appointments;
     }
     
 }
