@@ -11,4 +11,8 @@ package pdc_part2;
  */
 public class UnitTests {
     
+    public void test() {
+        
+    }
+    
 }
