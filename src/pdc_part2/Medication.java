@@ -165,6 +165,6 @@ public class Medication
     
     public String toString() 
     {
-        return "Medication Name: " + name + "\n" + "\nSide Effects: " + sideEffects + "\nConditions: " + conditions;
+        return "Medication Name: " + name + "\nSide Effects: " + sideEffects + "\nConditions: " + conditions;
     }
 }

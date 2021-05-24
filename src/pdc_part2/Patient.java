@@ -44,7 +44,8 @@ public class Patient {
     private String tableName = "ADMIN1.PATIENTS";
     private getPatientPopUp patientPopUp;
     
-    public Patient() throws SQLException {
+    public Patient() throws SQLException 
+    {
         NHI = "";
         fName = "";
         lName = "";
@@ -203,9 +204,3 @@ public class Patient {
         return fName + " " + lName + " NHI: " + NHI;
     }
 }
-    // nhi of the patient you want to make the prescription for // validate whether this nhi exists
-    // medno# for the prescription you want to set
-    // dosage for the prescription
-    // doseFrequency (eat 3 times a week for breakfast e.g)
-    // DocName 
-    // Date prescription was made
