@@ -160,8 +160,8 @@ public class AppointmentsForm extends JPanel{
         return ReasonPopUp.getReasonPopUpInstance(currentAppointment, reasonsList);
     }
     
-    public MeasurementsPopUp getMeasurementsPopup() {
-        return MeasurementsPopUp.getMeasurementsPopUpInstance(currentAppointment, measurementsList);
+    public MeasurementsPopUp getMeasurementsPopup(Patient patient) {
+        return MeasurementsPopUp.getMeasurementsPopUpInstance(currentAppointment, measurementsList, patient);
     }
     
     public NotesPopUp getNotesPopup() {

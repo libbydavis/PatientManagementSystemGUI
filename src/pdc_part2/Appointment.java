@@ -74,7 +74,7 @@ public class Appointment {
         return true;
     }
 
-    public boolean setMeasurement(String name, String value, String unit, JTextField uField, JTextField nField, JTextField vField) {
+    public boolean setMeasurement(String name, String value, String unit, JTextField uField, JTextField nField, JTextField vField, Patient patient) {
         Measurements currentMeasurement = new Measurements(name, value, unit, uField, nField, vField);
         if (currentMeasurement.measurement == null) {
             return false;
@@ -86,6 +86,7 @@ public class Appointment {
         for (int i = 0; i < measurements.length; i++) {
             if (measurements[i] == null) {
                 measurements[i] = currentMeasurement;
+                patient.setMeasurement(currentMeasurement);
                 return true;
             }
         }
@@ -96,8 +97,7 @@ public class Appointment {
         String[] measurementsStrings = new String[measurements.length];
         for (int i = 0; i < measurements.length; i++) {
             if (measurements[i] != null) {
-                String measurementString1 = measurements[i].name + ": " + measurements[i].measurement + measurements[i].units;
-                measurementsStrings[i] = measurementString1;
+                measurementsStrings[i] = measurements[i].toString();
             }
             else {
                 return measurementsStrings;

@@ -108,13 +108,16 @@ public class AppointmentsController implements ActionListener{
         }
         
         else if (source == panel.getCreateAppointmentB()) {
+            
             appointmentsForm = new AppointmentsForm(panel.getWidth(), panel.getHeight(), store);
-            panel.removeButtons();
-            panel.addComponentAppointments(appointmentsForm);
             panel.getPatient(panel.getTitleAP());
-            panel.setConstraintsSaveButton();
-            panel.addComponentAppointments(panel.getFinishAppointment());
-            frame.revalidate();
+            if (!panel.getTitleAP().getText().equals("Appointment ")) {
+                panel.removeButtons();
+                panel.addComponentAppointments(appointmentsForm);
+                panel.setConstraintsSaveButton();
+                panel.addComponentAppointments(panel.getFinishAppointment());
+                frame.revalidate();
+            }
         }
         
         else if (source == panel.getViewHistoryB()) {
@@ -149,7 +152,7 @@ public class AppointmentsController implements ActionListener{
             }
         }
         else if (source == form.getMeasureButton()) {
-            JFrame popUp = form.getMeasurementsPopup();
+            JFrame popUp = form.getMeasurementsPopup(panel.patient1);
             popUp.setVisible(true);
             ReasonPopUp.reasonClosePopUp();
             NotesPopUp.noteClosePopUp();
@@ -187,23 +190,6 @@ public class AppointmentsController implements ActionListener{
         
         
     }
-    
-    /*
-    public void createConfirmation() {
-        confirmation = new JPanel();
-        confirmation.setMaximumSize(new Dimension(frame.getWidth(), 30));
-        confirmation.setBackground(Color.GREEN);
-        confirmation.add(new JLabel("Appointment Saved"));
-        frame.add(confirmation);
-    }
-    
-    public int createErrorMessage(String errorMessage, String errorType, int type) {
-        error = JOptionPane.showConfirmDialog(null, errorMessage, errorType,
-                type, JOptionPane.ERROR_MESSAGE);
-        System.out.println(error);
-        return error;
-    }
-*/
     
     public void removeConfirmation() {
         frame.remove(confirmation);

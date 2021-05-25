@@ -3,28 +3,31 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/libst/Documents/GitHub/PatientManagementSystemGUI/src/pdc_part2/AppointmentsHistoryController.java</file>
-            <file>file:/C:/Users/libst/Documents/GitHub/PatientManagementSystemGUI/test/pdc_part2/UnitTestsTest.java</file>
             <file>file:/C:/Users/libst/Documents/GitHub/PatientManagementSystemGUI/src/pdc_part2/Patient.java</file>
             <file>file:/C:/Users/libst/Documents/GitHub/PatientManagementSystemGUI/src/pdc_part2/Appointment.java</file>
-            <file>file:/C:/Users/libst/Documents/GitHub/PatientManagementSystemGUI/src/pdc_part2/MenuIconsPanel.java</file>
             <file>file:/C:/Users/libst/Documents/GitHub/PatientManagementSystemGUI/src/pdc_part2/DatabaseConnection.java</file>
             <file>file:/C:/Users/libst/Documents/GitHub/PatientManagementSystemGUI/src/pdc_part2/CreatePrescriptionPanel.java</file>
-            <file>file:/C:/Users/libst/Documents/GitHub/PatientManagementSystemGUI/src/pdc_part2/getPatientPopUp.java</file>
-            <file>file:/C:/Users/libst/Documents/GitHub/PatientManagementSystemGUI/src/pdc_part2/PatientManagementView.java</file>
             <file>file:/C:/Users/libst/Documents/GitHub/PatientManagementSystemGUI/src/pdc_part2/PatientsPanel.java</file>
-            <file>file:/C:/Users/libst/Documents/GitHub/PatientManagementSystemGUI/src/pdc_part2/MedicationsPanel.java</file>
-            <file>file:/C:/Users/libst/Documents/GitHub/PatientManagementSystemGUI/src/pdc_part2/PatientAppointmentHistory.java</file>
             <file>file:/C:/Users/libst/Documents/GitHub/PatientManagementSystemGUI/src/pdc_part2/PrescriptionButtonsPanel.java</file>
             <file>file:/C:/Users/libst/Documents/GitHub/PatientManagementSystemGUI/src/pdc_part2/AppointmentsHistoryPanel.java</file>
+            <file>file:/C:/Users/libst/Documents/GitHub/PatientManagementSystemGUI/src/pdc_part2/PatientInfoPanel.java</file>
+            <file>file:/C:/Users/libst/Documents/GitHub/PatientManagementSystemGUI/src/pdc_part2/AppointmentsController.java</file>
+            <file>file:/C:/Users/libst/Documents/GitHub/PatientManagementSystemGUI/src/pdc_part2/BrowsePatientsPanel.java</file>
+            <file>file:/C:/Users/libst/Documents/GitHub/PatientManagementSystemGUI/src/pdc_part2/Measurements.java</file>
+            <file>file:/C:/Users/libst/Documents/GitHub/PatientManagementSystemGUI/src/pdc_part2/AppointmentsHistoryController.java</file>
+            <file>file:/C:/Users/libst/Documents/GitHub/PatientManagementSystemGUI/test/pdc_part2/UnitTestsTest.java</file>
+            <file>file:/C:/Users/libst/Documents/GitHub/PatientManagementSystemGUI/src/pdc_part2/MenuIconsPanel.java</file>
+            <file>file:/C:/Users/libst/Documents/GitHub/PatientManagementSystemGUI/src/pdc_part2/getPatientPopUp.java</file>
+            <file>file:/C:/Users/libst/Documents/GitHub/PatientManagementSystemGUI/src/pdc_part2/PatientManagementView.java</file>
+            <file>file:/C:/Users/libst/Documents/GitHub/PatientManagementSystemGUI/src/pdc_part2/MeasurementsPopUp.java</file>
+            <file>file:/C:/Users/libst/Documents/GitHub/PatientManagementSystemGUI/src/pdc_part2/Medication.java</file>
+            <file>file:/C:/Users/libst/Documents/GitHub/PatientManagementSystemGUI/src/pdc_part2/MedicationsPanel.java</file>
+            <file>file:/C:/Users/libst/Documents/GitHub/PatientManagementSystemGUI/src/pdc_part2/PatientAppointmentHistory.java</file>
             <file>file:/C:/Users/libst/Documents/GitHub/PatientManagementSystemGUI/src/pdc_part2/AppointmentsForm.java</file>
             <file>file:/C:/Users/libst/Documents/GitHub/PatientManagementSystemGUI/src/pdc_part2/AppointmentsPanel.java</file>
-            <file>file:/C:/Users/libst/Documents/GitHub/PatientManagementSystemGUI/src/pdc_part2/AppointmentsController.java</file>
             <file>file:/C:/Users/libst/Documents/GitHub/PatientManagementSystemGUI/src/pdc_part2/Confirmation.java</file>
-            <file>file:/C:/Users/libst/Documents/GitHub/PatientManagementSystemGUI/src/pdc_part2/BrowsePatientsPanel.java</file>
             <file>file:/C:/Users/libst/Documents/GitHub/PatientManagementSystemGUI/src/pdc_part2/PatientsController.java</file>
             <file>file:/C:/Users/libst/Documents/GitHub/PatientManagementSystemGUI/src/pdc_part2/UnitTests.java</file>
-            <file>file:/D:/git/PatientManagementSystemGUI/src/pdc_part2/DeletePrescriptionPanel.java</file>
         </group>
     </open-files>
 </project-private>

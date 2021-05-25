@@ -38,6 +38,10 @@ public class Measurements {
             nField.setText("Please enter a name");
         }
     }
+    
+    public String toString() {
+        return "name: " + name + ",measurement: " + measurement + ",units: " + units;
+    }
 
 }
 

@@ -6,6 +6,7 @@
 package pdc_part2;
 
 import java.awt.Dimension;
+import java.awt.List;
 import java.awt.Toolkit;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -15,6 +16,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Vector;
 import javax.swing.JComboBox;
@@ -38,6 +40,7 @@ public class Patient {
     private HashSet conditions;
     private HashSet currentMedications;
     private ArrayList<Measurements> measurements;
+    private String measurementsString;
     private ArrayList prescriptions;
     private ArrayList<Appointment> appointmentsHistory;
     private Connection conn;
@@ -49,6 +52,7 @@ public class Patient {
         NHI = "";
         fName = "";
         lName = "";
+        measurements = new ArrayList();
         DatabaseConnection DBconnect = new DatabaseConnection();
         conn = DBconnect.getConnectionPatients();
     }
@@ -68,11 +72,18 @@ public class Patient {
         return lName;
     }
     
-
-    public void setFName(String fname)
-    {
-        //TODO
+    public int getAge() {
+        return age;
     }
+    
+    public String getMeasurementsString() {
+        return measurementsString;
+    }
+   
+    public void setMeasurement(Measurements measurement) {
+        measurements.add(measurement);
+    }
+    
     public void setPopUp(getPatientPopUp patientPopUp) {
         this.patientPopUp = patientPopUp;
     }
@@ -103,6 +114,8 @@ public class Patient {
                 iteratePatient.fName = rs.getString("FIRSTNAME");
                 iteratePatient.lName = rs.getString("LASTNAME");
                 iteratePatient.age = rs.getInt("AGE");
+                measurementsString = rs.getString("MEASUREMENTS");
+                iteratePatient.measurements = convertStringToMeasurements(measurementsString);
                 
                 matchingPatients.add(iteratePatient);
             }
@@ -114,6 +127,7 @@ public class Patient {
                 fName = iteratePatient.fName;
                 lName = iteratePatient.lName;
                 age = iteratePatient.age;
+                measurements = iteratePatient.measurements;
             }
             
             rs.close();
@@ -124,6 +138,33 @@ public class Patient {
         Object[] matchingPatientsArray = matchingPatients.toArray();
         JComboBox patientSelect = new JComboBox(matchingPatientsArray);
         patientPopUp.setPatientPicker(patientSelect);
+    }
+    
+    public ArrayList convertStringToMeasurements(String measurementString) {
+       ArrayList theseMeasurements = new ArrayList();
+       if (measurementsString != null) {
+        String[] measurementsList = measurementString.split(",");
+        Measurements measurement = new Measurements();
+        int indexCounter = 0;
+        for (int i = 0; i < measurementsList.length; i++) {
+            if (indexCounter == 0) {
+                String[] splitValue = measurementsList[i].split(": ");
+                measurement.name = splitValue[1];
+            }
+            else if (indexCounter == 1) {
+                String[] splitValue = measurementsList[i].split(": ");
+                measurement.measurement = Double.parseDouble(splitValue[1]);
+            }
+            else if (indexCounter == 2) {
+                String[] splitValue = measurementsList[i].split(": ");
+                measurement.units = splitValue[1];
+                indexCounter = -1;
+                theseMeasurements.add(measurement);
+            }
+            indexCounter++;
+        }
+       }
+       return theseMeasurements;
     }
     
     public DefaultTableModel patientColumnNames()
@@ -194,10 +235,19 @@ public class Patient {
     }   
     
     public void saveAppointmentToDB(Appointment app) throws SQLException {
+        updatePatient();
         Statement statement2 = conn.createStatement();
         Timestamp ts = Timestamp.from(app.date);
         String query1 = "INSERT INTO ADMIN1.APPOINTMENT (NHI, REASONS, MEASUREMENTS, NOTES, DATETIME) VALUES ('" + app.NHI + "', '" + app.getReasonsString() + "', '" + app.getMeasurementsString() + "', '" + app.getNotesString() +  "', '" + ts + "')";
         statement2.executeUpdate(query1);
+    }
+    
+    public void updatePatient() throws SQLException {
+        Statement statement1 = conn.createStatement();
+        String measureNoSquare = measurements.toString().replace("[", "");
+        measureNoSquare = measureNoSquare.replace("]", "");
+        String query = "UPDATE " + tableName + " SET MEASUREMENTS = '" + measureNoSquare + "' WHERE NHI = '" + NHI + "'";
+        statement1.executeUpdate(query);
     }
     
     public String toString() {

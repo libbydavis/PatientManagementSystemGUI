@@ -25,9 +25,9 @@ import javax.swing.JTextField;
  */
 public class MeasurementsPopUp extends JFrame {
     private static MeasurementsPopUp MeasurementsPopUpInstance;
-        public static synchronized MeasurementsPopUp getMeasurementsPopUpInstance(Appointment current, JList measurementsList) {
+        public static synchronized MeasurementsPopUp getMeasurementsPopUpInstance(Appointment current, JList measurementsList, Patient patient) {
             if (MeasurementsPopUpInstance == null) {
-                MeasurementsPopUpInstance = new MeasurementsPopUp(current, measurementsList);
+                MeasurementsPopUpInstance = new MeasurementsPopUp(current, measurementsList, patient);
             }
             return MeasurementsPopUpInstance;
         }
@@ -37,7 +37,7 @@ public class MeasurementsPopUp extends JFrame {
             MeasurementsPopUpInstance = null;
         }
     }
-    private MeasurementsPopUp(Appointment current, JList measurementsList) {
+    private MeasurementsPopUp(Appointment current, JList measurementsList, Patient patient) {
         super("Add Measurement");
         setSize(500, 300);
         setLocation(200, 200);
@@ -91,7 +91,7 @@ public class MeasurementsPopUp extends JFrame {
         addMeasurement.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                boolean set = current.setMeasurement(nameField.getText(), valueField.getText(), unitField.getText(), unitField, nameField, valueField);
+                boolean set = current.setMeasurement(nameField.getText(), valueField.getText(), unitField.getText(), unitField, nameField, valueField, patient);
                 if (set == true) {
                     nameField.setText("");
                     valueField.setText("");
