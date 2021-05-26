@@ -19,10 +19,13 @@ import java.util.logging.Logger;
 public class PatientsController implements ActionListener{
     PatientsPanel panel;
     PatientManagementView frame;
+    PatientsController control = this;
+    private BrowsePatientsPanel browsePanel;
     
-    public PatientsController(PatientsPanel panel, PatientManagementView frame) {
+    public PatientsController(PatientsPanel panel, PatientManagementView frame) throws IOException, SQLException {
         this.panel = panel;
         this.frame = frame;
+        browsePanel = new BrowsePatientsPanel(frame, frame.getWidth(), frame.getHeight(), control);
     }
 
     @Override
@@ -49,18 +52,22 @@ public class PatientsController implements ActionListener{
             
         }
         else if (source == panel.getBrowsePatientsB()) {
-            BrowsePatientsPanel browsePanel;
-            try {
-                browsePanel = new BrowsePatientsPanel(frame, frame.getWidth(), frame.getHeight());
-                panel.remove(panel.getButtonsPane1());
-                panel.add(browsePanel, panel.getConstraints());
-                frame.revalidate();
-            } catch (IOException ex) {
-                Logger.getLogger(PatientsPanel.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (SQLException ex) {
-                Logger.getLogger(PatientsPanel.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            panel.remove(panel.getButtonsPane1());
+            panel.add(browsePanel, panel.getConstraints());
+            panel.setPatientsLabel("Browse Patients");
+            frame.revalidate();
        
+        }
+        
+        else if (source == browsePanel.getSearchButton()) {
+            try {
+                Patient findPatient = new Patient();
+                String searchText = browsePanel.getSearchText();
+                findPatient.getPatientFromDatabase(searchText, "NHI");
+                browsePanel.displayIndividualPatient(findPatient);
+            } catch (SQLException ex) {
+                Logger.getLogger(PatientsController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
     

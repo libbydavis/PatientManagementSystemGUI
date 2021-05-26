@@ -61,7 +61,7 @@ public class MeasurementsPopUp extends JFrame {
         });
         JLabel valueLabel = new JLabel("value:");
         JTextField valueField = new JTextField();
-        nameField.addFocusListener(new FocusListener(){
+        valueField.addFocusListener(new FocusListener(){
             @Override
             public void focusGained(FocusEvent e){
                 valueField.setForeground(Color.BLACK);
@@ -75,7 +75,7 @@ public class MeasurementsPopUp extends JFrame {
         });
         JLabel unitLabel = new JLabel("units:");
         JTextField unitField = new JTextField();
-        nameField.addFocusListener(new FocusListener(){
+        unitField.addFocusListener(new FocusListener(){
             @Override
             public void focusGained(FocusEvent e){
                 unitField.setForeground(Color.BLACK);

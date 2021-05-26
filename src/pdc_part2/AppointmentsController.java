@@ -113,6 +113,12 @@ public class AppointmentsController implements ActionListener{
             panel.getPatient(panel.getTitleAP());
             if (!panel.getTitleAP().getText().equals("Appointment ")) {
                 panel.removeButtons();
+                //patient details
+                
+                PatientInfoPanel infoPanel = new PatientInfoPanel(panel.patient1);
+                panel.addComponentAppointments(infoPanel);
+                //appointment form
+                panel.setAppointmentsFormContraints();
                 panel.addComponentAppointments(appointmentsForm);
                 panel.setConstraintsSaveButton();
                 panel.addComponentAppointments(panel.getFinishAppointment());

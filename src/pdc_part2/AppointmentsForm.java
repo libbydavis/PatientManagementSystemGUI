@@ -46,6 +46,7 @@ public class AppointmentsForm extends JPanel{
 
         //display
         Font labelFont = new Font("Arial", Font.BOLD, 24);
+        
 
         //reasons
         JLabel reasons = new JLabel("Reasons", SwingConstants.CENTER);

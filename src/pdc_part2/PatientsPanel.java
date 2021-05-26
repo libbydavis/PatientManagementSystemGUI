@@ -31,6 +31,7 @@ public class PatientsPanel extends JPanel
     private JButton browsePatientsB;
     private PatientButtonsPane buttonsPane1;
     private JButton backButton;
+    private JLabel patientsLabel;
 //    public static Connection conn;
 //    public static String url = "jdbc:derby://localhost:1527/PatientDB; create = true";
 //    public static String username = "admin1";
@@ -64,7 +65,7 @@ public class PatientsPanel extends JPanel
 
         
         c1.anchor = GridBagConstraints.CENTER;
-        JLabel patientsLabel = new JLabel("Patients");
+        patientsLabel = new JLabel("Patients");
         patientsLabel.setFont(new Font("Arial", Font.BOLD, 40));
         patientsLabel.setForeground(Color.WHITE);
         add(patientsLabel, c1);
@@ -99,6 +100,10 @@ public class PatientsPanel extends JPanel
 
     public JButton getBrowsePatientsB() {
         return browsePatientsB;
+    }
+    
+    public void setPatientsLabel(String text) {
+        patientsLabel.setText(text);
     }
     
     public class PatientButtonsPane extends JPanel{

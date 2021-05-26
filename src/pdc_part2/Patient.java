@@ -6,6 +6,8 @@
 package pdc_part2;
 
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.List;
 import java.awt.Toolkit;
 import java.sql.Connection;
@@ -17,9 +19,13 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.Set;
 import java.util.Vector;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -114,8 +120,13 @@ public class Patient {
                 iteratePatient.fName = rs.getString("FIRSTNAME");
                 iteratePatient.lName = rs.getString("LASTNAME");
                 iteratePatient.age = rs.getInt("AGE");
+                iteratePatient.phoneNumber = rs.getString("PHONENO");
+                iteratePatient.address = rs.getString("STREET");
                 measurementsString = rs.getString("MEASUREMENTS");
                 iteratePatient.measurements = convertStringToMeasurements(measurementsString);
+                String conditionsString = rs.getString("CONDITIONS");
+                iteratePatient.conditions = convertStringToConditions(conditionsString);
+                
                 
                 matchingPatients.add(iteratePatient);
             }
@@ -128,6 +139,9 @@ public class Patient {
                 lName = iteratePatient.lName;
                 age = iteratePatient.age;
                 measurements = iteratePatient.measurements;
+                address = iteratePatient.address;
+                phoneNumber = iteratePatient.phoneNumber;
+                conditions = iteratePatient.conditions;
             }
             
             rs.close();
@@ -140,9 +154,30 @@ public class Patient {
         patientPopUp.setPatientPicker(patientSelect);
     }
     
+    public HashSet convertStringToConditions(String conditionsString) {
+        HashSet conditionsSet = new HashSet();
+        String[] conditionsList = conditionsString.split(", ");
+        int indexCounter = 0;
+        String addString = "";
+        for (int i = 0; i < conditionsList.length; i++) {
+            if (indexCounter == 0) {
+                addString += conditionsList[i] + ", ";
+            }
+            else if (indexCounter == 1) {
+                addString += conditionsList[i];
+                conditionsSet.add(addString);
+                addString = "";
+                indexCounter = -1;
+            }
+            indexCounter++;
+            
+        }
+        return conditionsSet;
+    }
+    
     public ArrayList convertStringToMeasurements(String measurementString) {
        ArrayList theseMeasurements = new ArrayList();
-       if (measurementsString != null) {
+       if (measurementsString != null && measurementsString.length() > 0) {
         String[] measurementsList = measurementString.split(",");
         Measurements measurement = new Measurements();
         int indexCounter = 0;
@@ -165,6 +200,73 @@ public class Patient {
         }
        }
        return theseMeasurements;
+    }
+    
+    public JComponent displayIndividualPatientDetails() {
+        JPanel patientDetails = new JPanel();
+        patientDetails.setLayout(new GridLayout(0, 2));
+        
+        Font normalFont = new Font("Arial", Font.PLAIN, 18);
+        Font boldFont = new Font("Arial", Font.BOLD, 18);
+        
+        JLabel nameLabel = new JLabel("Name");
+        JLabel name = new JLabel(fName + " " + lName);
+        nameLabel.setFont(boldFont);
+        name.setFont(normalFont);
+        patientDetails.add(nameLabel);
+        patientDetails.add(name);
+        
+        JLabel nhiLabel = new JLabel("NHI");
+        nhiLabel.setFont(boldFont);
+        JLabel nhiValue = new JLabel(NHI);
+        nhiValue.setFont(normalFont);
+        patientDetails.add(nhiLabel);
+        patientDetails.add(nhiValue);
+                
+        JLabel ageLabel = new JLabel("Age");
+        ageLabel.setFont(boldFont);
+        JLabel ageValue = new JLabel(String.valueOf(age));
+        ageValue.setFont(normalFont);
+        patientDetails.add(ageLabel);
+        patientDetails.add(ageValue);
+        
+        JLabel addressLabel = new JLabel("Address");
+        addressLabel.setFont(boldFont);
+        JLabel addressValue = new JLabel(address);
+        addressValue.setFont(normalFont);
+        patientDetails.add(addressLabel);
+        patientDetails.add(addressValue);
+        
+        JLabel phoneLabel = new JLabel("Phone Number ");
+        phoneLabel.setFont(boldFont);
+        JLabel phoneValue = new JLabel(phoneNumber);
+        phoneValue.setFont(normalFont);
+        patientDetails.add(phoneLabel);
+        patientDetails.add(phoneValue);
+        
+        JLabel conditionsLabel = new JLabel("Conditions");
+        conditionsLabel.setFont(boldFont);
+        JLabel conditionsValue = new JLabel(stringCollection(conditions));
+        conditionsValue.setFont(normalFont);
+        patientDetails.add(conditionsLabel);
+        patientDetails.add(conditionsValue);
+        
+        JLabel measurementsLabel = new JLabel("Measurements");
+        measurementsLabel.setFont(boldFont);
+        JLabel measurementsValues = new JLabel(stringCollection(measurements));
+        measurementsValues.setFont(normalFont);
+        patientDetails.add(measurementsLabel);
+        patientDetails.add(measurementsValues);
+        
+        return patientDetails;
+    }
+    
+    public String stringCollection(Collection collection) {
+        String total = "";
+        for (Object o: collection) {
+            total += o + "\n";
+        }
+        return total;
     }
     
     public DefaultTableModel patientColumnNames()
@@ -200,11 +302,11 @@ public class Patient {
         
         
         JScrollPane patientJsp = new JScrollPane(patientTable);
-        patientJsp.setPreferredSize(new Dimension(300,600));
+       // patientJsp.setPreferredSize(new Dimension(300,600));
         Toolkit kit = Toolkit.getDefaultToolkit();
         Dimension screenSize = kit.getScreenSize();
         JPanel patientPanel = new JPanel();
-        patientPanel.setSize((screenSize.width/2), (screenSize.height/2));
+        //patientPanel.setSize((screenSize.width/2), (screenSize.height/2));
         patientPanel.add(patientJsp);
         
         return patientPanel;

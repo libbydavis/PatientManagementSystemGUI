@@ -182,10 +182,14 @@ public class AppointmentsPanel extends JPanel{
         add(pane, c);
     }
     
+    public void setAppointmentsFormContraints() {
+        c.gridy = 2;
+    }
+    
     public void setConstraintsSaveButton() {
         Font font = new Font("Arial", Font.BOLD, 16);
         c.gridx = 0;
-        c.gridy = 2;
+        c.gridy = 3;
         c.fill = GridBagConstraints.FIRST_LINE_END;
         c.anchor = GridBagConstraints.FIRST_LINE_END;
         c.insets = new Insets(0, 0, 0, 15);
