@@ -67,12 +67,52 @@ public class Patient {
     {
         return lName;
     }
-    
 
-    public void setFName(String fname)
+    public void setfName(String fName) 
     {
-        //TODO
+        this.fName = fName;
     }
+
+    public void setlName(String lName) 
+    {
+        this.lName = lName;
+    }
+
+    public void setAge(int age) 
+    {
+        this.age = age;
+    }
+
+    public void setPhoneNumber(String phoneNumber) 
+    {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public void setAddress(String address) 
+    {
+        this.address = address;
+    }
+
+    public void setNHI(String NHI) 
+    {
+        this.NHI = NHI;
+    }
+
+    public void setConditions(HashSet conditions) 
+    {
+        this.conditions = conditions;
+    }
+
+    public void setCurrentMedications(HashSet currentMedications) 
+    {
+        this.currentMedications = currentMedications;
+    }
+
+    public void setMeasurements(ArrayList<Measurements> measurements) 
+    {
+        this.measurements = measurements;
+    }
+
     public void setPopUp(getPatientPopUp patientPopUp) {
         this.patientPopUp = patientPopUp;
     }

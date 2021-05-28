@@ -40,7 +40,6 @@ public class CreatePrescriptionPanel extends JPanel
     JLabel timeDate, nhiPatName, docNamePrompt, patNHIPrompt, medNoPrompt, repMedsPrompt, dsgAmtPrompt, dsgFreqPrompt, docNameErrorMsg, medNoErrorMsg, nhiErrorMsg, dsgAmtErrorMsg, dsgFreqErrorMsg, repMedsErrorMsg;
     boolean validDocName, validNHI, validMedNo, validDsgAmt, validDsgFreq, validMedsRep;
     JButton savePresc;
-
     /**
      * For the focusGained method on each focusListener, could make a method.
      * Need to make an error JLabel for every time incorrect input is entered.
@@ -361,7 +360,7 @@ public class CreatePrescriptionPanel extends JPanel
                     confirmation.add(new JLabel("Prescription Saved"));
                     frame.remove(createPrescPanel);
                     frame.remove(prescPanel);
-                    
+
                     try 
                     {
                         frame.add(confirmation);
@@ -382,8 +381,7 @@ public class CreatePrescriptionPanel extends JPanel
                     {
                         ex.printStackTrace();
                     }
-                    
-                    frame.revalidate();       
+                      
                 } 
                 catch (SQLException ex) 
                 {
@@ -404,6 +402,4 @@ public class CreatePrescriptionPanel extends JPanel
             savePresc.setEnabled(true);
         } 
     }
-    
-       
 }
