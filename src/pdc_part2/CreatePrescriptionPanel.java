@@ -20,9 +20,6 @@ import java.util.Date;
 import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -40,11 +37,7 @@ public class CreatePrescriptionPanel extends JPanel
     JLabel timeDate, nhiPatName, docNamePrompt, patNHIPrompt, medNoPrompt, repMedsPrompt, dsgAmtPrompt, dsgFreqPrompt, docNameErrorMsg, medNoErrorMsg, nhiErrorMsg, dsgAmtErrorMsg, dsgFreqErrorMsg, repMedsErrorMsg;
     boolean validDocName, validNHI, validMedNo, validDsgAmt, validDsgFreq, validMedsRep;
     JButton savePresc;
-    /**
-     * For the focusGained method on each focusListener, could make a method.
-     * Need to make an error JLabel for every time incorrect input is entered.
-     * Make a method for each panel within the 'CreatePrescriptionComponents' class.
-     */
+    
     public CreatePrescriptionPanel(PatientManagementView frame, PrescriptionPanel prescPanel) 
     {
         // General Panel Setup
