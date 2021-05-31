@@ -47,7 +47,7 @@ public class PatientsController implements ActionListener{
             AddPatientsView addPanel;
             try 
             {
-                addPanel = new AddPatientsView(frame, frame.getWidth(), frame.getHeight());
+                addPanel = new AddPatientsView(frame, panel, frame.getWidth(), frame.getHeight());
                 panel.remove(panel.getButtonsPane1());
                 panel.add(addPanel, panel.getConstraints());
                 frame.revalidate();

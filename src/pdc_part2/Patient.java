@@ -16,6 +16,7 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Scanner;
 import java.util.Vector;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
@@ -83,11 +84,41 @@ public class Patient {
         this.age = age;
     }
 
+    public int getAge() {
+        return age;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public String getConditions() {
+        String cond = conditions.toString();
+        Scanner scan = new Scanner(cond);
+        scan.useDelimiter("\\[\\[*|\\]\\]*");
+        
+        String cleanCond = "";
+        
+        while(scan.hasNext())
+        {
+            cleanCond += scan.next();
+        }
+        return cleanCond;
+    }
+    
     public void setPhoneNumber(String phoneNumber) 
     {
         this.phoneNumber = phoneNumber;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public String getCurrentMedications() {
+        return currentMedications.toString();
+    }
+    
     public void setAddress(String address) 
     {
         this.address = address;
@@ -115,6 +146,21 @@ public class Patient {
 
     public void setPopUp(getPatientPopUp patientPopUp) {
         this.patientPopUp = patientPopUp;
+    }
+    
+    public void insertPatientToDatabase(AddPatientsView adv) throws SQLException
+    {
+//        adv.adp.newPat.getfName();
+//        DatabaseConnection dbc = new DatabaseConnection();
+//        String sqlQuery = "INSERT INTO PATIENTS (NHI, FIRSTNAME, LASTNAME, AGE, PHONENO ,STREET, CURRENTMEDS)"
+//                + "VALUES (\'" + newNhi + "\', \'" + adv.adp.newPat.getfName() + "\', \'" + adp.newPat.getlName() + "\'," + adp.newPat.getAge() + ", " + adp.newPat.getPhoneNumber() + ",\'" + adp.newPat.getAddress() + "\',\'" + adp.newPat.getConditions() + "\')";
+//        try {
+//            PreparedStatement prepstmt = dbc.getConnectionPatients().prepareStatement(sqlQuery);
+//            prepstmt.executeUpdate();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+                
     }
     
     public void getPatientFromDatabase(String input, Object option) throws SQLException {

@@ -3,10 +3,15 @@ package pdc_part2;
 import pdc_part2.Dosage;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * 
@@ -38,6 +43,32 @@ public class Medication
     public String getConditions() 
     {
         return conditions;
+    }
+    
+    public static String[] medList()
+    {
+        String[] medList = new String[8];
+        try 
+        {
+            DatabaseConnection dbc = new DatabaseConnection();
+            String sqlQuery = "SELECT MEDNAME FROM MEDICATION";
+            PreparedStatement prepstmt = dbc.getConnectionMedication().prepareStatement(sqlQuery);
+            ResultSet rs = prepstmt.executeQuery();
+            int i = 1;
+            medList[0] = "select an option";
+            
+            while (rs.next()) 
+            {
+                medList[i] = rs.getString("MEDNAME").toString();
+                i++;
+            }
+        } 
+        catch (SQLException ex) 
+        {
+            Logger.getLogger(AddPatientsView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return medList;
     }
     /**
      * This searches the MedicationList.txt file by the name of the medication as opposed to

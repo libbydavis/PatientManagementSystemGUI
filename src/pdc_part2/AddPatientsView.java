@@ -5,25 +5,22 @@
  */
 package pdc_part2;
 
+import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.LayoutManager;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.HashSet;
+import java.util.Timer;
+import java.util.TimerTask;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 /**
  *
@@ -31,16 +28,18 @@ import javax.swing.JTextField;
  */
 class AddPatientsView extends JPanel
 {   
+    AddPatientsView addPatView = this;
+    private String newNhi;
     boolean validName, validAge, validPhoneNo, validStreet, validCond, validMeasure, validMeds;
     JButton addPatient;
     AddPatientController adp = new AddPatientController();
     
-    public AddPatientsView(PatientManagementView frame, double width, double height) throws IOException, SQLException 
+    public AddPatientsView(PatientManagementView frame,PatientsPanel patPanel , double width, double height) throws IOException, SQLException 
     {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         Toolkit kit = Toolkit.getDefaultToolkit();
         Dimension screenSize = kit.getScreenSize();
-        
+
         this.add(nhiPanel());
         this.add(namePanel());
         this.add(agePanel());
@@ -53,12 +52,61 @@ class AddPatientsView extends JPanel
         JPanel saveAndExitPanel = new JPanel();
         addPatient = new JButton("Add Patient and Exit");
         addPatient.setEnabled(false);
+        addPatient.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e) 
+            {
+                DatabaseConnection dbc = new DatabaseConnection();
+                String sqlQuery = "INSERT INTO PATIENTS (NHI, FIRSTNAME, LASTNAME, AGE, PHONENO ,STREET, CURRENTMEDS)"
+                + "VALUES (\'" + newNhi + "\', \'" + adp.newPat.getfName() + "\', \'" + adp.newPat.getlName() + "\'," + adp.newPat.getAge() +", " + adp.newPat.getPhoneNumber() + ",\'" + adp.newPat.getAddress() + "\',\'" + adp.newPat.getConditions() +"\')";
+                try 
+                {
+                    PreparedStatement prepstmt = dbc.getConnectionPatients().prepareStatement(sqlQuery);
+                    prepstmt.executeUpdate();
+                    
+                    JPanel confirmation = new JPanel();
+                    confirmation.setMaximumSize(new Dimension(frame.getWidth(), 30));
+                    confirmation.setBackground(Color.GREEN);
+                    confirmation.add(new JLabel("Patient Saved"));
+                    frame.remove(addPatView);
+                    frame.remove(patPanel);
+                    
+                    frame.add(confirmation);
+                    frame.add(new MenuIconsPanel(frame));
+                    Timer t = new Timer();
+                    
+                    t.schedule(new TimerTask() 
+                    {
+                        @Override
+                        public void run() 
+                        {
+                            frame.remove(confirmation);
+                            frame.revalidate();
+                        }
+                    }, 3000);
+                } 
+                catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+                catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                
+            
+            }
+            
+        });
         saveAndExitPanel.add(addPatient);
         this.add(saveAndExitPanel);
         
         this.setPreferredSize(new Dimension(screenSize.width/2, screenSize.height/2));
     }
     
+    /**
+        * 
+        * @return 
+        **/
     public JPanel namePanel()
     {
         AddPatientsModel makeNamePanel = new AddPatientsModel("Enter patient's full name:", "e.g. John Smith", "Incorrect input, please try again!");
@@ -86,6 +134,10 @@ class AddPatientsView extends JPanel
         return makeNamePanel.combineComponents();
     }
     
+    /**
+        * 
+        * @return 
+        **/
     public JPanel agePanel()
     {
         AddPatientsModel makeAgePanel = new AddPatientsModel("Enter patient's age:", "e.g. 12", "Incorrect input, please try again!");
@@ -95,7 +147,7 @@ class AddPatientsView extends JPanel
         {
             public void actionPerformed(ActionEvent e) 
             {
-                boolean correctAge = adp.validateAge(makeAgePanel);
+                boolean correctAge = adp.validateNum(makeAgePanel);
                 
                 if(correctAge)
                 {
@@ -113,6 +165,10 @@ class AddPatientsView extends JPanel
         return makeAgePanel.combineComponents();
     }
     
+    /**
+        * 
+        * @return 
+        **/
     public JPanel phoneNoPanel()
     {
         AddPatientsModel makePhoneNoPanel = new AddPatientsModel("Enter patient's phone number:", "e.g. 0212345678", "Incorrect input, please try again!");
@@ -122,12 +178,26 @@ class AddPatientsView extends JPanel
         {
             public void actionPerformed(ActionEvent e) 
             {
-                makePhoneNoPanel.getErrorMsg().setVisible(true);
+                boolean realNum = adp.validateNum(makePhoneNoPanel);
+                
+                if(realNum)
+                {
+                    Integer phoneNo = Integer.parseInt(makePhoneNoPanel.getEnterValues().getText()); //ensures what's entered is a number
+                    adp.newPat.setPhoneNumber(phoneNo.toString());
+                    validPhoneNo = true;
+                }
+                else
+                {
+                    validPhoneNo = false;
+                }
             }
         });
         return makePhoneNoPanel.combineComponents();
     }
-    
+    /**
+        * 
+        * @return 
+        **/
     public JPanel streetPanel()
     {
         AddPatientsModel makeStreetPanel = new AddPatientsModel("Enter patient's street address:", "e.g. 123 Fake St", "Incorrect input, please try again!");
@@ -141,7 +211,6 @@ class AddPatientsView extends JPanel
                 
                 if (!nullStr) 
                 {
-                    adp.setName(makeStreetPanel);
                     adp.setStreet(makeStreetPanel);
                     validStreet = true;
                 }
@@ -157,109 +226,45 @@ class AddPatientsView extends JPanel
         return makeStreetPanel.combineComponents();
     }
     
+    /**
+        * 
+        * @return 
+        */
     public JPanel currentMedsPanel()
     {
-        ArrayList<String> currentMeds = new ArrayList<String>();
+        HashSet currentMeds = new HashSet();
         JPanel medPanel = new JPanel();
         JLabel promptMsg = new JLabel("Select your current medication: ");
         medPanel.add(promptMsg);
-        JComboBox firstMed = new JComboBox();
-        firstMed.addActionListener(new ActionListener()
-        {
-            @Override
-            public void actionPerformed(ActionEvent e) 
-            {
-                String chosenMed = firstMed.getSelectedItem().toString();
-                if((!chosenMed.equalsIgnoreCase("choose an option")) && (!(currentMeds.contains(chosenMed))))
-                {                  
-                    currentMeds.add(chosenMed);
-                    System.out.println(currentMeds.get(0));
-                    firstMed.setEnabled(false);
-                }
-            }
-        });
-        JComboBox secondMed = new JComboBox();
-        secondMed.addActionListener(new ActionListener()
-        {
-            @Override
-            public void actionPerformed(ActionEvent e) 
-            {
-                String chosenMed = secondMed.getSelectedItem().toString();
-                if((!chosenMed.equalsIgnoreCase("choose an option")) && (!(currentMeds.contains(chosenMed)))) 
-                {
-                    currentMeds.add(chosenMed);
-                    System.out.println(currentMeds.get(0));
-                    secondMed.setEnabled(false);
-                }
-            }
-        });
-        JComboBox thirdMed = new JComboBox();
-        thirdMed.addActionListener(new ActionListener()
-        {
-            @Override
-            public void actionPerformed(ActionEvent e) 
-            {
-                String chosenMed = thirdMed.getSelectedItem().toString();
-                if((!chosenMed.equalsIgnoreCase("choose an option")) && (!(currentMeds.contains(chosenMed)))) 
-                {
-                    currentMeds.add(chosenMed);
-                    System.out.println(currentMeds.get(0));
-                    thirdMed.setEnabled(false);
-                }
-            }
-        });
-        JComboBox fourthMed = new JComboBox();
-        fourthMed.addActionListener(new ActionListener()
-        {
-            @Override
-            public void actionPerformed(ActionEvent e) 
-            {
-                String chosenMed = fourthMed.getSelectedItem().toString();
-                if((!chosenMed.equalsIgnoreCase("choose an option")) && (!(currentMeds.contains(chosenMed)))) 
-                {
-                    currentMeds.add(chosenMed);
-                    System.out.println(chosenMed);
-                    fourthMed.setEnabled(false);
-                }
-            }
-        });
-        secondMed.setSelectedItem(5);
-        firstMed.addItem("choose an option");
-        secondMed.addItem("choose an option");
-        thirdMed.addItem("choose an option");
-        fourthMed.addItem("choose an option");
         
-        try 
+        JComboBox[] medBoxes = new JComboBox[4];
+        
+        for(int i = 0; i < medBoxes.length; i++)
         {
-            DatabaseConnection dbc = new DatabaseConnection();
-            String sqlQuery = "SELECT MEDNAME FROM MEDICATION";
-            PreparedStatement prepstmt = dbc.getConnectionMedication().prepareStatement(sqlQuery);
-            ResultSet rs = prepstmt.executeQuery();
-            
-            while(rs.next())
-            {
-                firstMed.addItem(rs.getString("MEDNAME").toString());
-                secondMed.addItem(rs.getString("MEDNAME").toString());
-                thirdMed.addItem(rs.getString("MEDNAME").toString());
-                fourthMed.addItem(rs.getString("MEDNAME").toString());
-            }
-        } 
-        catch (SQLException ex) 
-        {
-            Logger.getLogger(AddPatientsView.class.getName()).log(Level.SEVERE, null, ex);
+            medBoxes[i] = new JComboBox(Medication.medList());
         }
         
+        for(JComboBox jcb : medBoxes)
+        {
+            jcb.addActionListener(new ActionListener() 
+            {
+                @Override
+                public void actionPerformed(ActionEvent e) 
+                {
+                    adp.setMedication(jcb, currentMeds);
+                }
+            });
+            medPanel.add(jcb);
+        }
         
-          secondMed.setSelectedIndex(0);
-          medPanel.add(firstMed);
-          medPanel.add(secondMed);
-          medPanel.add(thirdMed);
-          medPanel.add(fourthMed);
-          
-          return medPanel;
+        return medPanel;
     }
     
-     public JPanel conditionsPanel()
+    /**
+        * 
+        * @return 
+        **/
+    public JPanel conditionsPanel()
     {
         JPanel objJPanel = new JPanel();
         AddPatientsModel makeStreetPanel = new AddPatientsModel("Enter your current conditions:", "e.g. High blood pressure", "Incorrect input, please try again!");
@@ -274,7 +279,11 @@ class AddPatientsView extends JPanel
         });
         return makeStreetPanel.combineComponents();
     }
-     
+    
+    /**
+        * 
+        * @return 
+        **/
     public JPanel measurementsPanel()
     {
 
@@ -291,21 +300,34 @@ class AddPatientsView extends JPanel
         return makeStreetPanel.combineComponents();
     }
     
+    /**
+        * 
+        * @return
+        * @throws SQLException 
+        **/
     public JPanel nhiPanel() throws SQLException
     {
-        String newNhi = adp.genNhi();
+        newNhi = adp.genNhi();
         JLabel genNhi = new JLabel("Auto-Generated NHI for this patient:  "+newNhi);
         JPanel nhiPanel = new JPanel();
         nhiPanel.add(genNhi);
         return nhiPanel;
     }
     
+    /**
+        * 
+        * @return 
+        **/
     public boolean isValidPatient()
-    {
-        return  validName && validAge && validStreet;
-        //return validName && validAge && validPhoneNo && validStreet && validCond && validMeasure && validMeds;
+    {   
+        return true;
+        //return  validName && validAge && validStreet;
+        //return validName && validAge && validPhoneNo && validStreet && validCond && validMeasure;
     }
     
+    /**
+        * 
+        */
     public void enableButnIfValidPatient()
     {
         if (isValidPatient() == true) 

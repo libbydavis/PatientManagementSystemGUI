@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Random;
 import java.util.StringTokenizer;
 import javax.swing.JComboBox;
@@ -54,9 +55,13 @@ public class AddPatientController
             newPat.setfName(fullNameDivided[0]);
             newPat.setlName(fullNameDivided[1]);
        }
+       else
+       {
+           
+       }
     }
     
-    public boolean validateAge(AddPatientsModel map)
+    public boolean validateNum(AddPatientsModel map)
     {
         boolean correctAge;
         
@@ -84,7 +89,7 @@ public class AddPatientController
     
     public void setStreet(AddPatientsModel msp)
     {
-        newPat.setAddress(msp.getEnterMsg().getText());
+        newPat.setAddress(msp.getEnterValues().getText().toString());
     }
     
     public String genNhi()
@@ -111,29 +116,16 @@ public class AddPatientController
             generatedNHI += nhi[k];
         }
         
-        //test to see if a patient can be put into the patientDB with a duplicate nhi
-        generatedNHI = "jnv758";
-        
         return generatedNHI;
     }
     
-    //Don't know if i need this method to check whether NHI is unique.
-    
-//    public String newNhi() throws SQLException
-//    {
-//        String newNhi = genNhi();
-//        DatabaseConnection dbc = new DatabaseConnection();
-//        
-//        String sqlQuery = "SELECT * FROM PATIENTS WHERE NHI = \'" + newNhi +"\'";
-//        PreparedStatement prepstmt = dbc.getConnectionPatients().prepareStatement(sqlQuery);
-//        ResultSet rs = prepstmt.executeQuery();
-//        boolean resultSet = rs.next();
-//        
-//        while(rs.next())
-//        {
-//            newNhi = genNhi();
-//        }
-//        
-//        return newNhi;
-//    }
+    public void setMedication(JComboBox chosenMeds, HashSet currMeds)
+    {
+       String chosenMedicine = chosenMeds.getSelectedItem().toString();
+        if ((!chosenMedicine.equalsIgnoreCase("choose an option")) && (!(currMeds.contains(chosenMedicine)))) 
+        {
+            currMeds.add(chosenMedicine);
+            newPat.setConditions(currMeds);
+        }
+    }
 }
