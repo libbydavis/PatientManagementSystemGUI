@@ -16,12 +16,13 @@ import javax.swing.JPanel;
  * @author libst
  */
 public class Confirmation {
-    public static void createConfirmation(String confirmationMessage, PatientManagementView frame) {
+    public static JPanel createConfirmation(String confirmationMessage, PatientManagementView frame) {
         JPanel confirmation = new JPanel();
         confirmation.setMaximumSize(new Dimension(frame.getWidth(), 30));
         confirmation.setBackground(Color.GREEN);
         confirmation.add(new JLabel(confirmationMessage));
         frame.add(confirmation);
+        return confirmation;
     }
     
     public static int createErrorMessage(String errorMessage, String errorType, int type) {

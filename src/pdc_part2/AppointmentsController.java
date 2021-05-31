@@ -5,9 +5,6 @@
  */
 package pdc_part2;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -16,13 +13,10 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 
 /**
  *
@@ -40,6 +34,7 @@ public class AppointmentsController implements ActionListener{
     private JList notesList;
     private AppointmentsController store = this;
     private JPanel appointmentsForm;
+    private Timer t;
     
     public AppointmentsController(PatientManagementView frame, AppointmentsPanel panel) {
         this.frame = frame;
@@ -81,8 +76,8 @@ public class AppointmentsController implements ActionListener{
             if (source == panel.getFinishAppointment()) {
             try {
                 panel.patient1.saveAppointmentToDB(appointment1);
-                Confirmation.createConfirmation("Appointment Saved", frame);
-                Timer t = new Timer();
+                confirmation = Confirmation.createConfirmation("Appointment Saved", frame);
+                t = new Timer();
                 t.schedule(new TimerTask() {
                     @Override
                     public void run() {

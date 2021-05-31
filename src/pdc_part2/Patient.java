@@ -46,12 +46,12 @@ public class Patient {
     private HashSet conditions;
     private HashSet currentMedications;
     private ArrayList<Measurements> measurements;
-    private String measurementsString;
+    private ArrayList<Measurements> newMeasurements;
     private ArrayList prescriptions;
     private ArrayList<Appointment> appointmentsHistory;
     private Connection conn;
     private String tableName = "ADMIN1.PATIENTS";
-    private getPatientPopUp patientPopUp;
+    private JTable matchingPatientsTable;
     
     public Patient() throws SQLException 
     {
@@ -59,6 +59,7 @@ public class Patient {
         fName = "";
         lName = "";
         measurements = new ArrayList();
+        newMeasurements = new ArrayList();
         DatabaseConnection DBconnect = new DatabaseConnection();
         conn = DBconnect.getConnectionPatients();
     }
@@ -82,29 +83,37 @@ public class Patient {
         return age;
     }
     
+    public JTable getMatchingPatientTable() {
+        return matchingPatientsTable;
+    }
+   
     public String getMeasurementsString() {
-        return measurementsString;
+        String total = "";
+        for (Measurements m : measurements) {
+            total += m.toString() + ", ";
+        }
+        return total;
     }
    
     public void setMeasurement(Measurements measurement) {
-        measurements.add(measurement);
+        newMeasurements.add(measurement);
     }
     
-    public void setPopUp(getPatientPopUp patientPopUp) {
-        this.patientPopUp = patientPopUp;
-    }
-    
-    public void getPatientFromDatabase(String input, Object option) throws SQLException {
+    public void getPatientFromDatabase(String input, Object option, Object matchingPanel) throws SQLException {
             ResultSet rs;
             Statement statement1 = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
             String sqlQuery = "";
             if (option.equals("NHI")) {
-                sqlQuery = "SELECT * FROM " + tableName + " WHERE NHI='" + input + "'"; // PrintAllPatients Method needs this query to work
+                sqlQuery = "SELECT * FROM " + tableName + " WHERE NHI='" + input + "'"; 
             }
             else if (option.equals("First Name")) {
+                input = input.toLowerCase();
+                input = input.substring(0, 1).toUpperCase() + input.substring(1);
                 sqlQuery = "SELECT * FROM " + tableName + " WHERE FIRSTNAME='" + input + "'";
             }
             else if (option.equals("Last Name")) {
+                input = input.toLowerCase();
+                input = input.substring(0, 1).toUpperCase() + input.substring(1);
                 sqlQuery = "SELECT * FROM " + tableName + " WHERE LASTNAME='" + input + "'";
             }
             rs = statement1.executeQuery(sqlQuery);
@@ -128,8 +137,12 @@ public class Patient {
                 
                 matchingPatients.add(iteratePatient);
             }
-            if (matchingPatients.size() > 1) {
-                specifyPatient(matchingPatients, patientPopUp);
+            if (matchingPatients.size() > 1 && matchingPanel instanceof getPatientPopUp) {
+                specifyPatientonPopUp(matchingPatients, (getPatientPopUp) matchingPanel);
+            }
+            else if (matchingPatients.size() > 1 && matchingPanel instanceof BrowsePatientsPanel) {
+                JPanel patientsTable = displayAllPatients(matchingPatients);
+                specifyPatientOnTable((BrowsePatientsPanel) matchingPanel, patientsTable);
             }
             else {
                 NHI = iteratePatient.NHI;
@@ -159,14 +172,18 @@ public class Patient {
            currentMeasurement.name = rs.getString("NAME");
            currentMeasurement.measurement = rs.getDouble("VALUE");
            currentMeasurement.units = rs.getString("UNIT");
+           iteratePatient.measurements.add(currentMeasurement);
         }
     }
     
-    public void specifyPatient(ArrayList<Patient> matchingPatients, getPatientPopUp patientPopUp) {
-        
+    public void specifyPatientonPopUp(ArrayList<Patient> matchingPatients, getPatientPopUp patientPopUp) {
         Object[] matchingPatientsArray = matchingPatients.toArray();
         JComboBox patientSelect = new JComboBox(matchingPatientsArray);
         patientPopUp.setPatientPicker(patientSelect);
+    }
+    
+    public void specifyPatientOnTable(BrowsePatientsPanel panel, JComponent table) {
+        panel.setPatientTable(table);
     }
     
     public HashSet convertStringToConditions(String conditionsString) {
@@ -298,16 +315,19 @@ public class Patient {
         return patientColumns;
     }
    
-    public JPanel displayAllPatients()
+    public JPanel displayAllPatients(ArrayList<Patient> matchingPatients)
     {
         DefaultTableModel patientTableModel = patientColumnNames();
         JTable patientTable = new JTable(patientTableModel);
         DatabaseConnection dbc = new DatabaseConnection();
         try 
         {
-      
-            PreparedStatement prepstmt = dbc.getConnectionPatients().prepareStatement("SELECT NHI, FIRSTNAME, LASTNAME FROM PATIENTS");
+             PreparedStatement prepstmt = dbc.getConnectionPatients().prepareStatement("SELECT NHI, FIRSTNAME, LASTNAME FROM PATIENTS");
+            if (matchingPatients != null) {
+               prepstmt = dbc.getConnectionPatients().prepareStatement("SELECT NHI, FIRSTNAME, LASTNAME FROM PATIENTS WHERE FIRSTNAME='" + matchingPatients.get(0).fName + "'");
+            }
             ResultSet rs = prepstmt.executeQuery();
+            
             while (rs.next()) 
             {            
                 patientTableModel.addRow(new Object[]{rs.getString(1), rs.getString(2), rs.getString(3)});
@@ -320,12 +340,12 @@ public class Patient {
         
         
         JScrollPane patientJsp = new JScrollPane(patientTable);
-       // patientJsp.setPreferredSize(new Dimension(300,600));
         Toolkit kit = Toolkit.getDefaultToolkit();
         Dimension screenSize = kit.getScreenSize();
         JPanel patientPanel = new JPanel();
-        //patientPanel.setSize((screenSize.width/2), (screenSize.height/2));
         patientPanel.add(patientJsp);
+        
+        matchingPatientsTable = patientTable;
         
         return patientPanel;
     }
@@ -364,12 +384,14 @@ public class Patient {
     }
     
     public void updateMeasurements() throws SQLException {
-        Statement statement1 = conn.createStatement();
-        for (Measurements m : measurements) {
-            String query = "INSERT INTO ADMIN1.MEASUREMENTS (NHI, NAME, VALUE, UNIT) VALUES ('" + NHI + "', '" + m.name + "', " + m.measurement + ", '" + m.units + "')";
-            statement1.addBatch(query);
+        if (newMeasurements.size() > 0) {
+            Statement statement1 = conn.createStatement();
+            for (Measurements m : newMeasurements) {
+                String query = "INSERT INTO ADMIN1.MEASUREMENTS (NHI, NAME, VALUE, UNIT) VALUES ('" + NHI + "', '" + m.name + "', " + m.measurement + ", '" + m.units + "')";
+                statement1.addBatch(query);
+            }
+            statement1.executeBatch();
         }
-        statement1.executeBatch();
     }
     
     public String toString() {

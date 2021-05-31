@@ -69,12 +69,11 @@ public class getPatientPopUp extends JDialog {
                 if ((inputString.length() == 6 && searchOptions.getSelectedItem().equals("NHI")) || (inputString.length() > 2 && searchOptions.getSelectedItem().equals("First Name")) || (inputString.length() > 2 && searchOptions.getSelectedItem().equals("Last Name"))) {
                     try {
                         p1 = new Patient();
-                        p1.setPopUp(store);
                     } catch (SQLException ex) {
                         Logger.getLogger(AppointmentsPanel.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     try {
-                        p1.getPatientFromDatabase(inputString, searchOptions.getSelectedItem());
+                        p1.getPatientFromDatabase(inputString, searchOptions.getSelectedItem(), store);
                         if (p1.getNHI().length() == 6) {
                             setAndClose();
                         }

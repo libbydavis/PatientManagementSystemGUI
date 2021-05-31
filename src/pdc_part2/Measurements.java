@@ -40,7 +40,7 @@ public class Measurements {
     }
     
     public String toString() {
-        return "name: " + name + ",measurement: " + measurement + ",units: " + units;
+        return name + ": " + measurement + units;
     }
 
 }

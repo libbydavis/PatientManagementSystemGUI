@@ -21,11 +21,13 @@ public class PatientsController implements ActionListener{
     PatientManagementView frame;
     PatientsController control = this;
     private BrowsePatientsPanel browsePanel;
+    private Patient findPatient;
     
     public PatientsController(PatientsPanel panel, PatientManagementView frame) throws IOException, SQLException {
         this.panel = panel;
         this.frame = frame;
         browsePanel = new BrowsePatientsPanel(frame, frame.getWidth(), frame.getHeight(), control);
+        findPatient = new Patient();
     }
 
     @Override
@@ -61,13 +63,25 @@ public class PatientsController implements ActionListener{
         
         else if (source == browsePanel.getSearchButton()) {
             try {
-                Patient findPatient = new Patient();
                 String searchText = browsePanel.getSearchText();
-                findPatient.getPatientFromDatabase(searchText, "NHI");
-                browsePanel.displayIndividualPatient(findPatient);
+                findPatient.getPatientFromDatabase(searchText, browsePanel.getSearchOptions().getSelectedItem(), browsePanel);
+                if (findPatient.getNHI().length() > 0) {
+                    browsePanel.displayIndividualPatient(findPatient);
+                }
             } catch (SQLException ex) {
                 Logger.getLogger(PatientsController.class.getName()).log(Level.SEVERE, null, ex);
             }
+        }
+        
+        else if (source == browsePanel.getSelectButton()) {
+            int row = findPatient.getMatchingPatientTable().getSelectedRow();
+            String nhi = findPatient.getMatchingPatientTable().getModel().getValueAt(row, 0).toString();
+            try {
+                findPatient.getPatientFromDatabase(nhi, "NHI", browsePanel);
+            } catch (SQLException ex) {
+                Logger.getLogger(PatientsController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            browsePanel.displayIndividualPatient(findPatient);
         }
     }
     

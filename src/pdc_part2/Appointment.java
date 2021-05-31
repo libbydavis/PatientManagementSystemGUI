@@ -213,7 +213,7 @@ public class Appointment {
         for (String key : map.keySet()) {
             Object[] row = new Object[4];
             row[0] = key;
-            currentPatient.getPatientFromDatabase(key, "NHI");
+            currentPatient.getPatientFromDatabase(key, "NHI", null);
             row[1] = currentPatient.getfName();
             row[2] = currentPatient.getlName();
             row[3] = map.get(key);
