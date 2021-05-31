@@ -97,7 +97,6 @@ public class Patient {
     public void getPatientFromDatabase(String input, Object option) throws SQLException {
             ResultSet rs;
             Statement statement1 = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            Statement statement2 = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
             String sqlQuery = "";
             if (option.equals("NHI")) {
                 sqlQuery = "SELECT * FROM " + tableName + " WHERE NHI='" + input + "'"; // PrintAllPatients Method needs this query to work
@@ -122,10 +121,9 @@ public class Patient {
                 iteratePatient.age = rs.getInt("AGE");
                 iteratePatient.phoneNumber = rs.getString("PHONENO");
                 iteratePatient.address = rs.getString("STREET");
-                measurementsString = rs.getString("MEASUREMENTS");
-                iteratePatient.measurements = convertStringToMeasurements(measurementsString);
+                getMeasurementsFromDatabase(iteratePatient);
                 String conditionsString = rs.getString("CONDITIONS");
-                iteratePatient.conditions = convertStringToConditions(conditionsString);
+                //iteratePatient.conditions = convertStringToConditions(conditionsString);
                 
                 
                 matchingPatients.add(iteratePatient);
@@ -145,6 +143,23 @@ public class Patient {
             }
             
             rs.close();
+    }
+    
+    public void getMeasurementsFromDatabase(Patient iteratePatient) throws SQLException {
+        ResultSet rs;
+        Statement statement = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+        String sqlQuery = "SELECT * FROM ADMIN1.MEASUREMENTS WHERE NHI = '" + iteratePatient.NHI + "'";
+        rs = statement.executeQuery(sqlQuery);
+        
+        //set measurements to patient
+        rs.beforeFirst();
+        Measurements currentMeasurement;
+        while(rs.next()) {
+           currentMeasurement = new Measurements();
+           currentMeasurement.name = rs.getString("NAME");
+           currentMeasurement.measurement = rs.getDouble("VALUE");
+           currentMeasurement.units = rs.getString("UNIT");
+        }
     }
     
     public void specifyPatient(ArrayList<Patient> matchingPatients, getPatientPopUp patientPopUp) {
@@ -175,6 +190,7 @@ public class Patient {
         return conditionsSet;
     }
     
+    /*
     public ArrayList convertStringToMeasurements(String measurementString) {
        ArrayList theseMeasurements = new ArrayList();
        if (measurementsString != null && measurementsString.length() > 0) {
@@ -201,6 +217,7 @@ public class Patient {
        }
        return theseMeasurements;
     }
+*/
     
     public JComponent displayIndividualPatientDetails() {
         JPanel patientDetails = new JPanel();
@@ -244,13 +261,14 @@ public class Patient {
         patientDetails.add(phoneLabel);
         patientDetails.add(phoneValue);
         
+        /*
         JLabel conditionsLabel = new JLabel("Conditions");
         conditionsLabel.setFont(boldFont);
         JLabel conditionsValue = new JLabel(stringCollection(conditions));
         conditionsValue.setFont(normalFont);
         patientDetails.add(conditionsLabel);
         patientDetails.add(conditionsValue);
-        
+        */
         JLabel measurementsLabel = new JLabel("Measurements");
         measurementsLabel.setFont(boldFont);
         JLabel measurementsValues = new JLabel(stringCollection(measurements));
@@ -337,19 +355,21 @@ public class Patient {
     }   
     
     public void saveAppointmentToDB(Appointment app) throws SQLException {
-        updatePatient();
+        updateMeasurements();
+        //updateConditions();
         Statement statement2 = conn.createStatement();
         Timestamp ts = Timestamp.from(app.date);
         String query1 = "INSERT INTO ADMIN1.APPOINTMENT (NHI, REASONS, MEASUREMENTS, NOTES, DATETIME) VALUES ('" + app.NHI + "', '" + app.getReasonsString() + "', '" + app.getMeasurementsString() + "', '" + app.getNotesString() +  "', '" + ts + "')";
         statement2.executeUpdate(query1);
     }
     
-    public void updatePatient() throws SQLException {
+    public void updateMeasurements() throws SQLException {
         Statement statement1 = conn.createStatement();
-        String measureNoSquare = measurements.toString().replace("[", "");
-        measureNoSquare = measureNoSquare.replace("]", "");
-        String query = "UPDATE " + tableName + " SET MEASUREMENTS = '" + measureNoSquare + "' WHERE NHI = '" + NHI + "'";
-        statement1.executeUpdate(query);
+        for (Measurements m : measurements) {
+            String query = "INSERT INTO ADMIN1.MEASUREMENTS (NHI, NAME, VALUE, UNIT) VALUES ('" + NHI + "', '" + m.name + "', " + m.measurement + ", '" + m.units + "')";
+            statement1.addBatch(query);
+        }
+        statement1.executeBatch();
     }
     
     public String toString() {
