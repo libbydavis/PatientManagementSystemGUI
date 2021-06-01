@@ -41,7 +41,6 @@ public class BrowsePatientsPanel extends JPanel {
     private Dimension d;
     private JComboBox searchOptions;
     private JButton selectButton;
-    private JTable matchingPatientsTable;
     
     public BrowsePatientsPanel(PatientManagementView frame, double width, double height, PatientsController controller) throws IOException, SQLException {
         setLayout(new GridBagLayout());
@@ -87,6 +86,8 @@ public class BrowsePatientsPanel extends JPanel {
         Patient allPatients = new Patient();
         patientTable = allPatients.displayAllPatients(null);
         add(patientTable, c);
+        
+        selectButton = new JButton("Select Patient");
     }
     
     public void setPatientTable(JComponent table) {

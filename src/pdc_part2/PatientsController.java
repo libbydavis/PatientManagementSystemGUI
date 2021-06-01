@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pdc_part2;
 
 import java.awt.event.ActionEvent;
@@ -21,12 +16,14 @@ public class PatientsController implements ActionListener{
     PatientManagementView frame;
     PatientsController control = this;
     private BrowsePatientsPanel browsePanel;
+    private EditPatientPanel editPatientPanel;
     private Patient findPatient;
     
     public PatientsController(PatientsPanel panel, PatientManagementView frame) throws IOException, SQLException {
         this.panel = panel;
         this.frame = frame;
         browsePanel = new BrowsePatientsPanel(frame, frame.getWidth(), frame.getHeight(), control);
+        editPatientPanel = new EditPatientPanel(frame, frame.getWidth(), frame.getHeight(), control);
         findPatient = new Patient();
     }
 
@@ -51,7 +48,10 @@ public class PatientsController implements ActionListener{
             
         }
         else if (source == panel.getEditPatientB()) {
-            
+            panel.remove(panel.getButtonsPane1());
+            panel.add(editPatientPanel, panel.getConstraints());
+            panel.setPatientsLabel("Edit Patient");
+            frame.revalidate();
         }
         else if (source == panel.getBrowsePatientsB()) {
             panel.remove(panel.getButtonsPane1());
@@ -73,6 +73,18 @@ public class PatientsController implements ActionListener{
             }
         }
         
+        else if (source == editPatientPanel.getSearchButton()) {
+            String searchText = editPatientPanel.getSearchText();
+            try {
+                findPatient.getPatientFromDatabase(searchText, editPatientPanel.getSelected(), editPatientPanel.getBrowsePanel());
+                if (findPatient.getNHI().length() > 0) {
+                    editPatientPanel.setEditor(findPatient);
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(PatientsController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
         else if (source == browsePanel.getSelectButton()) {
             int row = findPatient.getMatchingPatientTable().getSelectedRow();
             String nhi = findPatient.getMatchingPatientTable().getModel().getValueAt(row, 0).toString();
@@ -82,6 +94,17 @@ public class PatientsController implements ActionListener{
                 Logger.getLogger(PatientsController.class.getName()).log(Level.SEVERE, null, ex);
             }
             browsePanel.displayIndividualPatient(findPatient);
+        }
+        
+        else if (source == editPatientPanel.getSelectButton()) {
+            int row = findPatient.getMatchingPatientTable().getSelectedRow();
+            String nhi = findPatient.getMatchingPatientTable().getModel().getValueAt(row, 0).toString();
+            try {
+                findPatient.getPatientFromDatabase(nhi, "NHI", editPatientPanel.getBrowsePanel());
+            } catch (SQLException ex) {
+                Logger.getLogger(PatientsController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            editPatientPanel.setEditor(findPatient);
         }
     }
     

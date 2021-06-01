@@ -207,35 +207,6 @@ public class Patient {
         return conditionsSet;
     }
     
-    /*
-    public ArrayList convertStringToMeasurements(String measurementString) {
-       ArrayList theseMeasurements = new ArrayList();
-       if (measurementsString != null && measurementsString.length() > 0) {
-        String[] measurementsList = measurementString.split(",");
-        Measurements measurement = new Measurements();
-        int indexCounter = 0;
-        for (int i = 0; i < measurementsList.length; i++) {
-            if (indexCounter == 0) {
-                String[] splitValue = measurementsList[i].split(": ");
-                measurement.name = splitValue[1];
-            }
-            else if (indexCounter == 1) {
-                String[] splitValue = measurementsList[i].split(": ");
-                measurement.measurement = Double.parseDouble(splitValue[1]);
-            }
-            else if (indexCounter == 2) {
-                String[] splitValue = measurementsList[i].split(": ");
-                measurement.units = splitValue[1];
-                indexCounter = -1;
-                theseMeasurements.add(measurement);
-            }
-            indexCounter++;
-        }
-       }
-       return theseMeasurements;
-    }
-*/
-    
     public JComponent displayIndividualPatientDetails() {
         JPanel patientDetails = new JPanel();
         patientDetails.setLayout(new GridLayout(0, 2));
@@ -299,7 +270,7 @@ public class Patient {
     public String stringCollection(Collection collection) {
         String total = "";
         for (Object o: collection) {
-            total += o + "\n";
+            total += o + ", ";
         }
         return total;
     }

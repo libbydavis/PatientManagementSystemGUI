@@ -32,10 +32,6 @@ public class PatientsPanel extends JPanel
     private PatientButtonsPane buttonsPane1;
     private JButton backButton;
     private JLabel patientsLabel;
-//    public static Connection conn;
-//    public static String url = "jdbc:derby://localhost:1527/PatientDB; create = true";
-//    public static String username = "admin1";
-//    public static String password = "admin123";
 
     public PatientsPanel(PatientManagementView frame, int width, int height) throws IOException, SQLException {
         setLayout(new GridBagLayout());
