@@ -125,7 +125,7 @@ public class AddPatientController
         if ((!chosenMedicine.equalsIgnoreCase("choose an option")) && (!(currMeds.contains(chosenMedicine)))) 
         {
             currMeds.add(chosenMedicine);
-            newPat.setConditions(currMeds);
+            newPat.setCurrentMedications(currMeds);
         }
     }
 }

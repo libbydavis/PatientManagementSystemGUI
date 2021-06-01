@@ -7,6 +7,7 @@ package pdc_part2;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -24,6 +25,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
+import org.apache.derby.shared.common.error.DerbySQLIntegrityConstraintViolationException;
 
 /**
  *
@@ -92,18 +94,8 @@ public class Patient {
         return phoneNumber;
     }
 
-    public String getConditions() {
-        String cond = conditions.toString();
-        Scanner scan = new Scanner(cond);
-        scan.useDelimiter("\\[\\[*|\\]\\]*");
-        
-        String cleanCond = "";
-        
-        while(scan.hasNext())
-        {
-            cleanCond += scan.next();
-        }
-        return cleanCond;
+    public HashSet getConditions() {
+        return conditions;
     }
     
     public void setPhoneNumber(String phoneNumber) 
@@ -116,7 +108,24 @@ public class Patient {
     }
 
     public String getCurrentMedications() {
-        return currentMedications.toString();
+        String currentMedsInDB = "";
+        String currentMeds = "";
+
+        try {
+            currentMeds = currentMedications.toString();
+
+        } catch (NullPointerException e) {
+            currentMeds = "\"No current medication\"";
+        }
+
+        Scanner scan = new Scanner(currentMeds);
+        scan.useDelimiter("\\[\\[*|\\]\\]*");
+
+        while (scan.hasNext()) {
+            currentMedsInDB += scan.next();
+        }
+
+        return currentMedsInDB;
     }
     
     public void setAddress(String address) 
@@ -148,18 +157,39 @@ public class Patient {
         this.patientPopUp = patientPopUp;
     }
     
-    public void insertPatientToDatabase(AddPatientsView adv) throws SQLException
+    public static ArrayList<String> paitentNHIList() throws SQLException
     {
-//        adv.adp.newPat.getfName();
-//        DatabaseConnection dbc = new DatabaseConnection();
-//        String sqlQuery = "INSERT INTO PATIENTS (NHI, FIRSTNAME, LASTNAME, AGE, PHONENO ,STREET, CURRENTMEDS)"
-//                + "VALUES (\'" + newNhi + "\', \'" + adv.adp.newPat.getfName() + "\', \'" + adp.newPat.getlName() + "\'," + adp.newPat.getAge() + ", " + adp.newPat.getPhoneNumber() + ",\'" + adp.newPat.getAddress() + "\',\'" + adp.newPat.getConditions() + "\')";
-//        try {
-//            PreparedStatement prepstmt = dbc.getConnectionPatients().prepareStatement(sqlQuery);
-//            prepstmt.executeUpdate();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
+        ArrayList<String> nhiList = new ArrayList<String>();
+        
+        DatabaseConnection dbc = new DatabaseConnection();
+        String sqlQuery = "SELECT NHI FROM PATIENTS";
+        PreparedStatement prepstmt = dbc.getConnectionPatients().prepareStatement(sqlQuery);
+        ResultSet rs = prepstmt.executeQuery();
+        nhiList.add("choose patients NHI");
+        while (rs.next()) {
+            nhiList.add(rs.getString("NHI").toString());
+        }
+        
+        return nhiList;
+    }
+    
+    /**
+     * 
+     * @param newPat
+     * @throws SQLException 
+     */
+    public void insertPatientToDatabase(Patient newPat) throws SQLException, IOException
+    {
+        // Just need to add stuff to the query when adding measurements and conditions
+        DatabaseConnection dbc = new DatabaseConnection();
+        String sqlQuery = "INSERT INTO PATIENTS (NHI, FIRSTNAME, LASTNAME, AGE, PHONENO ,STREET, CURRENTMEDS)"
+                + "VALUES (\'" + newPat.getNHI() + "\', \'" + newPat.getfName() + "\', \'" + newPat.getlName() + "\'," + newPat.getAge()+ ", " + newPat.getPhoneNumber() + ",\'" + newPat.getAddress() + "\',\'" + newPat.getCurrentMedications() + "\')";
+        try {
+            PreparedStatement prepstmt = dbc.getConnectionPatients().prepareStatement(sqlQuery);
+            prepstmt.executeUpdate();
+        } catch (DerbySQLIntegrityConstraintViolationException ex) {
+            ex.printStackTrace();
+        }
                 
     }
     

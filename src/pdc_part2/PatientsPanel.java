@@ -31,10 +31,6 @@ public class PatientsPanel extends JPanel
     private JButton browsePatientsB;
     private PatientButtonsPane buttonsPane1;
     private JButton backButton;
-//    public static Connection conn;
-//    public static String url = "jdbc:derby://localhost:1527/PatientDB; create = true";
-//    public static String username = "admin1";
-//    public static String password = "admin123";
 
     public PatientsPanel(PatientManagementView frame, int width, int height) throws IOException, SQLException {
         setLayout(new GridBagLayout());
@@ -131,7 +127,7 @@ public class PatientsPanel extends JPanel
         add(addPatientB, c);
         
         c.gridx = 2;
-        editPatientB = new JButton("Edit Patient");
+        editPatientB = new JButton("Delete Patient");
         editPatientB.setBackground(dBlue);
         editPatientB.setForeground(Color.WHITE);
         editPatientB.setBorderPainted(false);
