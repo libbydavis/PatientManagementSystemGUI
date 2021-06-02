@@ -58,36 +58,44 @@ class AddPatientsView extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 try {
                     adp.newPat.insertPatientToDatabase(adp.newPat);
-                    
-                    JPanel confirmation = new JPanel();
-                    confirmation.setMaximumSize(new Dimension(frame.getWidth(), 30));
-                    confirmation.setBackground(Color.GREEN);
-                    confirmation.add(new JLabel("Patient Saved"));
+                    JPanel confirmation = Confirmation.createConfirmation("Appointment Saved", frame);
                     frame.remove(addPatView);
                     frame.remove(patPanel);
-                    
-                    try {
-                        frame.add(confirmation);
-                        frame.add(new MenuIconsPanel(frame));
-                        Timer t = new Timer();
-
-                        t.schedule(new TimerTask() {
-                            @Override
-                            public void run() {
-                                frame.remove(confirmation);
-                                frame.revalidate();
-                            }
-                        }, 3000);
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
+                    frame.add(new MenuIconsPanel(frame));
+                    frame.revalidate();
+                    Timer t = new Timer();
+                    t.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            Confirmation.removeConfirmation(frame, confirmation);
+                        }
+                    }, 3000);
+                    /*
+                    JPanel confirmation = Confirmation.createConfirmation("Patient Saved", frame);
+                    frame.remove(addPatView);
+                    frame.remove(patPanel);
+                    //frame.add(new MenuIconsPanel(frame));
+                    frame.revalidate();
+                    Timer t = new Timer();
+                    */
+                    /*
+                    t.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            frame.remove(confirmation);
+                            frame.revalidate();
+                        }
+                    }, 3000);
+                    */
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 } catch (IOException ex) {
                     Logger.getLogger(AddPatientsView.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                    
             }
         });
+                    
         saveAndExitPanel.add(addPatient);
         this.add(saveAndExitPanel);
 

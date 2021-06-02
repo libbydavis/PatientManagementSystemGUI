@@ -31,4 +31,9 @@ public class Confirmation {
         System.out.println(error);
         return error;
     }
+    
+    public static void removeConfirmation(PatientManagementView frame, JPanel confirmation) {
+        frame.remove(confirmation);
+        frame.revalidate();
+    }
 }

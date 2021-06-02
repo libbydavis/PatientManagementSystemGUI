@@ -24,10 +24,15 @@ import javax.swing.JTextField;
  * @author libst
  */
 public class MeasurementsPopUp extends JFrame {
+    JTextField nameField;
+    JTextField valueField;
+    JTextField unitField;
+    JButton addMeasurement;
+    
     private static MeasurementsPopUp MeasurementsPopUpInstance;
-        public static synchronized MeasurementsPopUp getMeasurementsPopUpInstance(Appointment current, JList measurementsList, MedicalPatient patient) {
+        public static synchronized MeasurementsPopUp getMeasurementsPopUpInstance(MeasurementsPopUpController controller) {
             if (MeasurementsPopUpInstance == null) {
-                MeasurementsPopUpInstance = new MeasurementsPopUp(current, measurementsList, patient);
+                MeasurementsPopUpInstance = new MeasurementsPopUp(controller);
             }
             return MeasurementsPopUpInstance;
         }
@@ -37,7 +42,7 @@ public class MeasurementsPopUp extends JFrame {
             MeasurementsPopUpInstance = null;
         }
     }
-    private MeasurementsPopUp(Appointment current, JList measurementsList, MedicalPatient patient) {
+    private MeasurementsPopUp(MeasurementsPopUpController controller) {
         super("Add Measurement");
         setSize(500, 300);
         setLocation(200, 200);
@@ -46,7 +51,7 @@ public class MeasurementsPopUp extends JFrame {
 
         JLabel measurementTitle = new JLabel("Enter a new measurement");
         JLabel nameLabel = new JLabel("name/type:");
-        JTextField nameField = new JTextField();
+        nameField = new JTextField();
         nameField.addFocusListener(new FocusListener(){
             @Override
             public void focusGained(FocusEvent e){
@@ -60,7 +65,7 @@ public class MeasurementsPopUp extends JFrame {
             }
         });
         JLabel valueLabel = new JLabel("value:");
-        JTextField valueField = new JTextField();
+        valueField = new JTextField();
         valueField.addFocusListener(new FocusListener(){
             @Override
             public void focusGained(FocusEvent e){
@@ -74,7 +79,7 @@ public class MeasurementsPopUp extends JFrame {
             }
         });
         JLabel unitLabel = new JLabel("units:");
-        JTextField unitField = new JTextField();
+        unitField = new JTextField();
         unitField.addFocusListener(new FocusListener(){
             @Override
             public void focusGained(FocusEvent e){
@@ -87,20 +92,8 @@ public class MeasurementsPopUp extends JFrame {
 
             }
         });
-        JButton addMeasurement = new JButton("Add");
-        addMeasurement.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                boolean set = current.setMeasurement(nameField.getText(), valueField.getText(), unitField.getText(), unitField, nameField, valueField, patient);
-                if (set == true) {
-                    nameField.setText("");
-                    valueField.setText("");
-                    unitField.setText("");
-                    String[] measurementsArray = current.getMeasurementArrayToString();
-                    measurementsList.setListData(measurementsArray);
-                }
-            }
-        });
+        addMeasurement = new JButton("Add");
+        addMeasurement.addActionListener(controller);
 
         c.gridx = 0;
         c.gridy = 0;

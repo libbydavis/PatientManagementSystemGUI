@@ -29,6 +29,7 @@ public class AppointmentsForm extends JPanel{
     private JButton deleteReason;
     private JButton deleteMeasurement;
     private JButton deleteNote;
+    private MeasurementsPopUp mPopUp;
     
     public AppointmentsForm(int width, int height, AppointmentsController controller) {
         this.controller = controller;
@@ -157,12 +158,18 @@ public class AppointmentsForm extends JPanel{
         return deleteNote;
     }
     
+    public MeasurementsPopUp getMPopUp() {
+        return mPopUp;
+    }
+    
     public ReasonPopUp getReasonPopUp() {
         return ReasonPopUp.getReasonPopUpInstance(currentAppointment, reasonsList);
     }
     
     public MeasurementsPopUp getMeasurementsPopup(MedicalPatient patient) {
-        return MeasurementsPopUp.getMeasurementsPopUpInstance(currentAppointment, measurementsList, patient);
+        MeasurementsPopUpController controller = new MeasurementsPopUpController(currentAppointment, measurementsList, patient, this);
+        mPopUp = MeasurementsPopUp.getMeasurementsPopUpInstance(controller);
+        return mPopUp;
     }
     
     public NotesPopUp getNotesPopup() {

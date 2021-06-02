@@ -81,7 +81,7 @@ public class AppointmentsController implements ActionListener{
                 t.schedule(new TimerTask() {
                     @Override
                     public void run() {
-                        removeConfirmation();
+                        Confirmation.removeConfirmation(frame, confirmation);
                     }
                 }, 3000);
             } catch (SQLException ex) {
@@ -192,10 +192,6 @@ public class AppointmentsController implements ActionListener{
         
     }
     
-    public void removeConfirmation() {
-        frame.remove(confirmation);
-        frame.revalidate();
-    }
     
     public void closePopUps() {
         ReasonPopUp.reasonClosePopUp();
