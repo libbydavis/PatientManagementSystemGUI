@@ -44,8 +44,24 @@ public class PatientsController implements ActionListener{
             }
             
         }
-        else if (source == panel.getAddPatientB()) {
-            
+        else if (source == panel.getAddPatientB()) 
+        {
+            AddPatientsView addPanel;
+            try 
+            {
+                addPanel = new AddPatientsView(frame, panel, frame.getWidth(), frame.getHeight());
+                panel.remove(panel.getButtonsPane1());
+                panel.add(addPanel, panel.getConstraints());
+                frame.revalidate();
+            } 
+            catch (IOException ex) 
+            {
+                Logger.getLogger(PatientsPanel.class.getName()).log(Level.SEVERE, null, ex);
+            } 
+            catch (SQLException ex) 
+            {
+                Logger.getLogger(PatientsPanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         else if (source == panel.getEditPatientB()) {
             panel.remove(panel.getButtonsPane1());

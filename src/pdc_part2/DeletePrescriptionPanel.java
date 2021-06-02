@@ -17,6 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -35,7 +36,7 @@ public class DeletePrescriptionPanel extends JPanel
     PrescriptionComponent objPC;
     JButton removeButton;
 
-    public DeletePrescriptionPanel() 
+    public DeletePrescriptionPanel() throws SQLException 
     {
         // General Setup
         Toolkit tk = Toolkit.getDefaultToolkit();
@@ -48,42 +49,66 @@ public class DeletePrescriptionPanel extends JPanel
         JTable prescTable = new JTable(prescTableModel);
         prescTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         // Edit Panel
-        objPC = new PrescriptionComponent();
-        editPanel = objPC.CreatePrescComponents("Enter NHI of the patient's prescription you want to delete: ", "e.g(tes123)", "This NHI does not have a prescripton, please try again!");
-        enterNHI = (JTextField) editPanel.getComponent(1);
-        enterNHI.setPreferredSize(new Dimension(70, 20));
-        errorMsg = (JLabel) editPanel.getComponent(2);
-        enterNHI.addActionListener(new ActionListener() 
+        JPanel editPanel = new JPanel();
+        JLabel prompt = new JLabel("Enter NHI of the patient's prescription you want to delete: ");
+        JComboBox nhiList = new JComboBox(Patient.paitentNHIList().toArray());
+        
+        editPanel.add(prompt);
+        nhiList.addActionListener(new ActionListener()
         {
-            public void actionPerformed(ActionEvent e) 
-            {
-                try 
-                {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
                     DatabaseConnection dbc = new DatabaseConnection();
                     Statement stmt = dbc.getConnectionPatients().createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-                    ResultSet rs = stmt.executeQuery("SELECT PRESCRIPTIONNO, PRESCRIPTION_DETAILS FROM PRESCRIPTIONS WHERE NHI = \'" + enterNHI.getText().toLowerCase() + "\'");
-                    //add functionality that when a new nhi is entered, the old prescriptions are removed.
+                    ResultSet rs = stmt.executeQuery("SELECT PRESCRIPTIONNO, PRESCRIPTION_DETAILS FROM PRESCRIPTIONS WHERE NHI = \'" + nhiList.getSelectedItem().toString() + "\'");
+
                     tablePanel.setVisible(true);
                     while(rs.next()) 
                     {
                         prescTableModel.addRow(new Object[]{rs.getString(1), rs.getString(2)});
-                        errorMsg.setVisible(false);
                     } 
                     
                     rs.beforeFirst();
-                    
-                    if(!rs.next()) 
-                    {
-                        enterNHI.setText("");
-                        errorMsg.setVisible(true);
-                    }  
-                } 
-                catch (SQLException ex) 
-                {
-                    ex.printStackTrace();
+                    nhiList.setEnabled(false);
+                } catch (SQLException ex) {
+                    Logger.getLogger(DeletePrescriptionPanel.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            }    
+            }
+            
         });
+//        enterNHI.addActionListener(new ActionListener() 
+//        {
+//            public void actionPerformed(ActionEvent e) 
+//            {
+//                try 
+//                {
+//                    DatabaseConnection dbc = new DatabaseConnection();
+//                    Statement stmt = dbc.getConnectionPatients().createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+//                    ResultSet rs = stmt.executeQuery("SELECT PRESCRIPTIONNO, PRESCRIPTION_DETAILS FROM PRESCRIPTIONS WHERE NHI = \'" + enterNHI.getText().toLowerCase() + "\'");
+//
+//                    tablePanel.setVisible(true);
+//                    while(rs.next()) 
+//                    {
+//                        prescTableModel.addRow(new Object[]{rs.getString(1), rs.getString(2)});
+//                        errorMsg.setVisible(false);
+//                    } 
+//                    
+//                    rs.beforeFirst();
+//                    
+//                    if(!rs.next()) 
+//                    {
+//                        enterNHI.setText("");
+//                        errorMsg.setVisible(true);
+//                    }  
+//                } 
+//                catch (SQLException ex) 
+//                {
+//                    ex.printStackTrace();
+//                }
+//            }    
+//        });
+        editPanel.add(nhiList);
         this.add(editPanel);
         // Table Panel
         tablePanel = new JPanel();

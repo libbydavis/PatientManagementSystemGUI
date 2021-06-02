@@ -109,7 +109,7 @@ public class PatientsPanel extends JPanel
         public PatientButtonsPane(PatientManagementView frame, Dimension d, PatientsPanel panel) {
         this.panel = panel;
         
-         //set layout
+        //set layout
         setLayout(new GridBagLayout());
         setBackground(Color.WHITE);
         GridBagConstraints c = new GridBagConstraints();
@@ -132,7 +132,7 @@ public class PatientsPanel extends JPanel
         add(addPatientB, c);
         
         c.gridx = 2;
-        editPatientB = new JButton("Edit Patient");
+        editPatientB = new JButton("Delete Patient");
         editPatientB.setBackground(dBlue);
         editPatientB.setForeground(Color.WHITE);
         editPatientB.setBorderPainted(false);
@@ -149,8 +149,7 @@ public class PatientsPanel extends JPanel
         browsePatientsB.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         browsePatientsB.setFont(buttonFont);
         browsePatientsB.addActionListener(controller);
-        add(browsePatientsB, c);
-        
+        add(browsePatientsB, c);    
     }
     
     }
