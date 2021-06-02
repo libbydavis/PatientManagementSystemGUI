@@ -21,6 +21,7 @@ import java.util.logging.Logger;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -258,8 +259,20 @@ class AddPatientsView extends JPanel {
         *
      */
     public JPanel measurementsPanel() {
-
+        
+        
         AddPatientsModel makeStreetPanel = new AddPatientsModel("Enter patient's measurements:", "e.g. weight: 63 kgs", "Incorrect input, please try again!");
+        JButton addMeas = new JButton("Add Measurement");
+        addMeas.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e) 
+            {
+                //MeasurementsPopupController form = new MeasurementsPopupController();
+                //JFrame popUp = MeasurementsPopUp.getMeasurementsPopUpInstance(currentAppointment, measurementsList, patient);
+                //popUp.setVisible(true);
+            }
+        });
         makeStreetPanel.clearTextField();
         makeStreetPanel.getEnterValues().setPreferredSize(new Dimension(215, 20));
         makeStreetPanel.getEnterValues().addActionListener(new ActionListener() {
