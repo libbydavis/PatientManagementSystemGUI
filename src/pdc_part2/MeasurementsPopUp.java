@@ -29,6 +29,8 @@ public class MeasurementsPopUp extends JFrame {
     JTextField unitField;
     JButton addMeasurement;
     
+    
+    
     private static MeasurementsPopUp MeasurementsPopUpInstance;
         public static synchronized MeasurementsPopUp getMeasurementsPopUpInstance(MeasurementsPopUpController controller) {
             if (MeasurementsPopUpInstance == null) {

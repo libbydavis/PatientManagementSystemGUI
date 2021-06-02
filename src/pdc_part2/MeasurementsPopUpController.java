@@ -14,6 +14,7 @@ public class MeasurementsPopUpController implements ActionListener{
     private JList measurementsList;
     private MedicalPatient patient;
     private AppointmentsForm form;
+    private MeasurementsPopUp measPopUp;
     
     public MeasurementsPopUpController(Appointment current, JList measurementsList, MedicalPatient patient, AppointmentsForm form) {
         this.current = current;
@@ -22,23 +23,37 @@ public class MeasurementsPopUpController implements ActionListener{
         this.form = form;
     }
     
-    public MeasurementsPopUpController() {
-        
+    public MeasurementsPopUpController() 
+    {
+        //this.patient = pat;
+    }
+    
+    public void setUpController(MeasurementsPopUp mpu)
+    {
+        this.measPopUp = mpu;
     }
     
     @Override
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
-        if (source == form.getMPopUp().addMeasurement) {
-             boolean set = current.setMeasurement(form.getMPopUp().nameField.getText(), form.getMPopUp().valueField.getText(), form.getMPopUp().unitField.getText(), form.getMPopUp().unitField, form.getMPopUp().nameField, form.getMPopUp().valueField, patient);
-            if (set == true) {
-                    form.getMPopUp().nameField.setText("");
-                    form.getMPopUp().valueField.setText("");
-                    form.getMPopUp().unitField.setText("");
-                    String[] measurementsArray = current.getMeasurementArrayToString();
-                    measurementsList.setListData(measurementsArray);
-                }
+        
+        if(form != null) {
+            if(source ==  measPopUp.addMeasurement)
+            {
+                System.out.println(measPopUp.nameField.getText());
+            }
+            if (source == form.getMPopUp().addMeasurement) {
+                 boolean set = current.setMeasurement(form.getMPopUp().nameField.getText(), form.getMPopUp().valueField.getText(), form.getMPopUp().unitField.getText(), form.getMPopUp().unitField, form.getMPopUp().nameField, form.getMPopUp().valueField, patient);
+                if (set == true) {
+                        form.getMPopUp().nameField.setText("");
+                        form.getMPopUp().valueField.setText("");
+                        form.getMPopUp().unitField.setText("");
+                        String[] measurementsArray = current.getMeasurementArrayToString();
+                        measurementsList.setListData(measurementsArray);
+                    }
+            }
         }
+        
     }
     
 }

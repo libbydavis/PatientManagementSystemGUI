@@ -24,6 +24,8 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JRootPane;
+import javax.swing.JTextField;
 
 /**
  *
@@ -71,23 +73,6 @@ class AddPatientsView extends JPanel {
                             Confirmation.removeConfirmation(frame, confirmation);
                         }
                     }, 3000);
-                    /*
-                    JPanel confirmation = Confirmation.createConfirmation("Patient Saved", frame);
-                    frame.remove(addPatView);
-                    frame.remove(patPanel);
-                    //frame.add(new MenuIconsPanel(frame));
-                    frame.revalidate();
-                    Timer t = new Timer();
-                    */
-                    /*
-                    t.schedule(new TimerTask() {
-                        @Override
-                        public void run() {
-                            frame.remove(confirmation);
-                            frame.revalidate();
-                        }
-                    }, 3000);
-                    */
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 } catch (IOException ex) {
@@ -260,27 +245,21 @@ class AddPatientsView extends JPanel {
      */
     public JPanel measurementsPanel() {
         
-        
-        AddPatientsModel makeStreetPanel = new AddPatientsModel("Enter patient's measurements:", "e.g. weight: 63 kgs", "Incorrect input, please try again!");
+        JPanel measurementsPanel = new JPanel();
         JButton addMeas = new JButton("Add Measurement");
-        addMeas.addActionListener(new ActionListener()
-        {
+        addMeas.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) 
-            {
-                //MeasurementsPopupController form = new MeasurementsPopupController();
-                //JFrame popUp = MeasurementsPopUp.getMeasurementsPopUpInstance(currentAppointment, measurementsList, patient);
-                //popUp.setVisible(true);
-            }
-        });
-        makeStreetPanel.clearTextField();
-        makeStreetPanel.getEnterValues().setPreferredSize(new Dimension(215, 20));
-        makeStreetPanel.getEnterValues().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                makeStreetPanel.getErrorMsg().setVisible(true);
+                MeasurementsPopUpController controller = new MeasurementsPopUpController();
+                MeasurementsPopUp popUp = MeasurementsPopUp.getMeasurementsPopUpInstance(controller);
+                controller.setUpController(popUp);
+                popUp.setVisible(true);
             }
         });
-        return makeStreetPanel.combineComponents();
+        
+        
+        measurementsPanel.add(addMeas);
+        return measurementsPanel;
     }
 
     /**
