@@ -51,7 +51,7 @@ public class DeletePrescriptionPanel extends JPanel
         // Edit Panel
         JPanel editPanel = new JPanel();
         JLabel prompt = new JLabel("Enter NHI of the patient's prescription you want to delete: ");
-        JComboBox nhiList = new JComboBox(Patient.paitentNHIList().toArray());
+        JComboBox nhiList = new JComboBox(MedicalPatient.paitentNHIList().toArray());
         
         editPanel.add(prompt);
         nhiList.addActionListener(new ActionListener()

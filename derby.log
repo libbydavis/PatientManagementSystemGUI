@@ -1,7 +1,7 @@
-Tue Jun 01 19:59:59 NZST 2021 : Apache Derby Network Server - 10.14.2.0 - (1828579) started and ready to accept connections on port 1527
+Wed Jun 02 13:02:36 NZST 2021 : Apache Derby Network Server - 10.14.2.0 - (1828579) started and ready to accept connections on port 1527
 ----------------------------------------------------------------
-Tue Jun 01 20:01:01 NZST 2021:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-0179-c696-256c-ffffa28d3b0a 
+Wed Jun 02 13:02:41 NZST 2021:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-0179-ca3e-6324-ffffa28d3b0a 
 on database directory C:\Users\libst\Documents\GitHub\PatientManagementSystemGUI\PatientDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
 Loaded from file:/C:/Apache/db-derby-10.14.2.0-bin/lib/derby.jar
 java.vendor=Oracle Corporation
@@ -10,13 +10,18 @@ user.dir=C:\Apache\db-derby-10.14.2.0-bin
 os.name=Windows 10
 os.arch=amd64
 os.version=10.0
-derby.system.home=D:\git\PatientManagementSystemGUI
+derby.system.home=C:\Users\libst\Documents\GitHub\PatientManagementSystemGUI
 Database Class Loader started - derby.database.classpath=''
 ----------------------------------------------------------------
-Tue Jun 01 22:47:02 NZST 2021: Shutting down Derby engine
-----------------------------------------------------------------
-Tue Jun 01 22:47:02 NZST 2021:
-Shutting down instance a816c00e-0179-c696-256c-ffffa28d3b0a on database directory C:\Users\libst\Documents\GitHub\PatientManagementSystemGUI\PatientDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
-----------------------------------------------------------------
-Tue Jun 01 20:42:53 NZST 2021:
-Shutting down instance 601a400f-0179-c6b7-f723-00002fcc4ed4 on database directory D:\git\PatientManagementSystemGUI\MedicationDB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@c387f44 
+Wed Jun 02 13:02:44 NZST 2021:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a02ac013-0179-ca3e-6324-ffffa28d3b0a 
+on database directory C:\Users\libst\Documents\GitHub\PatientManagementSystemGUI\MedicationDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Loaded from file:/C:/Apache/db-derby-10.14.2.0-bin/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_281-b09
+user.dir=C:\Apache\db-derby-10.14.2.0-bin
+os.name=Windows 10
+os.arch=amd64
+os.version=10.0
+derby.system.home=C:\Users\libst\Documents\GitHub\PatientManagementSystemGUI
+Database Class Loader started - derby.database.classpath=''

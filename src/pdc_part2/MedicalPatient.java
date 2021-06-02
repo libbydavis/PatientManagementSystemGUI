@@ -9,6 +9,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,6 +19,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Scanner;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -25,6 +27,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import org.apache.derby.shared.common.error.DerbySQLIntegrityConstraintViolationException;
 
 /**
  *
@@ -75,6 +78,81 @@ public class MedicalPatient extends Patient{
     
     public int getAge() {
         return age;
+    }
+    
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+    
+    public String getAddress() {
+        return address;
+    }
+
+    public String getCurrentMedications() {
+        String currentMedsInDB = "";
+        String currentMeds = "";
+
+        try {
+            currentMeds = currentMedications.toString();
+
+        } catch (NullPointerException e) {
+            currentMeds = "\"No current medication\"";
+        }
+
+        Scanner scan = new Scanner(currentMeds);
+        scan.useDelimiter("\\[\\[*|\\]\\]*");
+
+        while (scan.hasNext()) {
+            currentMedsInDB += scan.next();
+        }
+
+        return currentMedsInDB;
+    }
+    
+    public void setfName(String fName) 
+    {
+        this.fName = fName;
+    }
+
+    public void setlName(String lName) 
+    {
+        this.lName = lName;
+    }
+
+    public void setAge(int age) 
+    {
+        this.age = age;
+    }
+
+    public void setPhoneNumber(String phoneNumber) 
+    {
+        this.phoneNumber = phoneNumber;
+    }
+    
+     public void setNHI(String NHI) 
+    {
+        this.NHI = NHI;
+    }
+
+    public void setConditions(HashSet conditions) 
+    {
+        this.conditions = conditions;
+    }
+
+    public void setCurrentMedications(HashSet currentMedications) 
+    {
+        this.currentMedications = currentMedications;
+    }
+
+    public void setMeasurements(ArrayList<Measurements> measurements) 
+    {
+        this.measurements = measurements;
+    }
+    
+    public void setAddress(String address) 
+    {
+        //TODO
+        this.address = address;
     }
     
     public JTable getMatchingPatientTable() {
@@ -368,5 +446,35 @@ public class MedicalPatient extends Patient{
     
     public String toString() {
         return fName + " " + lName + " NHI: " + NHI;
+    }
+    
+    public void insertPatientToDatabase(MedicalPatient newPat) throws SQLException, IOException
+    {
+        // Just need to add stuff to the query when adding measurements and conditions
+        DatabaseConnection dbc = new DatabaseConnection();
+        String sqlQuery = "INSERT INTO PATIENTS (NHI, FIRSTNAME, LASTNAME, AGE, PHONENO ,STREET, CURRENTMEDS)"
+                + "VALUES (\'" + newPat.getNHI() + "\', \'" + newPat.getfName() + "\', \'" + newPat.getlName() + "\'," + newPat.getAge()+ ", " + newPat.getPhoneNumber() + ",\'" + newPat.getAddress() + "\',\'" + newPat.getCurrentMedications() + "\')";
+        try {
+            PreparedStatement prepstmt = dbc.getConnectionPatients().prepareStatement(sqlQuery);
+            prepstmt.executeUpdate();
+        } catch (DerbySQLIntegrityConstraintViolationException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    public static ArrayList<String> paitentNHIList() throws SQLException
+    {
+        ArrayList<String> nhiList = new ArrayList<String>();
+        
+        DatabaseConnection dbc = new DatabaseConnection();
+        String sqlQuery = "SELECT NHI FROM PATIENTS";
+        PreparedStatement prepstmt = dbc.getConnectionPatients().prepareStatement(sqlQuery);
+        ResultSet rs = prepstmt.executeQuery();
+        nhiList.add("choose patients NHI");
+        while (rs.next()) {
+            nhiList.add(rs.getString("NHI").toString());
+        }
+        
+        return nhiList;
     }
 }

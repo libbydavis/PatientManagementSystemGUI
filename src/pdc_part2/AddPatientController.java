@@ -25,7 +25,7 @@ import javax.swing.JPanel;
  */
 public class AddPatientController 
 { 
-    Patient newPat = new Patient();
+    MedicalPatient newPat = new MedicalPatient();
 
     public AddPatientController() throws IOException, SQLException 
     {

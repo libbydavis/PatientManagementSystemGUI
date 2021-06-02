@@ -164,7 +164,7 @@ public class CreatePrescriptionPanel extends JPanel
     }
     
     private JPanel nhiPanel() throws SQLException {
-        allNhi = new JComboBox(Patient.paitentNHIList().toArray());
+        allNhi = new JComboBox(MedicalPatient.paitentNHIList().toArray());
         nhiPanel = new JPanel();
         patNHIPrompt = new JLabel("Enter Patient's NHI: ");
         nhiPanel.add(patNHIPrompt);
