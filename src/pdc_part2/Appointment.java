@@ -74,7 +74,7 @@ public class Appointment {
         return true;
     }
 
-    public boolean setMeasurement(String name, String value, String unit, JTextField uField, JTextField nField, JTextField vField, Patient patient) {
+    public boolean setMeasurement(String name, String value, String unit, JTextField uField, JTextField nField, JTextField vField, MedicalPatient patient) {
         Measurements currentMeasurement = new Measurements(name, value, unit, uField, nField, vField);
         if (currentMeasurement.measurement == null) {
             return false;
@@ -192,7 +192,7 @@ public class Appointment {
         ResultSet rs = getAppointmentHistory("ALL");
         HashMap<String, Integer> map = new HashMap();
         ArrayList<Object[]> list = new ArrayList();
-        Patient currentPatient = new Patient();
+        MedicalPatient currentPatient = new MedicalPatient();
         
         rs.beforeFirst();
         
@@ -219,7 +219,7 @@ public class Appointment {
             row[3] = map.get(key);
             
             list.add(row);
-            currentPatient = new Patient();
+            currentPatient = new MedicalPatient();
         }
         
         

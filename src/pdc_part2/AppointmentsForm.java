@@ -161,7 +161,7 @@ public class AppointmentsForm extends JPanel{
         return ReasonPopUp.getReasonPopUpInstance(currentAppointment, reasonsList);
     }
     
-    public MeasurementsPopUp getMeasurementsPopup(Patient patient) {
+    public MeasurementsPopUp getMeasurementsPopup(MedicalPatient patient) {
         return MeasurementsPopUp.getMeasurementsPopUpInstance(currentAppointment, measurementsList, patient);
     }
     

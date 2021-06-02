@@ -46,7 +46,7 @@ public class EditPatientPanel extends JPanel{
         return pickPatient.getSearchOptions().getSelectedItem();
     }
     
-    public void setEditor(Patient patient) {
+    public void setEditor(MedicalPatient patient) {
         remove(pickPatient);
         editPanel = new EditorPanel(patient);
         add(editPanel);
@@ -55,7 +55,7 @@ public class EditPatientPanel extends JPanel{
     
     public class EditorPanel extends JPanel {
         
-        public EditorPanel(Patient patient) {
+        public EditorPanel(MedicalPatient patient) {
             JLabel patientName = new JLabel(patient.getfName() + " " + patient.getlName());
             add(patientName);
         }

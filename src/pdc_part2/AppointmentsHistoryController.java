@@ -38,7 +38,7 @@ public class AppointmentsHistoryController implements ActionListener{
             if (row != -1) {
                 try {
                     String nhi = historyPanel.getSummaryTable().getModel().getValueAt(row, 0).toString();
-                    Patient currentPatient = new Patient();
+                    MedicalPatient currentPatient = new MedicalPatient();
                     currentPatient.getPatientFromDatabase(nhi, "NHI", null);
                     historyPanel.remove(historyPanel.getSummaryTablePanel());
                     historyPanel.add(historyPanel.getPatientHistoryPanel(currentPatient));

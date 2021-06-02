@@ -83,7 +83,7 @@ public class BrowsePatientsPanel extends JPanel {
          c.gridy = 1;
          c.gridwidth = 3;
          c.fill = GridBagConstraints.HORIZONTAL;
-        Patient allPatients = new Patient();
+        MedicalPatient allPatients = new MedicalPatient();
         patientTable = allPatients.displayAllPatients(null);
         add(patientTable, c);
         
@@ -125,7 +125,7 @@ public class BrowsePatientsPanel extends JPanel {
         return selectButton;
     }
     
-    public void displayIndividualPatient(Patient patient) {
+    public void displayIndividualPatient(MedicalPatient patient) {
         JComponent patientDetails = patient.displayIndividualPatientDetails();
         removeAll();
         add(patientDetails, c);

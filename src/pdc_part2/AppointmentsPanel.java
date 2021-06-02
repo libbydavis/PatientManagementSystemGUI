@@ -34,7 +34,7 @@ import javax.swing.border.EmptyBorder;
 public class AppointmentsPanel extends JPanel{
     AppointmentsPanel panel = this;
     private JLabel titleAP;
-    Patient patient1;
+    MedicalPatient patient1;
     private int width;
     private int height;
     private AppointmentsController controller;
@@ -55,7 +55,7 @@ public class AppointmentsPanel extends JPanel{
         this.width = width;
         this.height = height;
         this.controller = new AppointmentsController(frame, this);
-        patient1 = new Patient();
+        patient1 = new MedicalPatient();
         
         Toolkit kit = Toolkit.getDefaultToolkit();
         Dimension screenSize = kit.getScreenSize();
@@ -105,7 +105,7 @@ public class AppointmentsPanel extends JPanel{
         titleAP.setText(text);
     }
 
-    public Patient getPatient1() {
+    public MedicalPatient getPatient1() {
         return patient1;
     }
 
@@ -126,15 +126,15 @@ public class AppointmentsPanel extends JPanel{
         return backButton;
     }
     
-    public void setPatient(Patient p) {
+    public void setPatient(MedicalPatient p) {
         patient1 = p;
         controller.setNHI(p.getNHI());
     }
     
-    public Patient getPatient(JLabel title) {
+    public MedicalPatient getPatient(JLabel title) {
         getPatientPopUp patientFrame = new getPatientPopUp(title, this);
         patientFrame.setVisible(true);
-        Patient p1 = patientFrame.getPatientObj();
+        MedicalPatient p1 = patientFrame.getPatientObj();
         return p1;
     }
     

@@ -24,7 +24,7 @@ import javax.swing.table.DefaultTableModel;
  * @author libst
  */
 public class PatientAppointmentHistory extends JPanel{
-    public PatientAppointmentHistory(Patient thisPatient, Dimension d) throws SQLException {
+    public PatientAppointmentHistory(MedicalPatient thisPatient, Dimension d) throws SQLException {
         //set layout
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBackground(Color.WHITE);

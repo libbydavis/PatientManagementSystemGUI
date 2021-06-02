@@ -59,7 +59,7 @@ public class AppointmentsHistoryPanel extends JPanel{
         return summaryTable;
     }
     
-    public PatientAppointmentHistory getPatientHistoryPanel(Patient p) throws SQLException {
+    public PatientAppointmentHistory getPatientHistoryPanel(MedicalPatient p) throws SQLException {
         return new PatientAppointmentHistory(p, d);
     }
     

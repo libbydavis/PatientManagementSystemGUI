@@ -14,7 +14,7 @@ import javax.swing.JPanel;
  */
 public class PatientInfoPanel extends JPanel{
     
-    public PatientInfoPanel(Patient patient) {
+    public PatientInfoPanel(MedicalPatient patient) {
         JLabel nhi = new JLabel("NHI: " + patient.getNHI());
         JLabel age = new JLabel("Age: " + patient.getAge());
         JLabel measurements = new JLabel("Measurements: " + patient.getMeasurementsString());

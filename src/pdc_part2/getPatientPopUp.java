@@ -28,7 +28,7 @@ import javax.swing.JTextField;
  * @author libst
  */
 public class getPatientPopUp extends JDialog {
-        Patient p1;
+        MedicalPatient p1;
         private JTextField patientField;
         getPatientPopUp store = this;
         private JButton findPatient;
@@ -68,7 +68,7 @@ public class getPatientPopUp extends JDialog {
                 String inputString = patientField.getText();
                 if ((inputString.length() == 6 && searchOptions.getSelectedItem().equals("NHI")) || (inputString.length() > 2 && searchOptions.getSelectedItem().equals("First Name")) || (inputString.length() > 2 && searchOptions.getSelectedItem().equals("Last Name"))) {
                     try {
-                        p1 = new Patient();
+                        p1 = new MedicalPatient();
                     } catch (SQLException ex) {
                         Logger.getLogger(AppointmentsPanel.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -118,7 +118,7 @@ public class getPatientPopUp extends JDialog {
             add(findPatient, c);
         }
         
-        public Patient getPatientObj() {
+        public MedicalPatient getPatientObj() {
             return p1;
         }
         
@@ -143,7 +143,7 @@ public class getPatientPopUp extends JDialog {
             select.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    p1 = (Patient) comboBox.getSelectedItem();
+                    p1 = (MedicalPatient) comboBox.getSelectedItem();
                     setAndClose();
                 }
             });

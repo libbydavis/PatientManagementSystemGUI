@@ -17,14 +17,14 @@ public class PatientsController implements ActionListener{
     PatientsController control = this;
     private BrowsePatientsPanel browsePanel;
     private EditPatientPanel editPatientPanel;
-    private Patient findPatient;
+    private MedicalPatient findPatient;
     
     public PatientsController(PatientsPanel panel, PatientManagementView frame) throws IOException, SQLException {
         this.panel = panel;
         this.frame = frame;
         browsePanel = new BrowsePatientsPanel(frame, frame.getWidth(), frame.getHeight(), control);
         editPatientPanel = new EditPatientPanel(frame, frame.getWidth(), frame.getHeight(), control);
-        findPatient = new Patient();
+        findPatient = new MedicalPatient();
     }
 
     @Override
