@@ -97,15 +97,12 @@ public class CreatePrescriptionPanel extends JPanel
 
                     saved.setVisible(true);
 
-                    JPanel confirmation = new JPanel();
-                    confirmation.setMaximumSize(new Dimension(frame.getWidth(), 30));
-                    confirmation.setBackground(Color.GREEN);
-                    confirmation.add(new JLabel("Prescription Saved"));
+                    JPanel confirmation = Confirmation.createConfirmation("Prescription Saved", frame);
+                    
                     frame.remove(createPrescPanel);
                     frame.remove(prescPanel);
 
                     try {
-                        frame.add(confirmation);
                         frame.add(new MenuIconsPanel(frame));
                         Timer t = new Timer();
                         t.schedule(new TimerTask() {

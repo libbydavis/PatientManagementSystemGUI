@@ -21,6 +21,7 @@ import java.util.logging.Logger;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -59,18 +60,13 @@ class AddPatientsView extends JPanel {
                 try {
                     adp.newPat.insertPatientToDatabase(adp.newPat);
                     
-                    JPanel confirmation = new JPanel();
-                    confirmation.setMaximumSize(new Dimension(frame.getWidth(), 30));
-                    confirmation.setBackground(Color.GREEN);
-                    confirmation.add(new JLabel("Patient Saved"));
                     frame.remove(addPatView);
                     frame.remove(patPanel);
+                    JPanel confirmation = Confirmation.createConfirmation("Patient Saved", frame);
                     
                     try {
-                        frame.add(confirmation);
                         frame.add(new MenuIconsPanel(frame));
                         Timer t = new Timer();
-
                         t.schedule(new TimerTask() {
                             @Override
                             public void run() {
@@ -250,8 +246,20 @@ class AddPatientsView extends JPanel {
         *
      */
     public JPanel measurementsPanel() {
-
+        
+        
         AddPatientsModel makeStreetPanel = new AddPatientsModel("Enter patient's measurements:", "e.g. weight: 63 kgs", "Incorrect input, please try again!");
+        JButton addMeas = new JButton("Add Measurement");
+        addMeas.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e) 
+            {
+                //MeasurementsPopupController form = new MeasurementsPopupController();
+                //JFrame popUp = MeasurementsPopUp.getMeasurementsPopUpInstance(currentAppointment, measurementsList, patient);
+                //popUp.setVisible(true);
+            }
+        });
         makeStreetPanel.clearTextField();
         makeStreetPanel.getEnterValues().setPreferredSize(new Dimension(215, 20));
         makeStreetPanel.getEnterValues().addActionListener(new ActionListener() {
