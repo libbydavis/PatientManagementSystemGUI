@@ -10,20 +10,21 @@ import java.util.logging.Logger;
 /**
  *
  * @author libst
+ * Controls BrowsePatientsPanel and DeletePatientPatient
  */
 public class PatientsController implements ActionListener{
     PatientsPanel panel;
     PatientManagementView frame;
     PatientsController control = this;
     private BrowsePatientsPanel browsePanel;
-    private EditPatientPanel editPatientPanel;
+    private DeletePatientPanel editPatientPanel;
     private MedicalPatient findPatient;
     
     public PatientsController(PatientsPanel panel, PatientManagementView frame) throws IOException, SQLException {
         this.panel = panel;
         this.frame = frame;
         browsePanel = new BrowsePatientsPanel(frame, frame.getWidth(), frame.getHeight(), control);
-        editPatientPanel = new EditPatientPanel(frame, frame.getWidth(), frame.getHeight(), control);
+        editPatientPanel = new DeletePatientPanel(frame, frame.getWidth(), frame.getHeight(), control);
         findPatient = new MedicalPatient();
     }
 
@@ -94,7 +95,7 @@ public class PatientsController implements ActionListener{
             try {
                 findPatient.getPatientFromDatabase(searchText, editPatientPanel.getSelected(), editPatientPanel.getBrowsePanel());
                 if (findPatient.getNHI().length() > 0) {
-                    editPatientPanel.setDelete(findPatient, frame);
+                    editPatientPanel.setDelete(findPatient, frame, panel);
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(PatientsController.class.getName()).log(Level.SEVERE, null, ex);
@@ -123,7 +124,7 @@ public class PatientsController implements ActionListener{
                 Logger.getLogger(PatientsController.class.getName()).log(Level.SEVERE, null, ex);
             }
             try {
-                editPatientPanel.setDelete(findPatient, frame);
+                editPatientPanel.setDelete(findPatient, frame, panel);
             } catch (SQLException ex) {
                 Logger.getLogger(PatientsController.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {

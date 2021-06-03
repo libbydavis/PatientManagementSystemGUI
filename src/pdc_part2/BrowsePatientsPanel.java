@@ -25,6 +25,7 @@ public class BrowsePatientsPanel extends JPanel {
     private Dimension d;
     private JComboBox searchOptions;
     private JButton selectButton;
+    private PatientManagementView frame;
     
     public BrowsePatientsPanel(PatientManagementView frame, double width, double height, PatientsController controller) throws IOException, SQLException {
         setLayout(new GridBagLayout());
@@ -33,6 +34,7 @@ public class BrowsePatientsPanel extends JPanel {
         setSize(d);
         setMinimumSize(d);
         this.controller = controller;
+        this.frame = frame;
         
         String[] options = {"NHI", "First Name", "Last Name"};
         searchOptions = new JComboBox(options);
@@ -114,7 +116,7 @@ public class BrowsePatientsPanel extends JPanel {
      * Gets a panel displaying details of a patient and adds it to the main window
      */
     public void displayIndividualPatient(MedicalPatient patient) {
-        JComponent patientDetails = patient.displayIndividualPatientDetails();
+        JComponent patientDetails = patient.displayIndividualPatientDetails(frame);
         removeAll();
         add(patientDetails, c);
         revalidate();

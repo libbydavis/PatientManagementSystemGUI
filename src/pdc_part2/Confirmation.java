@@ -20,10 +20,10 @@ public class Confirmation {
      * Adds a green confirmation popup to the main window
      * Then returns the confirmation panel so the calling method can remove it later on
      */
-    public static JPanel createConfirmation(String confirmationMessage, PatientManagementView frame) {
+    public static JPanel createConfirmation(String confirmationMessage, PatientManagementView frame, Color color) {
         JPanel confirmation = new JPanel();
         confirmation.setMaximumSize(new Dimension(frame.getWidth(), 30));
-        confirmation.setBackground(Color.GREEN);
+        confirmation.setBackground(color);
         confirmation.add(new JLabel(confirmationMessage));
         frame.add(confirmation);
         return confirmation;

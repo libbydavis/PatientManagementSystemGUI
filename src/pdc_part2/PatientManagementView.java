@@ -5,6 +5,11 @@ import java.awt.*;
 import java.io.IOException;
 import java.sql.SQLException;
 
+/**
+ *
+ * @author libst
+ * Main window of program
+ */
 public class PatientManagementView extends JFrame {
     double width;
     double height;

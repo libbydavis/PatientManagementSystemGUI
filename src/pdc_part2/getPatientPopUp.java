@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pdc_part2;
 
 import java.awt.Color;
@@ -19,7 +14,6 @@ import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
@@ -35,6 +29,13 @@ public class getPatientPopUp extends JDialog {
         private AppointmentsPanel appointmentPanel;
         private JLabel title;
         
+        /**
+        * @author -LibbyDavis
+        * @param title
+        * @param appointmentPanel
+        * This is a JDialog popup that gets user to select a patient
+        * The user can't continue without interacting with the popup
+        */ 
         public getPatientPopUp(JLabel title, AppointmentsPanel appointmentPanel) {
             setTitle("Select a Patient For The Appointment");
             setModal(true);
@@ -122,6 +123,12 @@ public class getPatientPopUp extends JDialog {
             return p1;
         }
         
+        /**
+        * @author -LibbyDavis
+        * @param comboBox
+        * This resets the JDialog window to let user select a patient from a list of matching patients
+        * This method is used when there are multiple patients with the same name
+        */                         
         public void setPatientPicker(JComboBox comboBox) {
             GridBagConstraints c = new GridBagConstraints();
             remove(patientField);
@@ -151,6 +158,10 @@ public class getPatientPopUp extends JDialog {
             revalidate();
         }
         
+        /**
+        * @author -LibbyDavis
+        * Set appointment title to have title with patient's name and close JDialog window
+        */
         public void setAndClose() {
             if (p1.getNHI().length() == 6) {
                 setVisible(false);

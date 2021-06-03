@@ -99,7 +99,7 @@ public class CreatePrescriptionPanel extends JPanel
 
                     saved.setVisible(true);
 
-                    JPanel confirmation = Confirmation.createConfirmation("Prescription Saved", frame);
+                    JPanel confirmation = Confirmation.createConfirmation("Prescription Saved", frame, Color.GREEN);
                     
                     frame.remove(createPrescPanel);
                     frame.remove(prescPanel);

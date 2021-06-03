@@ -7,21 +7,15 @@ package pdc_part2;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.table.DefaultTableModel;
 import org.junit.After;
 import org.junit.AfterClass;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Before;
 
 /**
  *
@@ -29,22 +23,28 @@ import static org.junit.Assert.*;
  */
 public class MedicalPatientTest {
     
+    static DatabaseConnection DBconnect;
+    static Connection conn; 
+    Statement statement1;
+    String query;
+    
     public MedicalPatientTest() {
     }
     
-    @BeforeClass
-    public static void setUpClass() {
+    @Before
+    public void setUp() throws SQLException {
+        DBconnect = new DatabaseConnection();
+        conn = DBconnect.getConnectionPatients();
     }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-   
     
     @After
-    public void tearDown() {
+    public void tearDown() throws SQLException {
+        query = "DELETE FROM ADMIN1.APPOINTMENT WHERE REASONS = 'Testing JUnit4, '";
+        Statement statement2 = conn.createStatement();
+        statement2.executeUpdate(query);
     }
+    
+
 
     /**
      * Test of getPatientFromDatabase method, of class MedicalPatient.
@@ -72,7 +72,7 @@ public class MedicalPatientTest {
         Appointment app = new Appointment();
         app.NHI = "jnv758";
         JTextField reasonsField = new JTextField();
-        app.setReasons("Feeling sick", reasonsField);
+        app.setReasons("Testing JUnit4", reasonsField);
         
         MedicalPatient instance = new MedicalPatient();
         instance.setNHI("jnv758");
@@ -81,22 +81,24 @@ public class MedicalPatientTest {
         
         
         //get appointment that was just saved
-        DatabaseConnection DBconnect = new DatabaseConnection();
-        Connection conn = DBconnect.getConnectionPatients();
+       
         
-        Statement statement1 = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+        statement1 = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
         
-        String query = "";
-        query = "SELECT * FROM ADMIN1.APPOINTMENT WHERE REASONS='Feeling sick,'";
+        query = "";
+        query = "SELECT * FROM ADMIN1.APPOINTMENT WHERE REASONS='Testing JUnit4,'";
         ResultSet rs = statement1.executeQuery(query);
         rs.beforeFirst();
         rs.next();
         String reasons = rs.getString("REASONS");
         
-        assertEquals("Feeling sick, ", reasons);
+        assertEquals("Testing JUnit4, ", reasons);
+        
         
         
     }
+    
+
     
 
     

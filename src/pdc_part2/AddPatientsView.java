@@ -5,6 +5,7 @@
  */
 package pdc_part2;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -56,7 +57,7 @@ class AddPatientsView extends JPanel {
                 try {
                     adp.newPat.insertPatientToDatabase(adp.newPat);
                     adp.newPat.updateMeasurements();
-                    JPanel confirmation = Confirmation.createConfirmation("Patient Saved", frame);
+                    JPanel confirmation = Confirmation.createConfirmation("Patient Saved", frame, Color.GREEN);
                     frame.remove(addPatView);
                     frame.remove(patPanel);
                     frame.add(new MenuIconsPanel(frame));

@@ -12,6 +12,11 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+    /**
+     * @author -LibbyDavis
+     * This panel has three icon buttons which go to the three main areas of the program -
+     * Patients, Appointments and Prescriptions
+     */
 public class MenuIconsPanel extends JPanel {
     MenuIconsPanel store = this;
     public MenuIconsPanel(PatientManagementView frame) throws IOException, SQLException {

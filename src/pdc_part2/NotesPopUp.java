@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pdc_part2;
 
 import java.awt.Color;
@@ -25,6 +20,14 @@ import javax.swing.JTextField;
  */
 public class NotesPopUp extends JFrame {
     private static NotesPopUp NotesPopUpInstance;
+    
+    /**
+     * @author -LibbyDavis
+     * @param controller
+     * @param notesList
+     * @return NotesPopUp
+     * Gets an instance NotesPopUp using singleton pattern
+     */
         public static synchronized NotesPopUp getNotesPopUpInstance(Appointment current, JList notesList) {
             if (NotesPopUpInstance == null) {
                 NotesPopUpInstance = new NotesPopUp(current, notesList);
@@ -37,6 +40,13 @@ public class NotesPopUp extends JFrame {
             NotesPopUpInstance = null;
         }
     }
+        
+     /**
+     * @author -LibbyDavis
+     * @param current
+     * @param notesList
+     * This popup is a JFrame that allows a user to enter notes for an appointment
+     */
     private NotesPopUp(Appointment current, JList notesList) {
         super("Add Notes");
         setSize(500, 300);

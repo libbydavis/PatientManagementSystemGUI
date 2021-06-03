@@ -25,6 +25,14 @@ import javax.swing.JTextField;
  */
 public class ReasonPopUp extends JFrame {
     private static ReasonPopUp ReasonPopUpInstance;
+    
+    /**
+     * @author -LibbyDavis
+     * @param current
+     * @param reasonsList
+     * @return ReasonPopUp
+     * Gets an instance ReasonPopUp using singleton pattern
+     */
     public static synchronized ReasonPopUp getReasonPopUpInstance(Appointment current, JList reasonsList) {
         if (ReasonPopUpInstance == null) {
             ReasonPopUpInstance = new ReasonPopUp(current, reasonsList);
@@ -37,6 +45,13 @@ public class ReasonPopUp extends JFrame {
             ReasonPopUpInstance = null;
         }
     }
+    
+    /**
+     * @author -LibbyDavis
+     * @param current
+     * @param reasonsList
+     * This popup is a JFrame that allows a user to enter reasons for an appointment
+     */
     private ReasonPopUp(Appointment current, JList reasonsList) {
         super("Add Reasons");
         setSize(500, 300);

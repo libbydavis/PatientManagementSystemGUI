@@ -22,6 +22,7 @@ import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author libst
+ * Panel that displays all of the appointment history of a patient in a JTable
  */
 public class PatientAppointmentHistory extends JPanel{
     public PatientAppointmentHistory(MedicalPatient thisPatient, Dimension d) throws SQLException {

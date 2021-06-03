@@ -5,6 +5,7 @@
  */
 package pdc_part2;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -75,7 +76,7 @@ public class AppointmentsController implements ActionListener{
             if (source == panel.getFinishAppointment()) {
             try {
                 panel.patient1.saveAppointmentToDB(appointment1);
-                confirmation = Confirmation.createConfirmation("Appointment Saved", frame);
+                confirmation = Confirmation.createConfirmation("Appointment Saved", frame, Color.GREEN);
                 t = new Timer();
                 t.schedule(new TimerTask() {
                     @Override

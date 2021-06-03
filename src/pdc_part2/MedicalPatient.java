@@ -39,7 +39,7 @@ public class MedicalPatient extends Patient{
     private HashSet currentMedications;
     private ArrayList<Measurements> measurements;
     private ArrayList<Measurements> newMeasurements;
-    private ArrayList prescriptions;
+    private ArrayList<String> prescriptionsStrings;
     private Connection conn;
     private String tableName = "ADMIN1.PATIENTS";
     private JTable matchingPatientsTable;
@@ -51,6 +51,7 @@ public class MedicalPatient extends Patient{
         lName = "";
         measurements = new ArrayList();
         newMeasurements = new ArrayList();
+        prescriptionsStrings = new ArrayList();
         DatabaseConnection DBconnect = new DatabaseConnection();
         conn = DBconnect.getConnectionPatients();
     }
@@ -205,7 +206,7 @@ public class MedicalPatient extends Patient{
                 iteratePatient.phoneNumber = rs.getString("PHONENO");
                 iteratePatient.address = rs.getString("STREET");
                 getMeasurementsFromDatabase(iteratePatient);
-                
+                getPrescriptionsFromDatabase(iteratePatient);
                 
                 matchingPatients.add(iteratePatient);
             }
@@ -224,6 +225,7 @@ public class MedicalPatient extends Patient{
                 measurements = iteratePatient.measurements;
                 address = iteratePatient.address;
                 phoneNumber = iteratePatient.phoneNumber;
+                prescriptionsStrings = iteratePatient.prescriptionsStrings;
             }
             
             rs.close();
@@ -253,22 +255,63 @@ public class MedicalPatient extends Patient{
         }
     }
     
+    public void getPrescriptionsFromDatabase(MedicalPatient patient) throws SQLException {
+        ResultSet rs;
+        Statement statement = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+        String sqlQuery = "SELECT * FROM ADMIN1.PRESCRIPTIONS WHERE NHI = '" + patient.NHI + "'";
+        rs = statement.executeQuery(sqlQuery);
+        
+        String prescriptionString = "";
+        while (rs.next()) {
+            prescriptionString = (rs.getString("PRESCRIPTION_DETAILS"));
+            
+            String[] splitRemoveEnd = prescriptionString.split("Side Effects:");
+            String[] medicationName = splitRemoveEnd[0].split("Medication Name: ");
+            String[] dateTime = medicationName[0].split("Doctors. Name:");
+            
+            prescriptionString = dateTime[0] + " Medicine: " + medicationName[1];
+            patient.prescriptionsStrings.add(prescriptionString);
+        }
+    }
+    
+    /**
+     * @author -LibbyDavis
+     * @param matchingPatients
+     * @param patientPopUp
+     * Creates a comboBox with all the possible patients (all have the same first name or same last name)
+     * and gives it to setPatientPicker() so that the user can select the correct patient
+     */
     public void specifyPatientonPopUp(ArrayList<MedicalPatient> matchingPatients, getPatientPopUp patientPopUp) {
         Object[] matchingPatientsArray = matchingPatients.toArray();
         JComboBox patientSelect = new JComboBox(matchingPatientsArray);
         patientPopUp.setPatientPicker(patientSelect);
     }
     
+    /**
+     * @author -LibbyDavis
+     * @param panel
+     * @param table
+     * Gives a JTable of possible patients (all have the same first name or last name)
+     * to setPatientTable() so that the user can select the correct patient
+     */
     public void specifyPatientOnTable(BrowsePatientsPanel panel, JComponent table) {
         panel.setPatientTable(table);
     }
     
-    public JComponent displayIndividualPatientDetails() {
+    /**
+     * @author -LibbyDavis
+     * @param frame
+     * @return JComponent
+     * Creates a JPanel which displays all the patient details
+     */
+    public JComponent displayIndividualPatientDetails(PatientManagementView frame) {
         JPanel patientDetails = new JPanel();
         patientDetails.setLayout(new GridLayout(0, 2));
+        patientDetails.setPreferredSize(new Dimension(frame.getWidth()/2, frame.getHeight()/2));
         
-        Font normalFont = new Font("Arial", Font.PLAIN, 18);
-        Font boldFont = new Font("Arial", Font.BOLD, 18);
+        Font normalFont = new Font("Arial", Font.PLAIN, 20);
+        Font normalFontPresc = new Font("Arial", Font.PLAIN, 14);
+        Font boldFont = new Font("Arial", Font.BOLD, 20);
         
         JLabel nameLabel = new JLabel("Name");
         JLabel name = new JLabel(fName + " " + lName);
@@ -312,13 +355,39 @@ public class MedicalPatient extends Patient{
         patientDetails.add(measurementsLabel);
         patientDetails.add(measurementsValues);
         
+        
+        JLabel prescriptionsLabel = new JLabel("Prescriptions");
+        prescriptionsLabel.setFont(boldFont);
+        JLabel prescriptionsValues = new JLabel();
+        patientDetails.add(prescriptionsLabel);
+        for (String s : prescriptionsStrings) {
+            prescriptionsValues = new JLabel(s);
+            prescriptionsValues.setFont(normalFontPresc);
+            patientDetails.add(prescriptionsValues);
+            patientDetails.add(new JLabel());
+        }
+        if (prescriptionsStrings.size() < 1) {
+            JLabel none = new JLabel("none");
+            none.setFont(normalFont);
+            patientDetails.add(none);
+        }
+        
         return patientDetails;
     }
     
+    /**
+     * @author -LibbyDavis
+     * @param collection
+     * @return String
+     * Makes a string to display all the items in a collection easily
+     */
     public String stringCollection(Collection collection) {
         String total = "";
         for (Object o: collection) {
             total += o + ", ";
+        }
+        if (total.equals("")){
+            total = "none";
         }
         return total;
     }
@@ -334,6 +403,14 @@ public class MedicalPatient extends Patient{
         return patientColumns;
     }
    
+    /**
+     * @author -LibbyDavis
+     * @author Raj
+     * @param matchingPatients
+     * @return JPanel
+     * Creates a JTable and fills it with a summary of patients 
+     * (either all patients or selected matching patients, depending on matchingPatients parameter)
+     */
     public JPanel displayAllPatients(ArrayList<MedicalPatient> matchingPatients)
     {
         DefaultTableModel patientTableModel = patientColumnNames();
@@ -394,9 +471,10 @@ public class MedicalPatient extends Patient{
     }   
     
     /**
-     *
+     * @author -LibbyDavis
      * @param app
      * @throws SQLException
+     * Inserts given appointment into the APPOINTMENT DB 
      */
     @Override
     public void saveAppointmentToDB(Appointment app) throws SQLException {
@@ -407,6 +485,11 @@ public class MedicalPatient extends Patient{
         statement2.executeUpdate(query1);
     }
     
+    /**
+     * @author -LibbyDavis
+     * @throws SQLException
+     * Inserts the current patients measurements into the MEASUREMENTS DB
+     */
     public void updateMeasurements() throws SQLException {
         if (newMeasurements.size() > 0) {
             Statement statement1 = conn.createStatement();
@@ -422,14 +505,23 @@ public class MedicalPatient extends Patient{
         return fName + " " + lName + " NHI: " + NHI;
     }
     
+    /**
+     * @author -LibbyDavis
+     * @throws SQLException
+     * Deletes current patient from PATIENTS DB
+     * Deletes current patient's measurements from MEASUREMENTS DB
+     * Deletes all appointment records for the current patient from APPOINTMENT DB
+     */
     public void deletePatientFromDB() throws SQLException {
         Statement statement = conn.createStatement();
-        String patient = "DELETE FROM ADMIN1.PATIENTS WHERE NHI = '" + NHI + "'";
-        statement.addBatch(patient);
         String measurements = "DELETE FROM ADMIN1.MEASUREMENTS WHERE NHI = '" + NHI + "'";
         statement.addBatch(measurements);
         String appointments = "DELETE FROM ADMIN1.APPOINTMENT WHERE NHI = '" + NHI + "'";
         statement.addBatch(appointments);
+        String prescriptions = "DELETE FROM ADMIN1.PRESCRIPTIONS WHERE NHI = '" + NHI + "'";
+        statement.addBatch(prescriptions);
+        String patient = "DELETE FROM ADMIN1.PATIENTS WHERE NHI = '" + NHI + "'";
+        statement.addBatch(patient);
         
         statement.executeBatch();
     }
