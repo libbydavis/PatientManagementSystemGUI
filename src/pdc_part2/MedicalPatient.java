@@ -421,6 +421,7 @@ public class MedicalPatient extends Patient{
         
         statement.executeBatch();
     }
+    //public void insertMeasurementsToDatabase()
     
     public void insertPatientToDatabase(MedicalPatient newPat) throws SQLException, IOException
     {

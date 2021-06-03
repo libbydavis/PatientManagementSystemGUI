@@ -10,6 +10,10 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -137,26 +141,44 @@ public class CreatePrescriptionPanel extends JPanel
     }
     
     private JPanel docPanel() {
-        PrescriptionComponent makeDocPanel = new PrescriptionComponent();
-        docPanel = makeDocPanel.CreatePrescComponents("Doctor's Name: ", "e.g John Smith", "Doctor's Name cannot be empty, please try again!");
-        enterDocName = (JTextField) docPanel.getComponent(1);
+        docPanel = new JPanel();
+        JLabel docNamePrompt = new JLabel("Enter Doctor's Name: ");
+        JTextField enterDocName = new JTextField("e.g John Smith");
         enterDocName.setPreferredSize(new Dimension(113, 20));
-        docNameErrorMsg = (JLabel) docPanel.getComponent(2);
-        enterDocName.addActionListener(new ActionListener() {
+        JLabel docNameErrorMsg = new JLabel("Doctor's Name cannot be empty, please try again!");
+        docNameErrorMsg.setForeground(Color.red);
+        docNameErrorMsg.setVisible(false);
+        JLabel docNameCorrMsg = new JLabel("Name entered successfully");
+        docNameCorrMsg.setForeground(Color.GREEN);
+        docNameCorrMsg.setVisible(false);
+        enterDocName.addFocusListener(new FocusListener()
+        {
+  
+            public void focusGained(FocusEvent e) {
+                enterDocName.setText("");
+            }
+
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void focusLost(FocusEvent e) {
                 String docName = enterDocName.getText();
                 if (docName.length() == 0) {
                     docNameErrorMsg.setVisible(true);
+                    docNameCorrMsg.setVisible(false);
                     validDocName = false;
                 } else {
                     docNameErrorMsg.setVisible(false);
+                    docNameCorrMsg.setVisible(true);
                     validDocName = true;
-                    isValidPrescription();
+                    objPresc.setDoctorName(enterDocName.getText().toString());
                 }
-                objPresc.setDoctorName((String) enterDocName.getText());
+                isValidPrescription();
             }
+        
         });
+        docPanel.add(docNamePrompt);
+        docPanel.add(enterDocName);
+        docPanel.add(docNameCorrMsg);
+        docPanel.add(docNameErrorMsg);
         return docPanel;
     }
     
