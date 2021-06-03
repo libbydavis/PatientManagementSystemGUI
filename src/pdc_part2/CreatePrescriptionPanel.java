@@ -43,6 +43,9 @@ public class CreatePrescriptionPanel extends JPanel
     JButton savePresc;
     JComboBox allNhi;
     Prescription objPresc = new Prescription();
+    private String patFName;
+    private String patLName;
+    private String prescNHI;
     
     public CreatePrescriptionPanel(PatientManagementView frame, PrescriptionPanel prescPanel) throws SQLException 
     {
@@ -78,7 +81,7 @@ public class CreatePrescriptionPanel extends JPanel
                     }
 
                     DatabaseConnection dbc = new DatabaseConnection();
-                    String sqlQuery = "SELECT PRESCRIPTIONNO FROM PRESCRIPTIONS WHERE NHI = \'" + allNhi.getSelectedItem() + "\'";
+                    String sqlQuery = "SELECT PRESCRIPTIONNO FROM PRESCRIPTIONS WHERE NHI = \'" + prescNHI + "\'";
 
                     PreparedStatement prepstmt = dbc.getConnectionPatients().prepareStatement(sqlQuery);
                     ResultSet rs = prepstmt.executeQuery();
@@ -93,7 +96,7 @@ public class CreatePrescriptionPanel extends JPanel
                         rsPrescNo++;
                     }
 
-                    sqlQuery = "INSERT INTO ADMIN1.PRESCRIPTIONS (NHI, PRESCRIPTIONNO, PRESCRIPTION_DETAILS) VALUES (" + "\'" + allNhi.getSelectedItem() + "\'," + rsPrescNo + ",\'" + cleanPresc + "\')";
+                    sqlQuery = "INSERT INTO ADMIN1.PRESCRIPTIONS (NHI, PRESCRIPTIONNO, PRESCRIPTION_DETAILS) VALUES (" + "\'" + prescNHI + "\'," + rsPrescNo + ",\'" + cleanPresc + "\')";
                     prepstmt = dbc.getConnectionPatients().prepareStatement(sqlQuery);
                     prepstmt.executeUpdate();
 
@@ -180,12 +183,38 @@ public class CreatePrescriptionPanel extends JPanel
         return docPanel;
     }
     
+    public void setPatFName(String fName) {
+        this.patFName = fName;
+    }
+    
+    public void setPatLName(String lName) {
+        this.patLName = lName;
+    }
+    
+    public void setPrescNHI(String prescNHI) {
+        this.prescNHI = prescNHI;
+    }
+    
     private JPanel nhiPanel() throws SQLException {
-        allNhi = new JComboBox(MedicalPatient.paitentNHIList().toArray());
+        //allNhi = new JComboBox(MedicalPatient.paitentNHIList().toArray());
+        JButton addPatientButton = new JButton("Add Patient");
         nhiPanel = new JPanel();
-        patNHIPrompt = new JLabel("Enter Patient's NHI: ");
+        patNHIPrompt = new JLabel("Search for Patient: ");
         nhiPanel.add(patNHIPrompt);
+        
+        addPatientButton.addActionListener(new ActionListener(){
+            @Override
+                public void actionPerformed(ActionEvent e) {
+                    getPatientPopUp getPatient = new getPatientPopUp(patNHIPrompt, createPrescPanel);
+                    getPatient.setVisible(true);
+                    objPresc.setPatientName(patFName.concat(" " +patLName));
+                    isValidPrescription();
+                    addPatientButton.setText("Change Patient");
+                    validNHI = true;
+                }
+        });
            
+        /*
             allNhi.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -215,8 +244,10 @@ public class CreatePrescriptionPanel extends JPanel
                 }
 
             });
+*/
 
-        nhiPanel.add(allNhi);
+        //nhiPanel.add(allNhi);
+        nhiPanel.add(addPatientButton);
         return nhiPanel;
     }
 

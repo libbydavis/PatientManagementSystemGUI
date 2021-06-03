@@ -15,6 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 /**
@@ -26,7 +27,7 @@ public class getPatientPopUp extends JDialog {
         private JTextField patientField;
         getPatientPopUp store = this;
         private JButton findPatient;
-        private AppointmentsPanel appointmentPanel;
+        private JPanel changePanel;
         private JLabel title;
         
         /**
@@ -36,7 +37,7 @@ public class getPatientPopUp extends JDialog {
         * This is a JDialog popup that gets user to select a patient
         * The user can't continue without interacting with the popup
         */ 
-        public getPatientPopUp(JLabel title, AppointmentsPanel appointmentPanel) {
+        public getPatientPopUp(JLabel title, JPanel changePanel) {
             setTitle("Select a Patient For The Appointment");
             setModal(true);
             setSize(500, 300);
@@ -44,7 +45,7 @@ public class getPatientPopUp extends JDialog {
             setLayout(new GridBagLayout());
             GridBagConstraints c = new GridBagConstraints();
             
-            this.appointmentPanel = appointmentPanel;
+            this.changePanel = changePanel;
             this.title = title;
 
             JLabel patientLabel = new JLabel("Search Patient By ");
@@ -165,8 +166,18 @@ public class getPatientPopUp extends JDialog {
         public void setAndClose() {
             if (p1.getNHI().length() == 6) {
                 setVisible(false);
-                title.setText("Appointment - " + p1.getfName() + " " + p1.getlName());
-                appointmentPanel.setPatient(p1);
+                if (changePanel instanceof AppointmentsPanel) {
+                    title.setText("Appointment - " + p1.getfName() + " " + p1.getlName());
+                    AppointmentsPanel appPanel = (AppointmentsPanel) changePanel;
+                    appPanel.setPatient(p1);
+                }
+                else if (changePanel instanceof CreatePrescriptionPanel) {
+                    title.setText("Patient Name: " + p1.getfName() + " " + p1.getlName());
+                    CreatePrescriptionPanel createpPanel = (CreatePrescriptionPanel) changePanel;
+                    createpPanel.setPatFName(p1.getfName());
+                    createpPanel.setPatLName(p1.getlName());
+                    createpPanel.setPrescNHI(p1.getNHI());
+                }
             }
         }
     }
