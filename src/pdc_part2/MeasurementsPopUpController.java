@@ -23,9 +23,9 @@ public class MeasurementsPopUpController implements ActionListener{
         this.form = form;
     }
     
-    public MeasurementsPopUpController() 
+    public MeasurementsPopUpController(MedicalPatient pat) 
     {
-        //this.patient = pat;
+        this.patient = pat;
     }
     
     public void setUpController(MeasurementsPopUp mpu)
@@ -36,12 +36,13 @@ public class MeasurementsPopUpController implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
+        if(source ==  measPopUp.addMeasurement)
+        {
+            patient.setMeasurement(new Measurements(measPopUp.nameField.getText().toString(), measPopUp.valueField.getText().toString(), measPopUp.unitField.getText().toString(), 
+                    measPopUp.unitField, measPopUp.nameField, measPopUp.valueField));
+        }
         
         if(form != null) {
-            if(source ==  measPopUp.addMeasurement)
-            {
-                System.out.println(measPopUp.nameField.getText());
-            }
             if (source == form.getMPopUp().addMeasurement) {
                  boolean set = current.setMeasurement(form.getMPopUp().nameField.getText(), form.getMPopUp().valueField.getText(), form.getMPopUp().unitField.getText(), form.getMPopUp().unitField, form.getMPopUp().nameField, form.getMPopUp().valueField, patient);
                 if (set == true) {

@@ -3,9 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/D:/git/PatientManagementSystemGUI/src/pdc_part2/Dosage.java</file>
+            <file>file:/D:/git/PatientManagementSystemGUI/src/pdc_part2/Prescription.java</file>
             <file>file:/D:/git/PatientManagementSystemGUI/src/pdc_part2/MeasurementsPopUp.java</file>
             <file>file:/D:/git/PatientManagementSystemGUI/src/pdc_part2/AddPatientsView.java</file>
+            <file>file:/D:/git/PatientManagementSystemGUI/src/pdc_part2/MedicalPatient.java</file>
             <file>file:/D:/git/PatientManagementSystemGUI/src/pdc_part2/CreatePrescriptionPanel.java</file>
+            <file>file:/D:/git/PatientManagementSystemGUI/src/pdc_part2/Measurements.java</file>
             <file>file:/D:/git/PatientManagementSystemGUI/src/pdc_part2/MeasurementsPopUpController.java</file>
         </group>
     </open-files>

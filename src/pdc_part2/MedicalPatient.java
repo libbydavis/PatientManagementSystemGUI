@@ -448,6 +448,8 @@ public class MedicalPatient extends Patient{
         return fName + " " + lName + " NHI: " + NHI;
     }
     
+    //public void insertMeasurementsToDatabase()
+    
     public void insertPatientToDatabase(MedicalPatient newPat) throws SQLException, IOException
     {
         // Just need to add stuff to the query when adding measurements and conditions

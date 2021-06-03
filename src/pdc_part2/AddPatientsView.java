@@ -5,13 +5,11 @@
  */
 package pdc_part2;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Timer;
@@ -21,11 +19,8 @@ import java.util.logging.Logger;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JRootPane;
-import javax.swing.JTextField;
 
 /**
  *
@@ -50,7 +45,6 @@ class AddPatientsView extends JPanel {
         this.add(phoneNoPanel());
         this.add(streetPanel());
         this.add(measurementsPanel());
-        this.add(conditionsPanel());
         this.add(currentMedsPanel());
         // Save and Exit Panel
         JPanel saveAndExitPanel = new JPanel();
@@ -61,7 +55,8 @@ class AddPatientsView extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 try {
                     adp.newPat.insertPatientToDatabase(adp.newPat);
-                    JPanel confirmation = Confirmation.createConfirmation("Appointment Saved", frame);
+                    adp.newPat.updateMeasurements();
+                    JPanel confirmation = Confirmation.createConfirmation("Patient Saved", frame);
                     frame.remove(addPatView);
                     frame.remove(patPanel);
                     frame.add(new MenuIconsPanel(frame));
@@ -77,8 +72,7 @@ class AddPatientsView extends JPanel {
                     ex.printStackTrace();
                 } catch (IOException ex) {
                     Logger.getLogger(AddPatientsView.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                    
+                }                 
             }
         });
                     
@@ -126,7 +120,7 @@ class AddPatientsView extends JPanel {
         makeAgePanel.getEnterValues().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 boolean correctAge = adp.validateNum(makeAgePanel);
-
+                
                 if (correctAge) {
                     adp.setAge(makeAgePanel);
                     validAge = true;
@@ -159,7 +153,6 @@ class AddPatientsView extends JPanel {
                 } else {
                     validPhoneNo = false;
                 }
-
                 enableButnIfValidPatient();
             }
         });
@@ -221,28 +214,10 @@ class AddPatientsView extends JPanel {
     }
 
     /**
-     *
-     * @return 
         *
-     */
-    public JPanel conditionsPanel() {
-        JPanel objJPanel = new JPanel();
-        AddPatientsModel makeStreetPanel = new AddPatientsModel("Enter your current conditions:", "e.g. High blood pressure", "Incorrect input, please try again!");
-        makeStreetPanel.clearTextField();
-        makeStreetPanel.getEnterValues().setPreferredSize(new Dimension(215, 20));
-        makeStreetPanel.getEnterValues().addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                makeStreetPanel.getErrorMsg().setVisible(true);
-            }
-        });
-        return makeStreetPanel.combineComponents();
-    }
-
-    /**
-     *
-     * @return 
+        * @return 
         *
-     */
+        **/
     public JPanel measurementsPanel() {
         
         JPanel measurementsPanel = new JPanel();
@@ -250,7 +225,7 @@ class AddPatientsView extends JPanel {
         addMeas.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                MeasurementsPopUpController controller = new MeasurementsPopUpController();
+                MeasurementsPopUpController controller = new MeasurementsPopUpController(adp.newPat);
                 MeasurementsPopUp popUp = MeasurementsPopUp.getMeasurementsPopUpInstance(controller);
                 controller.setUpController(popUp);
                 popUp.setVisible(true);
