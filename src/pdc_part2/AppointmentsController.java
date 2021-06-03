@@ -28,7 +28,6 @@ public class AppointmentsController implements ActionListener{
     private AppointmentsForm form;
     private Appointment appointment1;
     private JPanel confirmation;
-    private int error;
     private JList reasonsList;
     private JList measurementsList;
     private JList notesList;

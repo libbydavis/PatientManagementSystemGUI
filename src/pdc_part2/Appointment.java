@@ -29,6 +29,12 @@ public class Appointment {
         notes = new String[10];
     }
 
+    /**
+     * @author -LibbyDavis
+     * @param list
+     * @returns Object[]
+     * Expands an array to double the size
+     */
     public Object[] expandCapacity(Object[] list) {
         Object[] newList = new Object[list.length * 2];
         for (int i = 0; i < list.length; i++) {
@@ -38,6 +44,13 @@ public class Appointment {
         return newList;
     }
 
+    /**
+     * @author -LibbyDavis
+     * @param r
+     * @param rField
+     * @returns Boolean
+     * Makes sure reason has been entered then sets reason input in the reasons array (expands array if necessary)
+     */
     public boolean setReasons(String r, JTextField rField) {
         if (r.length() < 2) {
             rField.setForeground(Color.RED);
@@ -56,6 +69,13 @@ public class Appointment {
         return true;
     }
 
+    /**
+     * @author -LibbyDavis
+     * @param n
+     * @param nField
+     * @returns Boolean
+     * Makes sure note has been entered then sets note input in the notes array (expands array if necessary)
+     */
     public boolean setNotes(String n, JTextField nField) {
         if (n.length() < 2) {
             nField.setForeground(Color.RED);
@@ -74,6 +94,17 @@ public class Appointment {
         return true;
     }
 
+    /**
+     * @author -LibbyDavis
+     * @param name
+     * @param unit
+     * @param uField
+     * @param nField
+     * @param vField
+     * @param patient
+     * @returns Boolean
+     * Makes sure measurement value has been entered, makes new measurement with input and adds it to measurements array (expands if necessary)
+     */
     public boolean setMeasurement(String name, String value, String unit, JTextField uField, JTextField nField, JTextField vField, MedicalPatient patient) {
         Measurements currentMeasurement = new Measurements(name, value, unit, uField, nField, vField);
         if (currentMeasurement.measurement == null) {
@@ -93,6 +124,11 @@ public class Appointment {
         return true;
     }
 
+    /**
+     * @author -LibbyDavis
+     * @returns String[]
+     * Returns string of all measurements in easy to read format
+     */
     public String[] getMeasurementArrayToString() {
         String[] measurementsStrings = new String[measurements.length];
         for (int i = 0; i < measurements.length; i++) {
@@ -170,6 +206,13 @@ public class Appointment {
         notes[index] = null;
     }
     
+    /**
+     * @author -LibbyDavis
+     * @param select
+     * @returns ResultSet
+     * gets appointment information from database 
+     * (either all appointments in DB or all appointments for a patient based on an NHI identifier)
+     */
     public static ResultSet getAppointmentHistory(String select) throws SQLException {
         DatabaseConnection DBconnect = new DatabaseConnection();
         Connection conn = DBconnect.getConnectionPatients();
@@ -188,6 +231,11 @@ public class Appointment {
         return rs;
     }
     
+    /**
+     * @author -LibbyDavis
+     * @returns ArrayList
+     * Creates an ArrayList from the appointment history of all patients to be used for created a JTable
+     */
     public static ArrayList displayAppointmentHistorySummary() throws SQLException {
         ResultSet rs = getAppointmentHistory("ALL");
         HashMap<String, Integer> map = new HashMap();
@@ -226,6 +274,12 @@ public class Appointment {
         return list;
     }
     
+    /**
+     * @author -LibbyDavis
+     * @param nhi
+     * @returns ArrayList
+     * Creates an ArrayList holding each appointment of a patient to be used to create a JTable
+     */
     public static ArrayList displayAppointmentHistoryForPatient(String nhi) throws SQLException {
         ResultSet rs = getAppointmentHistory(nhi);
         

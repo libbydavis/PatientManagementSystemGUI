@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pdc_part2;
 
 import java.awt.Color;
@@ -12,12 +7,9 @@ import java.awt.GridBagLayout;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-
-
 
 /**
  *
@@ -63,6 +55,10 @@ public class AppointmentsHistoryPanel extends JPanel{
         return new PatientAppointmentHistory(p, d);
     }
     
+    /**
+     * @author -LibbyDavis
+     * This panel is used to display a JTable with an overview of all patient appointment history
+     */
     private class SummaryTablePanel extends JPanel{
         public SummaryTablePanel() throws SQLException {
             DefaultTableModel model = new DefaultTableModel();

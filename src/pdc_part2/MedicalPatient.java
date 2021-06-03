@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pdc_part2;
 
 import java.awt.Dimension;
@@ -32,6 +27,7 @@ import org.apache.derby.shared.common.error.DerbySQLIntegrityConstraintViolation
 /**
  *
  * @author libst
+ * @author Raj
  */
 public class MedicalPatient extends Patient{
     private String fName;
@@ -44,7 +40,6 @@ public class MedicalPatient extends Patient{
     private ArrayList<Measurements> measurements;
     private ArrayList<Measurements> newMeasurements;
     private ArrayList prescriptions;
-    private ArrayList<Appointment> appointmentsHistory;
     private Connection conn;
     private String tableName = "ADMIN1.PATIENTS";
     private JTable matchingPatientsTable;
@@ -166,6 +161,17 @@ public class MedicalPatient extends Patient{
         newMeasurements.add(measurement);
     }
     
+    /**
+     * @author -LibbyDavis
+     * @param input
+     * @param option
+     * @param matchingPanel
+     * Gets a patient from the database, either searching by NHI, first name or last name.
+     * Specify what to search by using option.
+     * If there is more than one matching patient, 
+     * it uses matchingPanel to call other methods to deal with displaying all matching patients
+     * and getting the user selection of the correct patient.
+     */
     @Override
     public void getPatientFromDatabase(String input, Object option, Object matchingPanel) throws SQLException {
             ResultSet rs;
@@ -223,10 +229,16 @@ public class MedicalPatient extends Patient{
             rs.close();
     }
     
-    public void getMeasurementsFromDatabase(MedicalPatient iteratePatient) throws SQLException {
+    /**
+     * @author -LibbyDavis
+     * @param patient
+     * Gets all the matching measurements for a patient from the MEASUREMENTS DB
+     * Then it adds the measurements to the given patient object
+     */
+    public void getMeasurementsFromDatabase(MedicalPatient patient) throws SQLException {
         ResultSet rs;
         Statement statement = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-        String sqlQuery = "SELECT * FROM ADMIN1.MEASUREMENTS WHERE NHI = '" + iteratePatient.NHI + "'";
+        String sqlQuery = "SELECT * FROM ADMIN1.MEASUREMENTS WHERE NHI = '" + patient.NHI + "'";
         rs = statement.executeQuery(sqlQuery);
         
         //set measurements to patient
@@ -237,7 +249,7 @@ public class MedicalPatient extends Patient{
            currentMeasurement.name = rs.getString("NAME");
            currentMeasurement.measurement = rs.getDouble("VALUE");
            currentMeasurement.units = rs.getString("UNIT");
-           iteratePatient.measurements.add(currentMeasurement);
+           patient.measurements.add(currentMeasurement);
         }
     }
     

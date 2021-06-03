@@ -1,22 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pdc_part2;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JTextField;
 
 /**
@@ -28,10 +20,14 @@ public class MeasurementsPopUp extends JFrame {
     JTextField valueField;
     JTextField unitField;
     JButton addMeasurement;
-    
-    
-    
     private static MeasurementsPopUp MeasurementsPopUpInstance;
+    
+    /**
+     * @author -LibbyDavis
+     * @param controller
+     * @return MeasurementsPopUp
+     * Gets an instance MeasurementsPopUp using singleton pattern
+     */
         public static synchronized MeasurementsPopUp getMeasurementsPopUpInstance(MeasurementsPopUpController controller) {
             if (MeasurementsPopUpInstance == null) {
                 MeasurementsPopUpInstance = new MeasurementsPopUp(controller);
@@ -44,6 +40,12 @@ public class MeasurementsPopUp extends JFrame {
             MeasurementsPopUpInstance = null;
         }
     }
+        
+    /**
+     * @author -LibbyDavis
+     * @param controller
+     * This popup is a JFrame that allows a user to enter a measurement name, value and unit for a patient
+     */
     private MeasurementsPopUp(MeasurementsPopUpController controller) {
         super("Add Measurement");
         setSize(500, 300);

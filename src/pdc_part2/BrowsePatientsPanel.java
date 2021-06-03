@@ -1,30 +1,19 @@
 package pdc_part2;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
-import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.border.EmptyBorder;
 
 public class BrowsePatientsPanel extends JPanel {
     BrowsePatientsPanel panel = this;
@@ -119,6 +108,11 @@ public class BrowsePatientsPanel extends JPanel {
         return selectButton;
     }
     
+    /**
+     * @author -LibbyDavis
+     * @param patient
+     * Gets a panel displaying details of a patient and adds it to the main window
+     */
     public void displayIndividualPatient(MedicalPatient patient) {
         JComponent patientDetails = patient.displayIndividualPatientDetails();
         removeAll();

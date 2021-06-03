@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pdc_part2;
 
 import java.awt.Color;
@@ -16,6 +11,15 @@ import javax.swing.JPanel;
  * @author libst
  */
 public class Confirmation {
+    
+    /**
+     * @author -LibbyDavis
+     * @param confirmationMessage
+     * @param frame
+     * @returns JPanel
+     * Adds a green confirmation popup to the main window
+     * Then returns the confirmation panel so the calling method can remove it later on
+     */
     public static JPanel createConfirmation(String confirmationMessage, PatientManagementView frame) {
         JPanel confirmation = new JPanel();
         confirmation.setMaximumSize(new Dimension(frame.getWidth(), 30));
@@ -25,6 +29,15 @@ public class Confirmation {
         return confirmation;
     }
     
+    /**
+     * @author -LibbyDavis
+     * @param errorMessage
+     * @param errorType
+     * @param type
+     * @return int
+     * Creates and displays a JOptionPane with error message
+     * You can specify the error message, error title and JOptionPane type (e.g. JOptionPane.OK_OPTION)
+     */
     public static int createErrorMessage(String errorMessage, String errorType, int type) {
         int error = JOptionPane.showConfirmDialog(null, errorMessage, errorType,
                 type, JOptionPane.ERROR_MESSAGE);

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pdc_part2;
 
 import java.awt.Color;
@@ -12,8 +7,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -131,6 +124,12 @@ public class AppointmentsPanel extends JPanel{
         controller.setNHI(p.getNHI());
     }
     
+    /**
+     * @author -LibbyDavis
+     * @param title
+     * @returns MedicalPatient
+     * Displays a popup for user to select a patient, then returns the patient that the user selected
+     */
     public MedicalPatient getPatient(JLabel title) {
         getPatientPopUp patientFrame = new getPatientPopUp(title, this);
         patientFrame.setVisible(true);
@@ -138,6 +137,12 @@ public class AppointmentsPanel extends JPanel{
         return p1;
     }
     
+    /**
+     * @author -LibbyDavis
+     * This panel is used to display the options related to appointments
+     * The options are Create Appointment and View Appointment History
+     * The user can select an option
+     */
     private class ButtonsPane extends JPanel{
         public ButtonsPane(PatientManagementView frame, Dimension d) {
          //set layout
