@@ -12,6 +12,9 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -52,10 +55,16 @@ public class PrescriptionButtonsPanel extends JPanel{
             @Override
             public void actionPerformed(ActionEvent e) {
                 Object source = e.getSource();
-                CreatePrescriptionPanel createPresc = new CreatePrescriptionPanel(frame, panel);
-                panel.removeButtonsPane();
-                panel.addPrescPane(createPresc);
-                frame.revalidate();
+                CreatePrescriptionPanel createPresc;
+                try {
+                    createPresc = new CreatePrescriptionPanel(frame, panel);
+                    panel.removeButtonsPane();
+                    panel.addPrescPane(createPresc);
+                    frame.revalidate();
+                } catch (SQLException ex) {
+                    Logger.getLogger(PrescriptionButtonsPanel.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
 
             }
         });
@@ -91,10 +100,16 @@ public class PrescriptionButtonsPanel extends JPanel{
             @Override
             public void actionPerformed(ActionEvent e) {
                 Object source = e.getSource();
-                DeletePrescriptionPanel epp = new DeletePrescriptionPanel();
-                panel.removeButtonsPane();
-                panel.addPrescPane(epp);
-                frame.revalidate();
+                DeletePrescriptionPanel epp;
+                try {
+                    epp = new DeletePrescriptionPanel();
+                    panel.removeButtonsPane();
+                    panel.addPrescPane(epp);
+                    frame.revalidate();
+                } catch (SQLException ex) {
+                    Logger.getLogger(PrescriptionButtonsPanel.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
             }
         });
         add(editPrescriptionB, c);      

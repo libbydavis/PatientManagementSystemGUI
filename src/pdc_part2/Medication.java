@@ -14,12 +14,10 @@ public class Medication {
 
     private String name;
     private String sideEffects;
-    private String conditions;
 
     public Medication(String name, String sideEffects, String conditions) {
         this.name = name;
         this.sideEffects = sideEffects;
-        this.conditions = conditions;
     }
 
     public String getName() {
@@ -30,9 +28,6 @@ public class Medication {
         return sideEffects;
     }
 
-    public String getConditions() {
-        return conditions;
-    }
 
     public static String[] medList() 
     {
@@ -57,6 +52,6 @@ public class Medication {
     }
 
     public String toString() {
-        return "Medication Name: " + name + "\nSide Effects: " + sideEffects + "\nConditions: " + conditions;
+        return "Medication Name: " + name + "\nSide Effects: " + sideEffects;
     }
 }

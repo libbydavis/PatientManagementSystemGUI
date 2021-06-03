@@ -66,7 +66,7 @@ public class PatientsController implements ActionListener{
         else if (source == panel.getEditPatientB()) {
             panel.remove(panel.getButtonsPane1());
             panel.add(editPatientPanel, panel.getConstraints());
-            panel.setPatientsLabel("Edit Patient");
+            panel.setPatientsLabel("Delete Patient");
             frame.revalidate();
         }
         else if (source == panel.getBrowsePatientsB()) {
@@ -94,9 +94,11 @@ public class PatientsController implements ActionListener{
             try {
                 findPatient.getPatientFromDatabase(searchText, editPatientPanel.getSelected(), editPatientPanel.getBrowsePanel());
                 if (findPatient.getNHI().length() > 0) {
-                    editPatientPanel.setEditor(findPatient);
+                    editPatientPanel.setDelete(findPatient, frame);
                 }
             } catch (SQLException ex) {
+                Logger.getLogger(PatientsController.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
                 Logger.getLogger(PatientsController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -120,7 +122,13 @@ public class PatientsController implements ActionListener{
             } catch (SQLException ex) {
                 Logger.getLogger(PatientsController.class.getName()).log(Level.SEVERE, null, ex);
             }
-            editPatientPanel.setEditor(findPatient);
+            try {
+                editPatientPanel.setDelete(findPatient, frame);
+            } catch (SQLException ex) {
+                Logger.getLogger(PatientsController.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(PatientsController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
     

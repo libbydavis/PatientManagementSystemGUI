@@ -36,7 +36,6 @@ public class MedicationsPanel extends JPanel
         model.addColumn("MEDNO");
         model.addColumn("MEDNAME");
         model.addColumn("SIDE_EFFECTS");
-        model.addColumn("CONDITIONS");
  
         TableColumnModel columnModel = table.getColumnModel();
         columnModel.getColumn(0).setPreferredWidth(50);
