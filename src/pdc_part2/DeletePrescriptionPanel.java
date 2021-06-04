@@ -9,15 +9,12 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -35,6 +32,8 @@ public class DeletePrescriptionPanel extends JPanel
     JTextField enterNHI;
     PrescriptionComponent objPC;
     JButton removeButton;
+    DeletePrescriptionPanel store = this;
+    private String nhi;
 
     public DeletePrescriptionPanel() throws SQLException 
     {
@@ -50,10 +49,37 @@ public class DeletePrescriptionPanel extends JPanel
         prescTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         // Edit Panel
         JPanel editPanel = new JPanel();
+        JLabel prompt = new JLabel("Select a Patient: ");
+        JButton addPatientButton = new JButton("Add Patient");
+        addPatientButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                getPatientPopUp getPatient = new getPatientPopUp(prompt, store);
+                getPatient.setVisible(true);
+                tablePanel.setVisible(true);
+                Prescription currentPrescriptions = new Prescription();
+                try {
+                    ResultSet rs = currentPrescriptions.getPrescriptions(nhi);
+                    while(rs.next())
+                    {
+                        prescTableModel.addRow(new Object[]{rs.getString(1), rs.getString(2)});
+                    }
+                    rs.close();
+                    addPatientButton.setText("Change Patient");
+                } catch (SQLException ex) {
+                    Logger.getLogger(DeletePrescriptionPanel.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+            }
+        });
+        editPanel.add(prompt);
+        editPanel.add(addPatientButton);
+        /*
         JLabel prompt = new JLabel("Enter NHI of the patient's prescription you want to delete: ");
         JComboBox nhiList = new JComboBox(MedicalPatient.paitentNHIList().toArray());
+
         
-        editPanel.add(prompt);
+        
         nhiList.addActionListener(new ActionListener()
         {
             @Override
@@ -77,6 +103,7 @@ public class DeletePrescriptionPanel extends JPanel
             }
             
         });
+*/
 //        enterNHI.addActionListener(new ActionListener() 
 //        {
 //            public void actionPerformed(ActionEvent e) 
@@ -108,7 +135,7 @@ public class DeletePrescriptionPanel extends JPanel
 //                }
 //            }    
 //        });
-        editPanel.add(nhiList);
+        //editPanel.add(nhiList);
         this.add(editPanel);
         // Table Panel
         tablePanel = new JPanel();
@@ -133,16 +160,11 @@ public class DeletePrescriptionPanel extends JPanel
                     System.out.println(intPrescNo);
                     prescTableModel.removeRow(prescTable.getSelectedRow());
                     
-                    DatabaseConnection dbc = new DatabaseConnection();
-                    String sqlQuery = "DELETE FROM PRESCRIPTIONS WHERE PRESCRIPTIONNO = " + intPrescNo;
-                    try 
-                    {
-                        PreparedStatement prepstmt = dbc.getConnectionPatients().prepareStatement(sqlQuery);
-                        prepstmt.executeUpdate();
-                    } 
-                    catch (SQLException ex) 
-                    {
-                        ex.printStackTrace();
+                    Prescription removedPrescription = new Prescription();
+                    try {
+                        removedPrescription.removePrescription(intPrescNo);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(DeletePrescriptionPanel.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     
                 }
@@ -152,5 +174,9 @@ public class DeletePrescriptionPanel extends JPanel
         this.add(removePanel);
         // Edit Prescription Panel Size
         this.setPreferredSize(new Dimension(screenSize.width/2, screenSize.height/2));
+    }
+    
+    public void setNhi(String nhi) {
+        this.nhi = nhi;
     }
 }

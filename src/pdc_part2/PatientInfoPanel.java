@@ -5,7 +5,7 @@ import javax.swing.JPanel;
 
 /**
  *
- * @author libst
+ * @author -LibbyDavis
  */
 public class PatientInfoPanel extends JPanel{
     

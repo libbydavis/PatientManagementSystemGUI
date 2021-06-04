@@ -15,6 +15,10 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+/**
+* @author -LibbyDavis
+*/
+
 public class BrowsePatientsPanel extends JPanel {
     BrowsePatientsPanel panel = this;
     private PatientsController controller;

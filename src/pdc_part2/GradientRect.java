@@ -1,13 +1,13 @@
 package pdc_part2;
 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.geom.Point2D;
+
 /**
  * @author libst
  * Paints a gradient rectangle for the header on the home page
  */
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.geom.Point2D;
 
 public class GradientRect extends JComponent{
     int width;

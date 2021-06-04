@@ -178,6 +178,11 @@ public class getPatientPopUp extends JDialog {
                     createpPanel.setPatLName(p1.getlName());
                     createpPanel.setPrescNHI(p1.getNHI());
                 }
+                else if (changePanel instanceof DeletePrescriptionPanel) {
+                    title.setText("Patient Name: " + p1.getfName() + " " + p1.getlName() + ", NHI: " + p1.getNHI());
+                    DeletePrescriptionPanel deletepPanel = (DeletePrescriptionPanel) changePanel;
+                    deletepPanel.setNhi(p1.getNHI());
+                }
             }
         }
     }

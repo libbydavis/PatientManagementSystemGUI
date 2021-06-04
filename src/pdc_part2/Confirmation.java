@@ -7,9 +7,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
- *
- * @author libst
- */
+* @author -LibbyDavis
+*/
 public class Confirmation {
     
     /**

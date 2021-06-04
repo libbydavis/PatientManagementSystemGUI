@@ -23,24 +23,6 @@ public class AppointmentTest {
     
     public AppointmentTest() {
     }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
-
-   
 
     /**
      * Test of setReasons method, of class Appointment.
@@ -56,6 +38,19 @@ public class AppointmentTest {
         
         assertEquals("itchy skin", i);
     }
+    
+     /**
+     * Test of displayAppointmentHistorySummary method, of class Appointment.
+     */
+    @Test
+    public void testDisplayAppointmentHistorySummary() throws Exception {
+        System.out.println("displayAppointmentHistorySummary");
+        ArrayList<Object[]> result = Appointment.displayAppointmentHistorySummary();
+        Object[] firstResult = result.get(0);
+        String nhi = (String) firstResult[0];
+        boolean correctResult = nhi.length() == 6;
+        assertTrue(correctResult);
+    }
 
         /**
      * Test of getAppointmentHistory method, of class Appointment.
@@ -69,5 +64,6 @@ public class AppointmentTest {
         result.next();
         String r = result.getString("NHI");
         assertNotNull(r);
+        result.close();
     }
 }

@@ -1,6 +1,10 @@
 package pdc_part2;
 
 import java.io.IOException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -86,6 +90,20 @@ public class Prescription
     public void setRepeat(Boolean repeat) 
     {
         this.repeat = repeat;
+    }
+    
+    public ResultSet getPrescriptions(String nhi) throws SQLException {
+        DatabaseConnection dbc = new DatabaseConnection();
+        Statement stmt = dbc.getConnectionPatients().createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+        ResultSet rs = stmt.executeQuery("SELECT PRESCRIPTIONNO, PRESCRIPTION_DETAILS FROM PRESCRIPTIONS WHERE NHI = \'" + nhi + "\'");
+        return rs;
+    }
+    
+    public void removePrescription(int intPrescNo) throws SQLException {
+        DatabaseConnection dbc = new DatabaseConnection();
+        String sqlQuery = "DELETE FROM PRESCRIPTIONS WHERE PRESCRIPTIONNO = " + intPrescNo;
+        PreparedStatement prepstmt = dbc.getConnectionPatients().prepareStatement(sqlQuery);
+        prepstmt.executeUpdate();
     }
 
     @Override

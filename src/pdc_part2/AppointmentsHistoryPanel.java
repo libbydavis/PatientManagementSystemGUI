@@ -13,7 +13,7 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author libst
+ * @author -LibbyDavis
  */
 public class AppointmentsHistoryPanel extends JPanel{
     private AppointmentsHistoryController controller;

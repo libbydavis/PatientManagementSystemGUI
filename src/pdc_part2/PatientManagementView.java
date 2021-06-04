@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 /**
  *
- * @author libst
+ * @author -LibbyDavis
  * Main window of program
  */
 public class PatientManagementView extends JFrame {

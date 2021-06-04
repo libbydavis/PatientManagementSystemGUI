@@ -22,7 +22,7 @@ import javax.swing.border.EmptyBorder;
 
 /**
  *
- * @author libst
+ * @author -LibbyDavis
  */
 public class AppointmentsPanel extends JPanel{
     AppointmentsPanel panel = this;
