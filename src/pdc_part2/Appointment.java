@@ -21,7 +21,6 @@ public class Appointment {
     private String[] reasons;
     private Measurements[] measurements;
     private String[] notes;
-    private static ResultSet rs;
 
     public Appointment() {
         date = Instant.now();
@@ -214,7 +213,7 @@ public class Appointment {
      * gets appointment information from database 
      * (either all appointments in DB or all appointments for a patient based on an NHI identifier)
      */
-    public static void getAppointmentHistory(String select) throws SQLException {
+    public static ResultSet getAppointmentHistory(String select) throws SQLException {
         DatabaseConnection DBconnect = new DatabaseConnection();
         Connection conn = DBconnect.getConnectionPatients();
         
@@ -227,7 +226,9 @@ public class Appointment {
         else {
             query = "SELECT * FROM ADMIN1.APPOINTMENT WHERE NHI='" + select + "'";
         }
-        rs = statement1.executeQuery(query);
+        ResultSet rs = statement1.executeQuery(query);
+        
+        return rs;
     }
     
     /**
@@ -236,7 +237,7 @@ public class Appointment {
      * Creates an ArrayList from the appointment history of all patients to be used for created a JTable
      */
     public static ArrayList displayAppointmentHistorySummary() throws SQLException {
-        getAppointmentHistory("ALL");
+        ResultSet rs = getAppointmentHistory("ALL");
         HashMap<String, Integer> map = new HashMap();
         ArrayList<Object[]> list = new ArrayList();
         MedicalPatient currentPatient = new MedicalPatient();
@@ -280,7 +281,7 @@ public class Appointment {
      * Creates an ArrayList holding each appointment of a patient to be used to create a JTable
      */
     public static ArrayList displayAppointmentHistoryForPatient(String nhi) throws SQLException {
-        getAppointmentHistory(nhi);
+        ResultSet rs = getAppointmentHistory(nhi);
         
         ArrayList<Object[]> appointments = new ArrayList();
         Object[] singleAppointment;
