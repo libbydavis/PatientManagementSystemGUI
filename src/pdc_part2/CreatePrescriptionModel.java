@@ -29,15 +29,7 @@ public class CreatePrescriptionModel {
         this.errorLabel = new JLabel(errorMsg);
         this.corrLabel = new JLabel(corrMsg);
     }
-    
-    public CreatePrescriptionModel(String enterMsg, String errorMsg, String corrMsg) {
-        this.prescPanelPart = new JPanel();
-        this.enterLabel = new JLabel(enterMsg);
-        this.errorLabel = new JLabel(errorMsg);
-        this.corrLabel = new JLabel(corrMsg);
-
-    }
-
+   
     public JPanel getPrescPanelPart() {
         return prescPanelPart;
     }
@@ -90,6 +82,5 @@ public class CreatePrescriptionModel {
     public boolean checkNullString(CreatePrescriptionModel mnp) {
         int enteredNameLength = mnp.getEnterField().getText().length();
         return ((enteredNameLength == 0) ? true : false);
-    }
-    
+    } 
 }

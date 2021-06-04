@@ -27,8 +27,11 @@ public class Medication {
     public String getSideEffects() {
         return sideEffects;
     }
-
-
+    
+    /**
+     * Is used to display the medication database in a JComboBox
+     * @return a string array of all the medications in the medication database
+     */
     public static String[] medList() 
     {
         String[] medList = new String[8];

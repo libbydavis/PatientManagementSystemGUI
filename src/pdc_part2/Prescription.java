@@ -5,7 +5,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.*;
-
+/**
+ * 
+ * @author Raj
+ */
 public class Prescription 
 {
     private String dateTime;
@@ -30,19 +33,9 @@ public class Prescription
         
     }
     
-    public String getDateTime() 
-    {
-        return dateTime;
-    }
-
     public void setDateTime(String dateTime) 
     {
         this.dateTime = dateTime;
-    }
-
-    public Medication getMeds() 
-    {
-        return meds;
     }
 
     public void setMeds(Medication meds) 
@@ -50,19 +43,9 @@ public class Prescription
         this.meds = meds;
     }
 
-    public Dosage getDosage() 
-    {
-        return dosage;
-    }
-
     public void setDosage(Dosage dosage) 
     {
         this.dosage = dosage;
-    }
-
-    public String getDoctorName() 
-    {
-        return doctorName;
     }
 
     public void setDoctorName(String doctorName) 
@@ -70,26 +53,21 @@ public class Prescription
         this.doctorName = doctorName;
     }
 
-    public String getPatientName() 
-    {
-        return patientName;
-    }
-
     public void setPatientName(String patientName) 
     {
         this.patientName = patientName;
-    }
-
-    public Boolean getRepeat() 
-    {
-        return repeat;
     }
 
     public void setRepeat(Boolean repeat) 
     {
         this.repeat = repeat;
     }
-    
+    /**
+        * Returns a prescription from the prescription database;
+        * @param nhi returns the prescriptions of a particular patient
+        * @return a resultset of the prescriptions
+        * @throws SQLException 
+        **/
     public ResultSet getPrescriptions(String nhi) throws SQLException {
         DatabaseConnection dbc = new DatabaseConnection();
         Statement stmt = dbc.getConnectionPatients().createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
@@ -97,6 +75,12 @@ public class Prescription
         return rs;
     }
     
+    /**
+        * Removes a prescription from the prescription database
+        * @param intPrescNo is used to remove a prescription
+        * @throws SQLException 
+        * @author Raj
+        **/
     public void removePrescription(int intPrescNo) throws SQLException {
         DatabaseConnection dbc = new DatabaseConnection();
         String sqlQuery = "DELETE FROM PRESCRIPTIONS WHERE PRESCRIPTIONNO = " + intPrescNo;
@@ -104,7 +88,14 @@ public class Prescription
         prepstmt.executeUpdate();
     }
     
-        public void insertPrescToDatabase(Prescription presc, String patNhi) throws SQLException
+    /**
+     * Inserts a prescription to the database
+     * @param presc The prescription object that's put into the database
+     * @param patNhi The nhi of the patient that the prescription is for
+     * @throws SQLException 
+     * @author Raj
+     */
+    public void insertPrescToDatabase(Prescription presc, String patNhi) throws SQLException
     {
         String originalPresc = presc.toString();
         String cleanPresc = "";

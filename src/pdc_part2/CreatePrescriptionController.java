@@ -32,6 +32,10 @@ public class CreatePrescriptionController
         return sdf.format(currentTimeDate);
     }
     
+    /**
+        * Sets the name of the patient by searching for their name using the nhi in the database
+        * @param nhi what's used to search for the patient
+        **/
     public void setPatName(String nhi) {
         try {
             DatabaseConnection dbc = new DatabaseConnection();
@@ -48,6 +52,10 @@ public class CreatePrescriptionController
         }
     }
     
+    /**
+        * Connects to the medication database to search for the medication using the string that's entered
+        * @param meds Sets the patient's medication using this string
+        **/
     public void setPatMeds(String meds)
     {
         try {
