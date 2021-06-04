@@ -40,7 +40,6 @@ public class MedicalPatient extends Patient{
     private String phoneNumber;
     private String address;
     private String NHI;
-    private HashSet conditions;
     private HashSet currentMedications;
     private ArrayList<Measurements> measurements;
     private ArrayList<Measurements> newMeasurements;
@@ -134,10 +133,6 @@ public class MedicalPatient extends Patient{
         this.NHI = NHI;
     }
 
-    public void setConditions(HashSet conditions) 
-    {
-        this.conditions = conditions;
-    }
 
     public void setCurrentMedications(HashSet currentMedications) 
     {
@@ -204,8 +199,6 @@ public class MedicalPatient extends Patient{
                 iteratePatient.phoneNumber = rs.getString("PHONENO");
                 iteratePatient.address = rs.getString("STREET");
                 getMeasurementsFromDatabase(iteratePatient);
-                String conditionsString = rs.getString("CONDITIONS");
-                //iteratePatient.conditions = convertStringToConditions(conditionsString);
                 
                 
                 matchingPatients.add(iteratePatient);
@@ -225,7 +218,6 @@ public class MedicalPatient extends Patient{
                 measurements = iteratePatient.measurements;
                 address = iteratePatient.address;
                 phoneNumber = iteratePatient.phoneNumber;
-                conditions = iteratePatient.conditions;
             }
             
             rs.close();
@@ -257,27 +249,6 @@ public class MedicalPatient extends Patient{
     
     public void specifyPatientOnTable(BrowsePatientsPanel panel, JComponent table) {
         panel.setPatientTable(table);
-    }
-    
-    public HashSet convertStringToConditions(String conditionsString) {
-        HashSet conditionsSet = new HashSet();
-        String[] conditionsList = conditionsString.split(", ");
-        int indexCounter = 0;
-        String addString = "";
-        for (int i = 0; i < conditionsList.length; i++) {
-            if (indexCounter == 0) {
-                addString += conditionsList[i] + ", ";
-            }
-            else if (indexCounter == 1) {
-                addString += conditionsList[i];
-                conditionsSet.add(addString);
-                addString = "";
-                indexCounter = -1;
-            }
-            indexCounter++;
-            
-        }
-        return conditionsSet;
     }
     
     public JComponent displayIndividualPatientDetails() {
@@ -322,14 +293,6 @@ public class MedicalPatient extends Patient{
         patientDetails.add(phoneLabel);
         patientDetails.add(phoneValue);
         
-        /*
-        JLabel conditionsLabel = new JLabel("Conditions");
-        conditionsLabel.setFont(boldFont);
-        JLabel conditionsValue = new JLabel(stringCollection(conditions));
-        conditionsValue.setFont(normalFont);
-        patientDetails.add(conditionsLabel);
-        patientDetails.add(conditionsValue);
-        */
         JLabel measurementsLabel = new JLabel("Measurements");
         measurementsLabel.setFont(boldFont);
         JLabel measurementsValues = new JLabel(stringCollection(measurements));
@@ -426,7 +389,6 @@ public class MedicalPatient extends Patient{
     @Override
     public void saveAppointmentToDB(Appointment app) throws SQLException {
         updateMeasurements();
-        //updateConditions();
         Statement statement2 = conn.createStatement();
         Timestamp ts = Timestamp.from(app.date);
         String query1 = "INSERT INTO ADMIN1.APPOINTMENT (NHI, REASONS, MEASUREMENTS, NOTES, DATETIME) VALUES ('" + app.NHI + "', '" + app.getReasonsString() + "', '" + app.getMeasurementsString() + "', '" + app.getNotesString() +  "', '" + ts + "')";
@@ -448,6 +410,17 @@ public class MedicalPatient extends Patient{
         return fName + " " + lName + " NHI: " + NHI;
     }
     
+    public void deletePatientFromDB() throws SQLException {
+        Statement statement = conn.createStatement();
+        String patient = "DELETE FROM ADMIN1.PATIENTS WHERE NHI = '" + NHI + "'";
+        statement.addBatch(patient);
+        String measurements = "DELETE FROM ADMIN1.MEASUREMENTS WHERE NHI = '" + NHI + "'";
+        statement.addBatch(measurements);
+        String appointments = "DELETE FROM ADMIN1.APPOINTMENT WHERE NHI = '" + NHI + "'";
+        statement.addBatch(appointments);
+        
+        statement.executeBatch();
+    }
     //public void insertMeasurementsToDatabase()
     
     public void insertPatientToDatabase(MedicalPatient newPat) throws SQLException, IOException

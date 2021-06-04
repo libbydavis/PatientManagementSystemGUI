@@ -12,6 +12,9 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -52,11 +55,12 @@ public class PrescriptionButtonsPanel extends JPanel{
             @Override
             public void actionPerformed(ActionEvent e) {
                 Object source = e.getSource();
-                CreatePrescriptionView createPresc = new CreatePrescriptionView(frame, panel);
-                panel.removeButtonsPane();
-                panel.addPrescPane(createPresc);
-                frame.revalidate();
 
+                CreatePrescriptionView createPresc;
+                    createPresc = new CreatePrescriptionView(frame, panel);
+                    panel.removeButtonsPane();
+                    panel.addPrescPane(createPresc);
+                    frame.revalidate();
             }
         });
         add(createPrescriptionB, c);
@@ -91,10 +95,11 @@ public class PrescriptionButtonsPanel extends JPanel{
             @Override
             public void actionPerformed(ActionEvent e) {
                 Object source = e.getSource();
-                DeletePrescriptionPanel epp = new DeletePrescriptionPanel();
-                panel.removeButtonsPane();
-                panel.addPrescPane(epp);
-                frame.revalidate();
+                DeletePrescriptionPanel epp;
+                    epp = new DeletePrescriptionPanel();
+                    panel.removeButtonsPane();
+                    panel.addPrescPane(epp);
+                    frame.revalidate();
             }
         });
         add(editPrescriptionB, c);      

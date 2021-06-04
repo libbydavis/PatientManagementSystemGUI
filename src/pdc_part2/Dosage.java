@@ -26,9 +26,10 @@ public class Dosage
     public void setHowOften(String howOften) {
         this.howOften = howOften;
     }
-    
+
     public String toString() 
     {
         return "Dosage amount: " + amount + ", Dosage Frequency: " + howOften;
     }
 }
+

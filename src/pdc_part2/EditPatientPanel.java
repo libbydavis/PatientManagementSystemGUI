@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -13,15 +14,12 @@ import javax.swing.JPanel;
 public class EditPatientPanel extends JPanel{
     private PatientsController controller;
     private JButton searchButton;
-    private JButton selectButton;
     private BrowsePatientsPanel pickPatient;
-    private EditorPanel editPanel;
     
     public EditPatientPanel(PatientManagementView frame, double width, double height, PatientsController controller) throws IOException, SQLException {
         this.controller = controller;
         pickPatient = new BrowsePatientsPanel(frame, width, height, controller);
         searchButton = pickPatient.getSearchButton();
-        selectButton = pickPatient.getSelectButton();
         
         add(pickPatient);
     }
@@ -31,7 +29,7 @@ public class EditPatientPanel extends JPanel{
     }
     
     public JButton getSelectButton() {
-        return selectButton;
+        return pickPatient.getSelectButton();
     }
     
     public String getSearchText() {
@@ -46,18 +44,14 @@ public class EditPatientPanel extends JPanel{
         return pickPatient.getSearchOptions().getSelectedItem();
     }
     
-    public void setEditor(MedicalPatient patient) {
-        remove(pickPatient);
-        editPanel = new EditorPanel(patient);
-        add(editPanel);
-        revalidate();
-    }
-    
-    public class EditorPanel extends JPanel {
-        
-        public EditorPanel(MedicalPatient patient) {
-            JLabel patientName = new JLabel(patient.getfName() + " " + patient.getlName());
-            add(patientName);
+    public void setDelete(MedicalPatient patient, PatientManagementView frame) throws SQLException, IOException {
+        String message = "Are you sure you want to delete patient " + patient.getfName() + " " + patient.getlName() + "?";
+        int choice = Confirmation.createErrorMessage(message, "Delete Patient?", JOptionPane.YES_NO_OPTION);
+        if (choice == JOptionPane.YES_OPTION) {
+            patient.deletePatientFromDB();
+            frame.removeAll();
+            frame.add(new MenuIconsPanel(frame));
+            frame.revalidate();
         }
     }
 }
