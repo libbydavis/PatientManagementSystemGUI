@@ -35,7 +35,10 @@ public class DeletePrescriptionPanel extends JPanel {
     JButton removeButton;
     DeletePrescriptionPanel store = this;
     private String nhi;
-
+    /**
+     * Deletes a patient from the patient table
+     * @throws SQLException 
+     */
     public DeletePrescriptionPanel() throws SQLException 
     {
         // General Setup

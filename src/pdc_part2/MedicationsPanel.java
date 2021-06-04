@@ -20,7 +20,7 @@ import javax.swing.table.TableColumnModel;
 
 /**
  *
- * @author libst
+ * @author Raj
  */
 public class MedicationsPanel extends JPanel
 {
@@ -28,6 +28,10 @@ public class MedicationsPanel extends JPanel
     JTable table;
     JPanel jp;
     
+    /**
+     * Retrieves all the info from the medication database and adds it to a table
+     * @param d The dimensions of the panel
+     */
     public MedicationsPanel(Dimension d) {
         model = new DefaultTableModel();
         table = new JTable(model);

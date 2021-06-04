@@ -55,7 +55,10 @@ public class AddPatientsModel
     {
         return corrMsg;
     }
-    
+    /**
+        * combines all the panels that are in the AddPatientView class
+        * @return returns a JPanel with all the combined components
+        **/
     public JPanel combineComponents()
     {
         JPanel objPanel = getPanel();
@@ -70,6 +73,9 @@ public class AddPatientsModel
         return objPanel;
     }
     
+    /**
+        * Adds a default focus listener that clears the textfield when it's in focus
+        **/
     public void clearTextField()
     {
         JTextField objJtf = (JTextField) combineComponents().getComponent(1);

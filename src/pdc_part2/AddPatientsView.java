@@ -38,7 +38,16 @@ class AddPatientsView extends JPanel {
     boolean validName, validAge, validPhoneNo, validStreet, validCond, validMeasure, validMeds;
     JButton addPatient;
     AddPatientController adp = new AddPatientController();
-
+    
+    /**
+        * This constructor is used to display all the components required to make an Add Patient Panel
+        * @param frame The add patient panel is added to the frame
+        * @param patPanel The panel is added to the patient panel
+        * @param width gets the width of the frame
+        * @param height gets the height of the frame
+        * @throws IOException
+        * @throws SQLException 
+        **/
     public AddPatientsView(PatientManagementView frame, PatientsPanel patPanel, double width, double height) throws IOException, SQLException {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         Toolkit kit = Toolkit.getDefaultToolkit();
@@ -113,11 +122,6 @@ class AddPatientsView extends JPanel {
         this.setPreferredSize(new Dimension(screenSize.width/2, screenSize.height/2));
     }
 
-    /**
-        *
-        *
-        * @return 
-        **/
     public JPanel namePanel() {
         AddPatientsModel makeNamePanel = new AddPatientsModel("Enter patient's full name:", "e.g. John Smith", "Incorrect input, please try again!", "Name entered successfully!");
         makeNamePanel.clearTextField();
@@ -149,11 +153,6 @@ class AddPatientsView extends JPanel {
         return makeNamePanel.combineComponents();
     }
 
-    /**
-        *
-        *
-        * @return 
-        */
     public JPanel agePanel() {
         AddPatientsModel makeAgePanel = new AddPatientsModel("Enter patient's age:", "e.g. 12", "Incorrect input, please try again!", "Age entered successfully!");
         makeAgePanel.clearTextField();
@@ -185,10 +184,6 @@ class AddPatientsView extends JPanel {
         return makeAgePanel.combineComponents();
     }
 
-    /**
-        *
-        * @return 
-        **/
     public JPanel phoneNoPanel() {
         AddPatientsModel makePhoneNoPanel = new AddPatientsModel("Enter patient's phone number:", "e.g. 0212345678", "Incorrect input, please try again!", "Phone Number entered successfully!");
         makePhoneNoPanel.clearTextField();
@@ -205,7 +200,7 @@ class AddPatientsView extends JPanel {
                 boolean realNum = adp.validateNum(makePhoneNoPanel);
                 
                 if (realNum) {
-                    Integer phoneNo = Integer.parseInt(makePhoneNoPanel.getEnterValues().getText()); //ensures what's entered is a number
+                    Integer phoneNo = Integer.parseInt(makePhoneNoPanel.getEnterValues().getText()); 
                     makePhoneNoPanel.getCorrMsg().setVisible(true);
                     makePhoneNoPanel.getErrorMsg().setVisible(false);
                     validPhoneNo = true;
@@ -236,11 +231,6 @@ class AddPatientsView extends JPanel {
         return makePhoneNoPanel.combineComponents();
     }
 
-    /**
-     *
-     * @return 
-        *
-     */
     public JPanel streetPanel() {
         AddPatientsModel makeStreetPanel = new AddPatientsModel("Enter patient's street address:", "e.g. 123 Fake St", "Incorrect input, please try again!", "Street entered successfully!");
         makeStreetPanel.clearTextField();
@@ -266,10 +256,8 @@ class AddPatientsView extends JPanel {
                     makeStreetPanel.getErrorMsg().setVisible(true);
                     validStreet = false;
                 }
-
                 enableButnIfValidPatient();
             }
-
         });
         return makeStreetPanel.combineComponents();
     }
@@ -301,11 +289,6 @@ class AddPatientsView extends JPanel {
         return medPanel;
     }
 
-    /**
-        *
-        * @return 
-        *
-        **/
     public JPanel measurementsPanel() {
         
         JPanel measurementsPanel = new JPanel();
@@ -325,11 +308,6 @@ class AddPatientsView extends JPanel {
         return measurementsPanel;
     }
 
-    /**
-     *
-     * @return @throws SQLException 
-        *
-     */
     public JPanel nhiPanel() throws SQLException {
         newNhi = adp.genNhi();
         adp.newPat.setNHI(newNhi);
@@ -339,19 +317,10 @@ class AddPatientsView extends JPanel {
         return nhiPanel;
     }
 
-    /**
-     *
-     * @return 
-        *
-     */
     private boolean isValidPatient() {
         return validName && validAge && validPhoneNo && validStreet;
-        //return validName && validAge && validPhoneNo && validStreet && validCond && validMeasure;
     }
 
-    /**
-     *
-     */
     public void enableButnIfValidPatient() {
         if (isValidPatient() == true) {
             addPatient.setEnabled(true);

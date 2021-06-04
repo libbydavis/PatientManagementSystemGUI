@@ -129,7 +129,6 @@ public class MedicalPatient extends Patient{
         this.NHI = NHI;
     }
 
-
     public void setCurrentMedications(HashSet currentMedications) 
     {
         this.currentMedications = currentMedications;
@@ -142,7 +141,6 @@ public class MedicalPatient extends Patient{
     
     public void setAddress(String address) 
     {
-        //TODO
         this.address = address;
     }
     
@@ -392,6 +390,11 @@ public class MedicalPatient extends Patient{
         return total;
     }
     
+    /**
+        * Makes some of the columns for the patient table
+        * @return returns a DefaultTableModel
+        * @author Raj
+        **/
     public DefaultTableModel patientColumnNames()
     {
         DefaultTableModel patientColumns = new DefaultTableModel();
@@ -445,7 +448,12 @@ public class MedicalPatient extends Patient{
         
         return patientPanel;
     }
-    
+    /**
+     * This method retrieves a patient from a database and displays it in a table
+     * @param nhi is used to retrieve a patient from the database
+     * @throws SQLException 
+     * @author Raj
+     */
     public void getPatientFromDatabase(String nhi) throws SQLException 
     {
         DefaultTableModel model = new DefaultTableModel();
@@ -525,7 +533,6 @@ public class MedicalPatient extends Patient{
         
         statement.executeBatch();
     }
-    //public void insertMeasurementsToDatabase()
     
     public void insertPatientToDatabase(MedicalPatient newPat) throws SQLException, IOException
     {
@@ -540,6 +547,12 @@ public class MedicalPatient extends Patient{
         }
     }
     
+    /**
+     * Is used to display in a JComboBox
+     * @return an array list of all the current patient's in the patient database
+     * @throws SQLException 
+     * @author Raj
+     */
     public static ArrayList<String> paitentNHIList() throws SQLException
     {
         ArrayList<String> nhiList = new ArrayList<String>();
@@ -552,7 +565,6 @@ public class MedicalPatient extends Patient{
         while (rs.next()) {
             nhiList.add(rs.getString("NHI").toString());
         }
-        
         return nhiList;
     }
 }

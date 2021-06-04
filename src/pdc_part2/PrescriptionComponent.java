@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 /**
- *
+ * Components that are used to make some of the panels in the CreatePrescription classes
  * @author Raj
  */
 public class PrescriptionComponent
