@@ -452,7 +452,6 @@ public class MedicalPatient extends Patient{
     
     public void insertPatientToDatabase(MedicalPatient newPat) throws SQLException, IOException
     {
-        // Just need to add stuff to the query when adding measurements and conditions
         DatabaseConnection dbc = new DatabaseConnection();
         String sqlQuery = "INSERT INTO PATIENTS (NHI, FIRSTNAME, LASTNAME, AGE, PHONENO ,STREET, CURRENTMEDS)"
                 + "VALUES (\'" + newPat.getNHI() + "\', \'" + newPat.getfName() + "\', \'" + newPat.getlName() + "\'," + newPat.getAge()+ ", " + newPat.getPhoneNumber() + ",\'" + newPat.getAddress() + "\',\'" + newPat.getCurrentMedications() + "\')";
