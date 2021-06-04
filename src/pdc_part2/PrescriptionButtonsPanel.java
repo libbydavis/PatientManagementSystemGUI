@@ -96,10 +96,15 @@ public class PrescriptionButtonsPanel extends JPanel{
             public void actionPerformed(ActionEvent e) {
                 Object source = e.getSource();
                 DeletePrescriptionPanel epp;
+                try {
                     epp = new DeletePrescriptionPanel();
                     panel.removeButtonsPane();
                     panel.addPrescPane(epp);
                     frame.revalidate();
+                } catch (SQLException ex) {
+                    Logger.getLogger(PrescriptionButtonsPanel.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                    
             }
         });
         add(editPrescriptionB, c);      

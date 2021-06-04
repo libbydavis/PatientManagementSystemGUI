@@ -46,6 +46,10 @@ public class CreatePrescriptionView extends JPanel
     JComboBox allNhi;
     Dosage dsg;
     CreatePrescriptionController cpc = new CreatePrescriptionController();
+    Prescription objPresc = new Prescription();
+    private String patFName;
+    private String patLName;
+    private String prescNHI;
     
     public CreatePrescriptionView(PatientManagementView frame, PrescriptionPanel prescPanel)
     {
@@ -81,7 +85,7 @@ public class CreatePrescriptionView extends JPanel
                     saved.setVisible(true);
 
                     
-                    JPanel confirmation = Confirmation.createConfirmation("Prescription Saved", frame);
+                    JPanel confirmation = Confirmation.createConfirmation("Prescription Saved", frame, Color.GREEN);
                     frame.remove(createPrescPanel);
                     frame.remove(prescPanel);
 
@@ -174,26 +178,36 @@ public class CreatePrescriptionView extends JPanel
         return makeDocPanel.combineComponents();
     }
     
-    private JPanel nhiPanel() throws SQLException {
-        allNhi = new JComboBox(MedicalPatient.paitentNHIList().toArray());
-        JPanel nhiPanel = new JPanel();
-        JLabel patNHIPrompt = new JLabel("Enter Patient's NHI: ");
-        nhiPanel.add(patNHIPrompt);
+        public void setPatFName(String fName) {
+            this.patFName = fName;
+        }
+    
+        public void setPatLName(String lName) {
+            this.patLName = lName;
+        }
 
-        allNhi.addActionListener(new ActionListener() {
+        public void setPrescNHI(String prescNHI) {
+            this.prescNHI = prescNHI;
+        }
+    
+    private JPanel nhiPanel() throws SQLException {
+        JPanel nhiPanel = new JPanel();
+        JLabel patNHIPrompt = new JLabel("Search for Patient: ");
+        JButton addPatientButton = new JButton("Add Patient");
+        nhiPanel.add(patNHIPrompt);
+        
+        addPatientButton.addActionListener(new ActionListener(){
             @Override
-            public void actionPerformed(ActionEvent e) {
-                if (allNhi.getSelectedIndex() == 0) {
-                    validNHI = false;
-                } else {
+                public void actionPerformed(ActionEvent e) {
+                    getPatientPopUp getPatient = new getPatientPopUp(patNHIPrompt, createPrescPanel);
+                    getPatient.setVisible(true);
+                    objPresc.setPatientName(patFName.concat(" " +patLName));
+                    addPatientButton.setText("Change Patient");
                     validNHI = true;
-                    cpc.setPatName(allNhi.getSelectedItem().toString());
                 }
-                enableBtnIfValidPresc();
-            }
         });
 
-        nhiPanel.add(allNhi);
+        nhiPanel.add(addPatientButton);
         return nhiPanel;
     }
 

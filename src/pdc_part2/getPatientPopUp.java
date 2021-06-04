@@ -171,9 +171,9 @@ public class getPatientPopUp extends JDialog {
                     AppointmentsPanel appPanel = (AppointmentsPanel) changePanel;
                     appPanel.setPatient(p1);
                 }
-                else if (changePanel instanceof CreatePrescriptionPanel) {
+                else if (changePanel instanceof CreatePrescriptionView) {
                     title.setText("Patient Name: " + p1.getfName() + " " + p1.getlName());
-                    CreatePrescriptionPanel createpPanel = (CreatePrescriptionPanel) changePanel;
+                    CreatePrescriptionView createpPanel = (CreatePrescriptionView) changePanel;
                     createpPanel.setPatFName(p1.getfName());
                     createpPanel.setPatLName(p1.getlName());
                     createpPanel.setPrescNHI(p1.getNHI());
