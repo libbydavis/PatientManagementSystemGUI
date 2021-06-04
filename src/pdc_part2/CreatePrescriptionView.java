@@ -81,7 +81,7 @@ public class CreatePrescriptionView extends JPanel
             public void actionPerformed(ActionEvent e) {
                 
                 try {
-                    cpc.objPresc.insertPrescToDatabase(cpc.objPresc, allNhi.getSelectedItem().toString());
+                    cpc.objPresc.insertPrescToDatabase(cpc.objPresc, prescNHI);
                     saved.setVisible(true);
 
                     
