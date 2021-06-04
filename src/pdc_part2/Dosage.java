@@ -8,33 +8,22 @@ public class Dosage
     private double amount;
     private String howOften;
 
-    public Dosage(double amount) 
-    {
+    public Dosage() {
+    }
+    
+    public Dosage(double amount) {
         this.amount = amount;
     }
 
-    public Dosage(String howOften) 
-    {
+    public Dosage(String howOften) {
         this.howOften = howOften;
     }
 
-    public double getAmount() 
-    {
-        return amount;
-    }
-
-    public void setAmount(double amount) 
-    {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 
-    public String getHowOften() 
-    {
-        return howOften;
-    }
-
-    public void setHowOften(String howOften) 
-    {
+    public void setHowOften(String howOften) {
         this.howOften = howOften;
     }
 

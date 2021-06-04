@@ -10,6 +10,10 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashSet;
@@ -79,7 +83,33 @@ class AddPatientsView extends JPanel {
                     
         saveAndExitPanel.add(addPatient);
         this.add(saveAndExitPanel);
+        this.addMouseListener(new MouseListener()
+        {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+               requestFocusInWindow();
+            }
 
+            @Override
+            public void mousePressed(MouseEvent e) {
+                
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+               
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+               
+            }     
+        });
         this.setPreferredSize(new Dimension(screenSize.width/2, screenSize.height/2));
     }
 
@@ -89,22 +119,32 @@ class AddPatientsView extends JPanel {
         * @return 
         **/
     public JPanel namePanel() {
-        AddPatientsModel makeNamePanel = new AddPatientsModel("Enter patient's full name:", "e.g. John Smith", "Incorrect input, please try again!");
+        AddPatientsModel makeNamePanel = new AddPatientsModel("Enter patient's full name:", "e.g. John Smith", "Incorrect input, please try again!", "Name entered successfully!");
         makeNamePanel.clearTextField();
         makeNamePanel.getEnterValues().setPreferredSize(new Dimension(70, 20));
-        makeNamePanel.getEnterValues().addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                boolean nullStr = adp.checkNullString(makeNamePanel);
+        makeNamePanel.getEnterValues().addFocusListener(new FocusListener()
+        {
+            @Override
+            public void focusGained(FocusEvent e) {
+                
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                   boolean nullStr = adp.checkNullString(makeNamePanel);
 
                 if (!nullStr) {
-                    adp.setName(makeNamePanel);
+                    makeNamePanel.getCorrMsg().setVisible(true);
+                    makeNamePanel.getErrorMsg().setVisible(false);
                     validName = true;
+                    adp.setName(makeNamePanel);
                 } else {
+                    makeNamePanel.getCorrMsg().setVisible(false);
+                    makeNamePanel.getErrorMsg().setVisible(true);
                     validName = false;
                 }
-
                 enableButnIfValidPatient();
-            }
+            }     
         });
         return makeNamePanel.combineComponents();
     }
@@ -115,22 +155,32 @@ class AddPatientsView extends JPanel {
         * @return 
         */
     public JPanel agePanel() {
-        AddPatientsModel makeAgePanel = new AddPatientsModel("Enter patient's age:", "e.g. 12", "Incorrect input, please try again!");
+        AddPatientsModel makeAgePanel = new AddPatientsModel("Enter patient's age:", "e.g. 12", "Incorrect input, please try again!", "Age entered successfully!");
         makeAgePanel.clearTextField();
         makeAgePanel.getEnterValues().setPreferredSize(new Dimension(50, 20));
-        makeAgePanel.getEnterValues().addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+        makeAgePanel.getEnterValues().addFocusListener(new FocusListener()
+        {
+            @Override
+            public void focusGained(FocusEvent e) {
+                makeAgePanel.getEnterValues().setText("");
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
                 boolean correctAge = adp.validateNum(makeAgePanel);
-                
+
                 if (correctAge) {
-                    adp.setAge(makeAgePanel);
+                    makeAgePanel.getCorrMsg().setVisible(true);
+                    makeAgePanel.getErrorMsg().setVisible(false);
                     validAge = true;
+                    adp.setAge(makeAgePanel);
                 } else {
+                    makeAgePanel.getCorrMsg().setVisible(false);
+                    makeAgePanel.getErrorMsg().setVisible(true);
                     validAge = false;
                 }
-
                 enableButnIfValidPatient();
-            }
+            } 
         });
         return makeAgePanel.combineComponents();
     }
@@ -140,9 +190,35 @@ class AddPatientsView extends JPanel {
         * @return 
         **/
     public JPanel phoneNoPanel() {
-        AddPatientsModel makePhoneNoPanel = new AddPatientsModel("Enter patient's phone number:", "e.g. 0212345678", "Incorrect input, please try again!");
+        AddPatientsModel makePhoneNoPanel = new AddPatientsModel("Enter patient's phone number:", "e.g. 0212345678", "Incorrect input, please try again!", "Phone Number entered successfully!");
         makePhoneNoPanel.clearTextField();
         makePhoneNoPanel.getEnterValues().setPreferredSize(new Dimension(100, 20));
+        makePhoneNoPanel.getEnterValues().addFocusListener(new FocusListener()
+        {
+            @Override
+            public void focusGained(FocusEvent e) {
+                makePhoneNoPanel.getEnterValues().setText("");
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) { 
+                boolean realNum = adp.validateNum(makePhoneNoPanel);
+                
+                if (realNum) {
+                    Integer phoneNo = Integer.parseInt(makePhoneNoPanel.getEnterValues().getText()); //ensures what's entered is a number
+                    makePhoneNoPanel.getCorrMsg().setVisible(true);
+                    makePhoneNoPanel.getErrorMsg().setVisible(false);
+                    validPhoneNo = true;
+                    adp.newPat.setPhoneNumber(phoneNo.toString());
+                } else {
+                    makePhoneNoPanel.getCorrMsg().setVisible(false);
+                    makePhoneNoPanel.getErrorMsg().setVisible(true);
+                    validPhoneNo = false;
+                }
+                enableButnIfValidPatient();
+            }
+            
+        });
         makePhoneNoPanel.getEnterValues().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 boolean realNum = adp.validateNum(makePhoneNoPanel);
@@ -166,23 +242,34 @@ class AddPatientsView extends JPanel {
         *
      */
     public JPanel streetPanel() {
-        AddPatientsModel makeStreetPanel = new AddPatientsModel("Enter patient's street address:", "e.g. 123 Fake St", "Incorrect input, please try again!");
+        AddPatientsModel makeStreetPanel = new AddPatientsModel("Enter patient's street address:", "e.g. 123 Fake St", "Incorrect input, please try again!", "Street entered successfully!");
         makeStreetPanel.clearTextField();
         makeStreetPanel.getEnterValues().setPreferredSize(new Dimension(70, 20));
-        makeStreetPanel.getEnterValues().addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+        makeStreetPanel.getEnterValues().addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                makeStreetPanel.getEnterValues().setText("");
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
                 boolean nullStr = adp.checkNullString(makeStreetPanel);
 
                 if (!nullStr) {
                     adp.setStreet(makeStreetPanel);
+                    makeStreetPanel.getCorrMsg().setVisible(true);
+                    makeStreetPanel.getErrorMsg().setVisible(false);
                     validStreet = true;
                 } else {
 
+                    makeStreetPanel.getCorrMsg().setVisible(false);
+                    makeStreetPanel.getErrorMsg().setVisible(true);
                     validStreet = false;
                 }
 
                 enableButnIfValidPatient();
             }
+
         });
         return makeStreetPanel.combineComponents();
     }

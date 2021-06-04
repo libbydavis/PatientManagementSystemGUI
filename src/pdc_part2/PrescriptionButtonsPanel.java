@@ -55,17 +55,12 @@ public class PrescriptionButtonsPanel extends JPanel{
             @Override
             public void actionPerformed(ActionEvent e) {
                 Object source = e.getSource();
-                CreatePrescriptionPanel createPresc;
-                try {
-                    createPresc = new CreatePrescriptionPanel(frame, panel);
+
+                CreatePrescriptionView createPresc;
+                    createPresc = new CreatePrescriptionView(frame, panel);
                     panel.removeButtonsPane();
                     panel.addPrescPane(createPresc);
                     frame.revalidate();
-                } catch (SQLException ex) {
-                    Logger.getLogger(PrescriptionButtonsPanel.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                
-
             }
         });
         add(createPrescriptionB, c);
@@ -101,15 +96,10 @@ public class PrescriptionButtonsPanel extends JPanel{
             public void actionPerformed(ActionEvent e) {
                 Object source = e.getSource();
                 DeletePrescriptionPanel epp;
-                try {
                     epp = new DeletePrescriptionPanel();
                     panel.removeButtonsPane();
                     panel.addPrescPane(epp);
                     frame.revalidate();
-                } catch (SQLException ex) {
-                    Logger.getLogger(PrescriptionButtonsPanel.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                
             }
         });
         add(editPrescriptionB, c);      

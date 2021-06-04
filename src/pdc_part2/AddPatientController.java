@@ -35,13 +35,6 @@ public class AddPatientController
     public boolean checkNullString(AddPatientsModel mnp)
     {
         int enteredNameLength = mnp.getEnterValues().getText().length();
-
-        if (enteredNameLength == 0)
-
-            mnp.getErrorMsg().setVisible(true);
-        else
-            mnp.getErrorMsg().setVisible(false);
-        
         return ((enteredNameLength == 0) ? true : false);
     }
     
@@ -57,7 +50,7 @@ public class AddPatientController
        }
        else
        {
-           
+           newPat.setfName(fullNameDivided[0]);
        }
     }
     

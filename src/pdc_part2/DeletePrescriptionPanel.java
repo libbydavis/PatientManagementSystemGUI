@@ -21,16 +21,17 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Raj
  */
-public class DeletePrescriptionPanel extends JPanel 
-{
+public class DeletePrescriptionPanel extends JPanel {
+
     JPanel editPanel, tablePanel, removePanel;
     JLabel prompt, errorMsg;
     JTextField enterNHI;
-    PrescriptionComponent objPC;
+    //PrescriptionComponent objPC;
     JButton removeButton;
     DeletePrescriptionPanel store = this;
     private String nhi;
@@ -89,16 +90,16 @@ public class DeletePrescriptionPanel extends JPanel
                     Statement stmt = dbc.getConnectionPatients().createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
                     ResultSet rs = stmt.executeQuery("SELECT PRESCRIPTIONNO, PRESCRIPTION_DETAILS FROM PRESCRIPTIONS WHERE NHI = \'" + nhiList.getSelectedItem().toString() + "\'");
 
-                    tablePanel.setVisible(true);
-                    while(rs.next()) 
-                    {
-                        prescTableModel.addRow(new Object[]{rs.getString(1), rs.getString(2)});
-                    } 
-                    
-                    rs.beforeFirst();
-                    nhiList.setEnabled(false);
-                } catch (SQLException ex) {
-                    Logger.getLogger(DeletePrescriptionPanel.class.getName()).log(Level.SEVERE, null, ex);
+                        tablePanel.setVisible(true);
+                        while (rs.next()) {
+                            prescTableModel.addRow(new Object[]{rs.getString(1), rs.getString(2)});
+                        }
+
+                        rs.beforeFirst();
+                        nhiList.setEnabled(false);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(DeletePrescriptionPanel.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
             }
             
@@ -166,14 +167,15 @@ public class DeletePrescriptionPanel extends JPanel
                     } catch (SQLException ex) {
                         Logger.getLogger(DeletePrescriptionPanel.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    
                 }
-            }     
-        });
-        removePanel.add(removeButton);
-        this.add(removePanel);
-        // Edit Prescription Panel Size
-        this.setPreferredSize(new Dimension(screenSize.width/2, screenSize.height/2));
+            });
+            removePanel.add(removeButton);
+            this.add(removePanel);
+            // Edit Prescription Panel Size
+            this.setPreferredSize(new Dimension(screenSize.width / 2, screenSize.height / 2));
+        } catch (SQLException ex) {
+            Logger.getLogger(DeletePrescriptionPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public void setNhi(String nhi) {
