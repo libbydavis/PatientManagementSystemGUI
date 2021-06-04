@@ -36,11 +36,12 @@ public class MedicationsPanel extends JPanel
         model.addColumn("MEDNO");
         model.addColumn("MEDNAME");
         model.addColumn("SIDE_EFFECTS");
+        model.addColumn("CONDITIONS");
  
         TableColumnModel columnModel = table.getColumnModel();
         columnModel.getColumn(0).setPreferredWidth(50);
         columnModel.getColumn(1).setPreferredWidth(100);
-        columnModel.getColumn(2).setPreferredWidth(400);
+        columnModel.getColumn(2).setPreferredWidth(380);
         columnModel.getColumn(3).setPreferredWidth(650);
  
         try 
@@ -61,7 +62,7 @@ public class MedicationsPanel extends JPanel
 
         JScrollPane jsp = new JScrollPane(table);
         // Set preferred size so the width of jsp adds up to the width of all the column widths - it is necessary to be able to display columns correctly.
-        jsp.setPreferredSize(new Dimension(1500, 135));
+        jsp.setPreferredSize(new Dimension(1350, 135));
         this.add(jsp);
         this.setPreferredSize(d);
         this.setMinimumSize(d);     
